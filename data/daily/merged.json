@@ -1,0 +1,52 @@
+[
+  {
+    "symbol": "ARMANFIN",
+    "exchange": "NSE",
+    "image": "data/daily/charts/merged/ARMANFIN.png"
+  },
+  {
+    "symbol": "WELSPUNLIV",
+    "exchange": "NSE",
+    "image": "data/daily/charts/merged/WELSPUNLIV.png"
+  },
+  {
+    "symbol": "JKPAPER",
+    "exchange": "NSE",
+    "image": "data/daily/charts/merged/JKPAPER.png"
+  },
+  {
+    "symbol": "HEG",
+    "exchange": "NSE",
+    "image": "data/daily/charts/merged/HEG.png"
+  },
+  {
+    "symbol": "PGEL",
+    "exchange": "NSE",
+    "image": "data/daily/charts/merged/PGEL.png"
+  },
+  {
+    "symbol": "NHPC",
+    "exchange": "NSE",
+    "image": "data/daily/charts/merged/NHPC.png"
+  },
+  {
+    "symbol": "GPPL",
+    "exchange": "NSE",
+    "image": "data/daily/charts/merged/GPPL.png"
+  },
+  {
+    "symbol": "VGUARD",
+    "exchange": "NSE",
+    "image": "data/daily/charts/merged/VGUARD.png"
+  },
+  {
+    "symbol": "ADVENZYMES",
+    "exchange": "NSE",
+    "image": "data/daily/charts/merged/ADVENZYMES.png"
+  },
+  {
+    "symbol": "DHAMPURSUG",
+    "exchange": "NSE",
+    "image": "data/daily/charts/merged/DHAMPURSUG.png"
+  }
+]

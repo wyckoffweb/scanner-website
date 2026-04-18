@@ -1,0 +1,532 @@
+[
+  {
+    "symbol": "GLAND.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/GLAND.NS.png"
+  },
+  {
+    "symbol": "UNOMINDA.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/UNOMINDA.NS.png"
+  },
+  {
+    "symbol": "SASTASUNDR.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/SASTASUNDR.NS.png"
+  },
+  {
+    "symbol": "VOLTAS.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/VOLTAS.NS.png"
+  },
+  {
+    "symbol": "RITES.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/RITES.NS.png"
+  },
+  {
+    "symbol": "IREDA.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/IREDA.NS.png"
+  },
+  {
+    "symbol": "TNPL.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/TNPL.NS.png"
+  },
+  {
+    "symbol": "STARCEMENT.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/STARCEMENT.NS.png"
+  },
+  {
+    "symbol": "CANFINHOME.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/CANFINHOME.NS.png"
+  },
+  {
+    "symbol": "HATSUN.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/HATSUN.NS.png"
+  },
+  {
+    "symbol": "CARERATING.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/CARERATING.NS.png"
+  },
+  {
+    "symbol": "GODIGIT.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/GODIGIT.NS.png"
+  },
+  {
+    "symbol": "PATANJALI.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PATANJALI.NS.png"
+  },
+  {
+    "symbol": "RENUKA.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/RENUKA.NS.png"
+  },
+  {
+    "symbol": "SWANCORP.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/SWANCORP.NS.png"
+  },
+  {
+    "symbol": "STARHEALTH.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/STARHEALTH.NS.png"
+  },
+  {
+    "symbol": "VIJAYA.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/VIJAYA.NS.png"
+  },
+  {
+    "symbol": "MUNJALSHOW.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/MUNJALSHOW.NS.png"
+  },
+  {
+    "symbol": "GNFC.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/GNFC.NS.png"
+  },
+  {
+    "symbol": "RBLBANK.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/RBLBANK.NS.png"
+  },
+  {
+    "symbol": "HARRMALAYA.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/HARRMALAYA.NS.png"
+  },
+  {
+    "symbol": "APCOTEXIND.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/APCOTEXIND.NS.png"
+  },
+  {
+    "symbol": "ONEPOINT.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/ONEPOINT.NS.png"
+  },
+  {
+    "symbol": "UGARSUGAR.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/UGARSUGAR.NS.png"
+  },
+  {
+    "symbol": "VGUARD.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/VGUARD.NS.png"
+  },
+  {
+    "symbol": "BOSCHLTD.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/BOSCHLTD.NS.png"
+  },
+  {
+    "symbol": "MRF.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/MRF.NS.png"
+  },
+  {
+    "symbol": "TEXINFRA.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/TEXINFRA.NS.png"
+  },
+  {
+    "symbol": "TATACONSUM.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/TATACONSUM.NS.png"
+  },
+  {
+    "symbol": "PVRINOX.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PVRINOX.NS.png"
+  },
+  {
+    "symbol": "VESUVIUS.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/VESUVIUS.NS.png"
+  },
+  {
+    "symbol": "WELENT.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/WELENT.NS.png"
+  },
+  {
+    "symbol": "MANCREDIT.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/MANCREDIT.NS.png"
+  },
+  {
+    "symbol": "GUFICBIO.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/GUFICBIO.NS.png"
+  },
+  {
+    "symbol": "SANGAMIND.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/SANGAMIND.NS.png"
+  },
+  {
+    "symbol": "WELSPUNLIV.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/WELSPUNLIV.NS.png"
+  },
+  {
+    "symbol": "INNOVACAP.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/INNOVACAP.NS.png"
+  },
+  {
+    "symbol": "RAMCOCEM.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/RAMCOCEM.NS.png"
+  },
+  {
+    "symbol": "IOB.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/IOB.NS.png"
+  },
+  {
+    "symbol": "PILANIINVS.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PILANIINVS.NS.png"
+  },
+  {
+    "symbol": "RADICO.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/RADICO.NS.png"
+  },
+  {
+    "symbol": "TRITURBINE.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/TRITURBINE.NS.png"
+  },
+  {
+    "symbol": "CHALET.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/CHALET.NS.png"
+  },
+  {
+    "symbol": "TEGA.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/TEGA.NS.png"
+  },
+  {
+    "symbol": "MANKIND.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/MANKIND.NS.png"
+  },
+  {
+    "symbol": "NCLIND.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/NCLIND.NS.png"
+  },
+  {
+    "symbol": "RCF.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/RCF.NS.png"
+  },
+  {
+    "symbol": "VSSL.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/VSSL.NS.png"
+  },
+  {
+    "symbol": "MEDPLUS.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/MEDPLUS.NS.png"
+  },
+  {
+    "symbol": "SARLAPOLY.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/SARLAPOLY.NS.png"
+  },
+  {
+    "symbol": "GLAXO.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/GLAXO.NS.png"
+  },
+  {
+    "symbol": "MANAPPURAM.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/MANAPPURAM.NS.png"
+  },
+  {
+    "symbol": "DHANBANK.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/DHANBANK.NS.png"
+  },
+  {
+    "symbol": "BLUESTARCO.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/BLUESTARCO.NS.png"
+  },
+  {
+    "symbol": "INDOBORAX.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/INDOBORAX.NS.png"
+  },
+  {
+    "symbol": "NYKAA.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/NYKAA.NS.png"
+  },
+  {
+    "symbol": "EXIDEIND.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/EXIDEIND.NS.png"
+  },
+  {
+    "symbol": "PTL.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PTL.NS.png"
+  },
+  {
+    "symbol": "JAGRAN.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/JAGRAN.NS.png"
+  },
+  {
+    "symbol": "IMPAL.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/IMPAL.NS.png"
+  },
+  {
+    "symbol": "PIXTRANS.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PIXTRANS.NS.png"
+  },
+  {
+    "symbol": "NATHBIOGEN.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/NATHBIOGEN.NS.png"
+  },
+  {
+    "symbol": "SANDHAR.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/SANDHAR.NS.png"
+  },
+  {
+    "symbol": "BIKAJI.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/BIKAJI.NS.png"
+  },
+  {
+    "symbol": "STAR.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/STAR.NS.png"
+  },
+  {
+    "symbol": "SCHAND.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/SCHAND.NS.png"
+  },
+  {
+    "symbol": "JKPAPER.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/JKPAPER.NS.png"
+  },
+  {
+    "symbol": "GILLETTE.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/GILLETTE.NS.png"
+  },
+  {
+    "symbol": "TCS.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/TCS.NS.png"
+  },
+  {
+    "symbol": "APOLLOTYRE.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/APOLLOTYRE.NS.png"
+  },
+  {
+    "symbol": "PARAS.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PARAS.NS.png"
+  },
+  {
+    "symbol": "ASTRAZEN.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/ASTRAZEN.NS.png"
+  },
+  {
+    "symbol": "PRIMESECU.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PRIMESECU.NS.png"
+  },
+  {
+    "symbol": "ARMANFIN.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/ARMANFIN.NS.png"
+  },
+  {
+    "symbol": "VSTTILLERS.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/VSTTILLERS.NS.png"
+  },
+  {
+    "symbol": "CHOLAHLDNG.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/CHOLAHLDNG.NS.png"
+  },
+  {
+    "symbol": "SAILIFE.NS_earlyD",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/SAILIFE.NS_earlyD.png"
+  },
+  {
+    "symbol": "VSTIND.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/VSTIND.NS.png"
+  },
+  {
+    "symbol": "BIOCON.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/BIOCON.NS.png"
+  },
+  {
+    "symbol": "RELIGARE.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/RELIGARE.NS.png"
+  },
+  {
+    "symbol": "NHPC.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/NHPC.NS.png"
+  },
+  {
+    "symbol": "LALPATHLAB.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/LALPATHLAB.NS.png"
+  },
+  {
+    "symbol": "SOBHA.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/SOBHA.NS.png"
+  },
+  {
+    "symbol": "DCMSHRIRAM.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/DCMSHRIRAM.NS.png"
+  },
+  {
+    "symbol": "AKUMS.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/AKUMS.NS.png"
+  },
+  {
+    "symbol": "TATACOMM.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/TATACOMM.NS.png"
+  },
+  {
+    "symbol": "RBA.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/RBA.NS.png"
+  },
+  {
+    "symbol": "PTCIL.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PTCIL.NS.png"
+  },
+  {
+    "symbol": "PRSMJOHNSN.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PRSMJOHNSN.NS.png"
+  },
+  {
+    "symbol": "MINDACORP.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/MINDACORP.NS.png"
+  },
+  {
+    "symbol": "THEJO.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/THEJO.NS.png"
+  },
+  {
+    "symbol": "ZYDUSLIFE.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/ZYDUSLIFE.NS.png"
+  },
+  {
+    "symbol": "DHAMPURSUG.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/DHAMPURSUG.NS.png"
+  },
+  {
+    "symbol": "TCI.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/TCI.NS.png"
+  },
+  {
+    "symbol": "HSCL.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/HSCL.NS.png"
+  },
+  {
+    "symbol": "CASTROLIND.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/CASTROLIND.NS.png"
+  },
+  {
+    "symbol": "MASFIN.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/MASFIN.NS.png"
+  },
+  {
+    "symbol": "PFIZER.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PFIZER.NS.png"
+  },
+  {
+    "symbol": "NESTLEIND.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/NESTLEIND.NS.png"
+  },
+  {
+    "symbol": "KFINTECH.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/KFINTECH.NS.png"
+  },
+  {
+    "symbol": "VHL.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/VHL.NS.png"
+  },
+  {
+    "symbol": "RPGLIFE.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/RPGLIFE.NS.png"
+  },
+  {
+    "symbol": "PANAMAPET.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PANAMAPET.NS.png"
+  },
+  {
+    "symbol": "PGHL.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/PGHL.NS.png"
+  },
+  {
+    "symbol": "RATNAVEER.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/RATNAVEER.NS.png"
+  },
+  {
+    "symbol": "JIOFIN.NS",
+    "exchange": "NSE",
+    "image": "data/daily/charts/new/JIOFIN.NS.png"
+  }
+]
