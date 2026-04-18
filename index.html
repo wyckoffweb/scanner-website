@@ -2,31 +2,124 @@
 <html>
 <head>
   <title>Wyckoff Scanner</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f7fa;
+      margin: 0;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .tab:hover {
+      background: #0056b3;
+    }
+
+    .active {
+      background: #28a745;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .symbol {
+      margin-top: 5px;
+      font-weight: bold;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+  </style>
 </head>
 
-<body style="font-family: Arial; text-align: center;">
+<body>
 
-  <h1>📊 Wyckoff Scanner Dashboard</h1>
+<h1>📊 Wyckoff Scanner</h1>
 
-  <hr>
+<div class="tabs">
+  <div class="tab active" onclick="loadData('merged', this)">🔥 Merged</div>
+  <div class="tab" onclick="loadData('early_d', this)">🚀 Early D</div>
+  <div class="tab" onclick="loadData('new', this)">🆕 New</div>
+  <div class="tab" onclick="loadData('ipo', this)">📦 IPO</div>
+</div>
 
-  <h2>Main Scanners</h2>
+<div id="grid" class="grid"></div>
 
-  <div style="margin: 20px;">
-    <a href="golden.html">Golden Cross</a><br><br>
-    <a href="wyckoff.html">Wyckoff (All)</a>
-  </div>
+<script>
 
-  <hr>
+function loadData(type, element) {
 
-  <h2>Strategy Buckets</h2>
+  // Highlight active tab
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  element.classList.add('active');
 
-  <div style="margin: 20px;">
-    <a href="merged.html">🔥 Merged (Best Setups)</a><br><br>
-    <a href="early_d.html">🚀 Early Phase D</a><br><br>
-    <a href="new.html">🆕 New Setups</a><br><br>
-    <a href="ipo.html">📦 IPO Consolidation</a>
-  </div>
+  fetch(`data/daily/${type}.json`)
+  .then(res => res.json())
+  .then(data => {
+
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+
+    data.forEach(stock => {
+      const link = document.createElement("a");
+
+      link.href = `https://www.tradingview.com/chart/?symbol=${stock.exchange}:${stock.symbol}`;
+      link.target = "_blank";
+
+      link.innerHTML = `
+        <div class="card">
+          <img src="${stock.image}">
+          <div class="symbol">${stock.symbol}</div>
+        </div>
+      `;
+
+      grid.appendChild(link);
+    });
+
+  });
+}
+
+// Load default tab
+loadData('merged', document.querySelector('.tab'));
+
+</script>
 
 </body>
 </html>
