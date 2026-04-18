@@ -1,1 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>New Setups</h2>
+<div id="grid"></div>
+
+<script>
 fetch('data/daily/new.json')
+.then(res => res.json())
+.then(data => {
+  const grid = document.getElementById("grid");
+
+  data.forEach(stock => {
+    const link = document.createElement("a");
+    link.href = `https://www.tradingview.com/chart/?symbol=${stock.exchange}:${stock.symbol}`;
+    link.target = "_blank";
+
+    link.innerHTML = `
+      <div style="display:inline-block;margin:10px;text-align:center">
+        <img src="${stock.image}" width="200"><br>
+        ${stock.symbol}
+      </div>
+    `;
+
+    grid.appendChild(link);
+  });
+});
+</script>
+
+</body>
+</html>
