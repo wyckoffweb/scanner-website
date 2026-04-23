@@ -197,3 +197,28 @@ h1 {
     color: white;
     cursor: pointer;
 }
+/* ALWAYS VISIBLE BACK TO TOP */
+#topBtn {
+    position: fixed;
+    bottom: 18px;
+    right: 16px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1000;
+
+    /* subtle style */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    opacity: 0.9;
+}
+
+/* hover effect (desktop) */
+#topBtn:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}

@@ -161,3 +161,9 @@ window.onload=()=>{
     loadImages("swing/confluence","swing-confluence");
     loadImages("wyckoff/ranking/charts","ranking");
 };
+function scrollToTop(){
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
