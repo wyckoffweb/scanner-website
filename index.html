@@ -9,7 +9,6 @@
 
 <header>
     <h1>📊 Wyckoff Scanner</h1>
-
     <div id="last-updated">Last updated: ...</div>
 
     <div class="tabs">
@@ -34,28 +33,27 @@
 
 <!-- SWING -->
 <section id="swing">
-
     <h2>🔥 Confluence</h2>
     <div id="swing-confluence" class="grid"></div>
 
     <h2>📈 Strategies</h2>
     <div id="strategy-results" class="grid"></div>
-
 </section>
 
 <!-- WYCKOFF -->
 <section id="wyckoff" style="display:none">
-
     <h2>🏆 Ranking</h2>
     <div id="ranking" class="grid"></div>
-
 </section>
 
 <!-- MODAL -->
 <div id="modal" class="modal">
     <span onclick="closeModal()" class="close-btn">✕</span>
     <div class="nav-arrow left" onclick="prevImage()">❮</div>
+
     <img id="modal-img">
+    <div id="chart-counter">1 / 1</div>
+
     <div class="nav-arrow right" onclick="nextImage()">❯</div>
 </div>
 

@@ -16,6 +16,7 @@ header {
     color: #9ca3af;
 }
 
+/* TILES */
 .tile-container {
     display: flex;
     gap: 10px;
@@ -31,6 +32,7 @@ header {
     white-space: nowrap;
 }
 
+/* GRID */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
@@ -50,6 +52,7 @@ header {
     padding: 5px;
 }
 
+/* MODAL */
 .modal {
     display: none;
     position: fixed;
@@ -81,6 +84,19 @@ header {
 .left { left: 10px; }
 .right { right: 10px; }
 
+/* COUNTER */
+#chart-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* SCROLL BTN */
 #topBtn {
     position: fixed;
     bottom: 20px;

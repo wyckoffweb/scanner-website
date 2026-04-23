@@ -42,6 +42,14 @@ function loadCounts() {
     });
 }
 
+/* COUNTER */
+function updateCounter(){
+    const el = document.getElementById("chart-counter");
+    if(el){
+        el.innerText = `${index+1} / ${images.length}`;
+    }
+}
+
 /* LOAD IMAGES */
 function loadImages(folder, id){
     fetch(`data/${folder}/index.json?t=`+Date.now())
@@ -92,16 +100,31 @@ function openModal(i){
     index=i;
     document.getElementById("modal").style.display="flex";
     document.getElementById("modal-img").src=images[i]+"?t="+Date.now();
+    updateCounter();
 }
 
 function closeModal(){
     document.getElementById("modal").style.display="none";
 }
 
-function nextImage(){ if(index<images.length-1) openModal(++index); }
-function prevImage(){ if(index>0) openModal(--index); }
-
 /* NAV */
+function nextImage(){
+    if(index < images.length - 1){
+        index++;
+        document.getElementById("modal-img").src = images[index] + "?t=" + Date.now();
+        updateCounter();
+    }
+}
+
+function prevImage(){
+    if(index > 0){
+        index--;
+        document.getElementById("modal-img").src = images[index] + "?t=" + Date.now();
+        updateCounter();
+    }
+}
+
+/* NAVIGATION */
 function goToConfluence(){
     showTab("swing");
     loadImages("swing/confluence","swing-confluence");
