@@ -20,13 +20,42 @@
     </div>
 </header>
 
-<div id="tile-menu" class="tile-container"></div>
+<!-- TILE MENU -->
+<div id="tile-menu" class="tile-container">
 
-<section id="swing" class="tab"></section>
-<section id="wyckoff" class="tab hidden"></section>
+    <div class="tile" onclick="goToConfluence()">🔥 Confluence <span id="count-confluence"></span></div>
+    <div class="tile" onclick="goToStrategy('breakout')">📈 Breakout <span id="count-breakout"></span></div>
+    <div class="tile" onclick="goToStrategy('ema50_pullback')">📉 EMA Pullback <span id="count-ema50_pullback"></span></div>
+    <div class="tile" onclick="goToStrategy('ema20_trend')">📊 EMA20 Trend <span id="count-ema20_trend"></span></div>
+    <div class="tile" onclick="goToStrategy('rsi_momentum')">⚡ RSI <span id="count-rsi_momentum"></span></div>
+    <div class="tile" onclick="goToStrategy('bollinger')">📦 Bollinger <span id="count-bollinger"></span></div>
+    <div class="tile" onclick="goToStrategy('golden_cross')">🏆 Golden Cross <span id="count-golden_cross"></span></div>
+    <div class="tile" onclick="goToWyckoff()">🏆 Wyckoff <span id="count-ranking"></span></div>
 
+</div>
+
+<!-- SWING -->
+<section id="swing">
+
+    <h2>🔥 Confluence</h2>
+    <div id="swing-confluence" class="grid"></div>
+
+    <h2>📈 Strategies</h2>
+    <div id="strategy-results" class="grid"></div>
+
+</section>
+
+<!-- WYCKOFF -->
+<section id="wyckoff" style="display:none">
+
+    <h2>🏆 Ranking</h2>
+    <div id="ranking" class="grid"></div>
+
+</section>
+
+<!-- MODAL -->
 <div id="modal" class="modal">
-    <span class="close-btn" onclick="closeModal()">✕</span>
+    <span onclick="closeModal()" class="close-btn">✕</span>
     <div class="nav-arrow left" onclick="prevImage()">❮</div>
     <img id="modal-img">
     <div class="nav-arrow right" onclick="nextImage()">❯</div>
