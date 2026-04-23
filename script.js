@@ -1,15 +1,15 @@
 let images = [];
 let index = 0;
 
-/* STRATEGY TEXT (keep as is) */
+/* STRATEGY TEXT */
 const STRATEGY_TEXT = {
-    breakout: `📈 Breakout\n\n• Resistance breakout\n• Volume expansion\n\n→ SIGNAL`,
-    ema50_pullback: `📉 EMA Pullback\n\n• HTF uptrend\n• Close > EMA50 > EMA200\n• Pullback\n\n→ SIGNAL`,
-    ema20_trend: `📊 EMA20 Trend\n\n• Strong trend\n• EMA20 support\n\n→ MOMENTUM`,
-    rsi_momentum: `⚡ RSI Momentum\n\n• RSI > 60\n\n→ MOMENTUM`,
-    bollinger: `📦 Bollinger\n\n• Squeeze\n• Expansion\n\n→ VOLATILITY`,
-    golden_cross: `🏆 Golden Cross\n\n• EMA50 > EMA200\n\n→ POSITIONAL`,
-    confluence: `🔥 Confluence\n\n• Multi-signal overlap\n\n→ BEST SETUPS`
+    breakout: "📈 Breakout\n\n→ Resistance break + volume",
+    ema50_pullback: "📉 EMA50 Pullback\n\n→ Trend + pullback",
+    ema20_trend: "📊 EMA20 Trend\n\n→ Momentum continuation",
+    rsi_momentum: "⚡ RSI Momentum\n\n→ Strong move",
+    bollinger: "📦 Bollinger\n\n→ Volatility expansion",
+    golden_cross: "🏆 Golden Cross\n\n→ Trend shift",
+    confluence: "🔥 Confluence\n\n→ Multi-signal setups"
 };
 
 /* TAB */
@@ -18,11 +18,22 @@ function showTab(tab){
     document.getElementById("wyckoff").style.display = tab==="wyckoff"?"block":"none";
 }
 
+/* SCROLL HELPER */
+function scrollToSection(id){
+    setTimeout(()=>{
+        const el = document.getElementById(id);
+        if(el){
+            el.scrollIntoView({behavior:"smooth"});
+        }
+    }, 200); // wait for DOM render
+}
+
 /* STRATEGY PANEL */
 function updateStrategyPanel(name){
     const panel = document.getElementById("strategy-panel");
-    if(!panel) return;
-    panel.innerText = STRATEGY_TEXT[name] || "Strategy info";
+    if(panel){
+        panel.innerText = STRATEGY_TEXT[name] || "";
+    }
 }
 
 /* LOAD IMAGES */
@@ -62,26 +73,23 @@ function openTV(e,f){
     window.open(`https://www.tradingview.com/chart/?symbol=NSE:${s}`);
 }
 
-/* MODAL OPEN */
+/* MODAL */
 function openModal(i){
     index=i;
-    const modal = document.getElementById("modal");
-    modal.style.display="flex";
+    document.getElementById("modal").style.display="flex";
     updateImage();
 }
 
-/* UPDATE IMAGE */
 function updateImage(){
-    document.getElementById("modal-img").src = images[index] + "?t=" + Date.now();
+    document.getElementById("modal-img").src = images[index]+"?t="+Date.now();
     updateCounter();
 }
 
-/* CLOSE */
 function closeModal(){
     document.getElementById("modal").style.display="none";
 }
 
-/* NAVIGATION */
+/* NAV */
 function nextImage(){
     if(index < images.length-1){
         index++;
@@ -96,28 +104,27 @@ function prevImage(){
     }
 }
 
-/* KEYBOARD CONTROL */
-document.addEventListener("keydown", (e)=>{
-    const modalOpen = document.getElementById("modal").style.display === "flex";
-    if(!modalOpen) return;
+/* KEYBOARD */
+document.addEventListener("keydown",(e)=>{
+    if(document.getElementById("modal").style.display !== "flex") return;
 
-    if(e.key === "ArrowRight") nextImage();
-    if(e.key === "ArrowLeft") prevImage();
-    if(e.key === "Escape") closeModal();
+    if(e.key==="ArrowRight") nextImage();
+    if(e.key==="ArrowLeft") prevImage();
+    if(e.key==="Escape") closeModal();
 });
 
-/* TOUCH SWIPE */
+/* SWIPE */
 let touchStartX = 0;
 
-document.getElementById("modal").addEventListener("touchstart", e=>{
+document.addEventListener("touchstart", e=>{
     touchStartX = e.changedTouches[0].screenX;
 });
 
-document.getElementById("modal").addEventListener("touchend", e=>{
+document.addEventListener("touchend", e=>{
     let diff = e.changedTouches[0].screenX - touchStartX;
 
-    if(diff > 50) prevImage();     // swipe right
-    if(diff < -50) nextImage();    // swipe left
+    if(diff > 50) prevImage();
+    if(diff < -50) nextImage();
 });
 
 /* COUNTER */
@@ -128,22 +135,25 @@ function updateCounter(){
     }
 }
 
-/* NAV */
+/* TILE NAVIGATION (FIXED) */
 function goToConfluence(){
     showTab("swing");
     loadImages("swing/confluence","swing-confluence");
     updateStrategyPanel("confluence");
+    scrollToSection("swing-confluence");
 }
 
 function goToStrategy(s){
     showTab("swing");
     loadImages(`swing/${s}`,"strategy-results");
     updateStrategyPanel(s);
+    scrollToSection("strategy-results");
 }
 
 function goToWyckoff(){
     showTab("wyckoff");
     loadImages("wyckoff/ranking/charts","ranking");
+    scrollToSection("ranking");
 }
 
 /* INIT */
