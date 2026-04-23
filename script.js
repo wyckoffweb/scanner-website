@@ -1,10 +1,82 @@
 let images = [];
 let index = 0;
 
+/* STRATEGY TEXT */
+const STRATEGY_TEXT = {
+
+    breakout: `📈 Breakout Strategy
+
+• Price near resistance
+• Volume expansion
+• Range breakout
+
+→ SIGNAL`,
+
+    ema50_pullback: `📉 EMA Pullback
+
+• Higher timeframe uptrend
+• Close > EMA50 > EMA200
+• Pullback to EMA50
+• RSI 40–60
+
+→ SIGNAL`,
+
+    ema20_trend: `📊 EMA20 Trend
+
+• Strong trend continuation
+• Price riding EMA20
+• Higher highs structure
+
+→ MOMENTUM`,
+
+    rsi_momentum: `⚡ RSI Momentum
+
+• RSI > 60
+• Strong price expansion
+
+→ MOMENTUM`,
+
+    bollinger: `📦 Bollinger
+
+• Volatility contraction
+• Band squeeze
+• Expansion breakout
+
+→ VOLATILITY PLAY`,
+
+    golden_cross: `🏆 Golden Cross
+
+• EMA50 crosses EMA200
+• Trend reversal
+
+→ POSITIONAL`,
+
+    confluence: `🔥 Confluence
+
+• Appears in multiple scanners
+• Multi-factor alignment
+
+→ BEST SETUPS`
+};
+
 /* TAB */
 function showTab(tab){
     document.getElementById("swing").style.display = tab==="swing"?"block":"none";
     document.getElementById("wyckoff").style.display = tab==="wyckoff"?"block":"none";
+}
+
+/* STRATEGY PANEL */
+function updateStrategyPanel(name){
+    const panel = document.getElementById("strategy-panel");
+
+    if(!panel) return;
+
+    if(name === "wyckoff"){
+        panel.innerText = "🏆 Wyckoff Ranking\nTop scored accumulation stocks";
+        return;
+    }
+
+    panel.innerText = STRATEGY_TEXT[name] || "Strategy info not available";
 }
 
 /* LAST UPDATED */
@@ -128,16 +200,19 @@ function prevImage(){
 function goToConfluence(){
     showTab("swing");
     loadImages("swing/confluence","swing-confluence");
+    updateStrategyPanel("confluence");
 }
 
 function goToStrategy(s){
     showTab("swing");
     loadImages(`swing/${s}`,"strategy-results");
+    updateStrategyPanel(s);
 }
 
 function goToWyckoff(){
     showTab("wyckoff");
     loadImages("wyckoff/ranking/charts","ranking");
+    updateStrategyPanel("wyckoff");
 }
 
 /* BACK */
@@ -161,4 +236,5 @@ window.onload=()=>{
     loadCounts();
     loadImages("swing/confluence","swing-confluence");
     loadImages("wyckoff/ranking/charts","ranking");
+    updateStrategyPanel("confluence");
 };
