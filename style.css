@@ -1,40 +1,109 @@
 body {
-    background: #0f172a;
+    margin: 0;
+    background: #0b1220;
     color: white;
-    font-family: Arial;
+    font-family: system-ui;
 }
 
-.header {
-    text-align: center;
+/* HEADER */
+header {
+    position: sticky;
+    top: 0;
+    background: #111827;
     padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #222;
 }
 
 .tabs button {
     margin: 5px;
-    padding: 10px;
-    background: #1e293b;
-    color: white;
+    padding: 8px 15px;
+    background: #1f2937;
     border: none;
+    color: white;
     cursor: pointer;
+    border-radius: 6px;
+}
+
+.tabs button:hover {
+    background: #374151;
+}
+
+/* SECTIONS */
+h2 {
+    margin-left: 10px;
 }
 
 .hidden {
     display: none;
 }
 
+/* GRID */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
     padding: 10px;
 }
 
-.grid img {
+/* CARD */
+.card {
+    position: relative;
+    background: #111827;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.card img {
     width: 100%;
-    border-radius: 8px;
+}
+
+/* STOCK LABEL */
+.label {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: rgba(0,0,0,0.6);
+    padding: 3px 6px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+/* STRATEGY BUTTONS */
+.strategy-tabs {
+    padding: 10px;
 }
 
 .strategy-tabs button {
-    margin: 5px;
-    padding: 8px;
+    margin: 4px;
+    padding: 6px 10px;
+    background: #1f2937;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    background: rgba(0,0,0,0.9);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.modal img {
+    max-width: 90%;
+    max-height: 90%;
+    margin: 5% auto;
+    display: block;
 }

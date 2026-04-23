@@ -5,35 +5,67 @@ function showTab(tab) {
     document.getElementById(tab).classList.remove('hidden');
 }
 
-// Load images from folder
+function createCard(src) {
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const img = document.createElement("img");
+    img.src = src;
+
+    const label = document.createElement("div");
+    label.className = "label";
+
+    // Extract stock name
+    const name = src.split("/").pop().replace(".png", "");
+    label.innerText = name;
+
+    card.appendChild(img);
+    card.appendChild(label);
+
+    card.onclick = () => openModal(src);
+
+    return card;
+}
+
 function loadImages(folder, elementId) {
 
     const container = document.getElementById(elementId);
-    container.innerHTML = "";
+    container.innerHTML = "Loading...";
 
-    fetch(`data/${folder}/`)
-    .then(response => response.text())
-    .then(text => {
-        const parser = new DOMParser();
-        const htmlDoc = parser.parseFromString(text, 'text/html');
-        const links = htmlDoc.querySelectorAll("a");
+    fetch(`data/${folder}/index.json`)
+    .then(res => res.json())
+    .then(files => {
 
-        links.forEach(link => {
-            if (link.href.endsWith(".png")) {
-                const img = document.createElement("img");
-                img.src = link.href;
-                container.appendChild(img);
-            }
+        container.innerHTML = "";
+
+        files.forEach(file => {
+            const path = `data/${folder}/${file}`;
+            container.appendChild(createCard(path));
         });
+
+    })
+    .catch(() => {
+        container.innerHTML = "No data";
     });
 }
 
-// Swing strategies
 function loadStrategy(name) {
     loadImages(`swing/${name}`, "strategy-results");
 }
 
-// Initial load
+function openModal(src) {
+    const modal = document.getElementById("modal");
+    const img = document.getElementById("modal-img");
+
+    img.src = src;
+    modal.style.display = "block";
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
 window.onload = () => {
 
     loadImages("swing/confluence", "swing-confluence");

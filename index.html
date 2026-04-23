@@ -7,26 +7,24 @@
 
 <body>
 
-<div class="header">
+<header>
     <h1>📊 Wyckoff Scanner</h1>
-    <p>Live Market Scan (Auto Updated)</p>
-</div>
-
-<div class="tabs">
-    <button onclick="showTab('swing')">Swing Scanner</button>
-    <button onclick="showTab('wyckoff')">Wyckoff (Experimental)</button>
-</div>
+    <div class="tabs">
+        <button onclick="showTab('swing')">Swing</button>
+        <button onclick="showTab('wyckoff')">Wyckoff</button>
+    </div>
+</header>
 
 <!-- SWING -->
-<div id="swing" class="tab">
+<section id="swing" class="tab">
 
-    <h2>🔥 Confluence (High Probability)</h2>
+    <h2>🔥 Confluence</h2>
     <div id="swing-confluence" class="grid"></div>
 
     <h2>📈 Strategies</h2>
     <div class="strategy-tabs">
         <button onclick="loadStrategy('breakout')">Breakout</button>
-        <button onclick="loadStrategy('ema50_pullback')">EMA Pullback</button>
+        <button onclick="loadStrategy('ema50_pullback')">EMA50</button>
         <button onclick="loadStrategy('ema20_trend')">Trend</button>
         <button onclick="loadStrategy('rsi')">RSI</button>
         <button onclick="loadStrategy('bollinger')">Bollinger</button>
@@ -35,10 +33,10 @@
 
     <div id="strategy-results" class="grid"></div>
 
-</div>
+</section>
 
 <!-- WYCKOFF -->
-<div id="wyckoff" class="tab hidden">
+<section id="wyckoff" class="tab hidden">
 
     <h2>📊 Daily</h2>
     <div id="daily" class="grid"></div>
@@ -52,6 +50,11 @@
     <h2>🏆 Ranking</h2>
     <div id="ranking" class="grid"></div>
 
+</section>
+
+<!-- MODAL -->
+<div id="modal" class="modal" onclick="closeModal()">
+    <img id="modal-img">
 </div>
 
 <script src="script.js"></script>
