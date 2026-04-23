@@ -15,45 +15,44 @@
     </div>
 </header>
 
+<!-- TILE MENU -->
+<div id="tile-menu" class="tile-container">
+
+    <div class="tile" onclick="goToConfluence()">🔥 Confluence</div>
+    <div class="tile" onclick="goToStrategy('breakout')">📈 Breakout</div>
+    <div class="tile" onclick="goToStrategy('ema50_pullback')">📉 EMA Pullback</div>
+    <div class="tile" onclick="goToWyckoff('ranking')">🏆 Wyckoff Ranking</div>
+
+</div>
+
 <!-- SWING -->
 <section id="swing" class="tab">
 
-    <h2>🔥 Confluence</h2>
-    <div id="swing-confluence" class="grid"></div>
-
-    <h2>📈 Strategies</h2>
-    <div class="strategy-tabs">
-        <button onclick="loadStrategy('breakout')">Breakout</button>
-        <button onclick="loadStrategy('ema50_pullback')">EMA50</button>
-        <button onclick="loadStrategy('ema20_trend')">Trend</button>
-        <button onclick="loadStrategy('rsi')">RSI</button>
-        <button onclick="loadStrategy('bollinger')">Bollinger</button>
-        <button onclick="loadStrategy('new_ipos')">IPO</button>
+    <div id="confluence-section">
+        <h2>🔥 Confluence</h2>
+        <div id="swing-confluence" class="grid"></div>
     </div>
 
-    <div id="strategy-results" class="grid"></div>
+    <div id="strategy-section">
+        <h2>📈 Strategies</h2>
+        <div id="strategy-results" class="grid"></div>
+    </div>
 
 </section>
 
 <!-- WYCKOFF -->
 <section id="wyckoff" class="tab hidden">
 
-    <h2>📊 Daily</h2>
-    <div id="daily" class="grid"></div>
-
-    <h2>📊 Weekly</h2>
-    <div id="weekly" class="grid"></div>
-
-    <h2>📊 Monthly</h2>
-    <div id="monthly" class="grid"></div>
-
-    <h2>🏆 Ranking</h2>
-    <div id="ranking" class="grid"></div>
+    <div id="ranking-section">
+        <h2>🏆 Ranking</h2>
+        <div id="ranking" class="grid"></div>
+    </div>
 
 </section>
 
 <!-- MODAL -->
-<div id="modal" class="modal" onclick="closeModal()">
+<div id="modal" class="modal">
+    <span class="close-btn" onclick="closeModal()">✕</span>
     <img id="modal-img">
 </div>
 

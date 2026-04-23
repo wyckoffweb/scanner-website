@@ -7,103 +7,113 @@ body {
 
 /* HEADER */
 header {
-    position: sticky;
-    top: 0;
-    background: #111827;
-    padding: 10px;
     text-align: center;
-    border-bottom: 1px solid #222;
+    padding: 10px;
+    background: #111827;
 }
 
-.tabs button {
-    margin: 5px;
-    padding: 8px 15px;
+/* TILE MENU */
+.tile-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+    padding: 10px;
+}
+
+.tile {
     background: #1f2937;
-    border: none;
-    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
     cursor: pointer;
-    border-radius: 6px;
 }
 
-.tabs button:hover {
+.tile:hover {
     background: #374151;
-}
-
-/* SECTIONS */
-h2 {
-    margin-left: 10px;
-}
-
-.hidden {
-    display: none;
 }
 
 /* GRID */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 12px;
+    gap: 10px;
     padding: 10px;
 }
 
 /* CARD */
 .card {
-    position: relative;
     background: #111827;
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.card:hover {
-    transform: scale(1.03);
 }
 
 .card img {
     width: 100%;
 }
 
-/* STOCK LABEL */
+/* LABEL */
 .label {
     position: absolute;
-    top: 5px;
-    left: 5px;
-    background: rgba(0,0,0,0.6);
-    padding: 3px 6px;
+    background: black;
+    padding: 3px;
     font-size: 12px;
-    border-radius: 4px;
 }
 
-/* STRATEGY BUTTONS */
-.strategy-tabs {
-    padding: 10px;
-}
-
-.strategy-tabs button {
-    margin: 4px;
-    padding: 6px 10px;
-    background: #1f2937;
+/* BUTTON */
+.tv-btn {
+    width: 100%;
+    background: #2563eb;
     border: none;
     color: white;
-    border-radius: 6px;
-    cursor: pointer;
+    padding: 6px;
 }
 
 /* MODAL */
 .modal {
     display: none;
     position: fixed;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0,0,0,0.95);
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+
+    align-items: center;
+    justify-content: center;
 }
 
 .modal img {
-    max-width: 90%;
-    max-height: 90%;
-    margin: 5% auto;
-    display: block;
+    max-width: 95%;
+    max-height: 95%;
+}
+
+/* CLOSE BUTTON */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* NO DATA */
+.no-data {
+    text-align: center;
+    padding: 40px;
+    color: #9ca3af;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    margin-top: 10px;
+    padding: 8px;
+    background: #2563eb;
+    border: none;
+    color: white;
+}
+
+/* HIGHLIGHT */
+.highlight {
+    outline: 2px solid #2563eb;
 }
