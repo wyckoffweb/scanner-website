@@ -5,124 +5,18 @@ body {
     font-family: system-ui;
 }
 
-/* HEADER */
 header {
     text-align: center;
     padding: 10px;
     background: #111827;
 }
 
-/* TILE MENU */
-.tile-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 10px;
-    padding: 10px;
-}
-
-.tile {
-    background: #1f2937;
-    padding: 20px;
-    text-align: center;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.tile:hover {
-    background: #374151;
-}
-
-.tile span {
-    display: block;
-    margin-top: 5px;
-    font-size: 14px;
+.last-updated {
+    font-size: 13px;
     color: #9ca3af;
+    margin-top: 5px;
 }
 
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 10px;
-    padding: 10px;
-}
-
-/* CARD */
-.card {
-    background: #111827;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.card img {
-    width: 100%;
-}
-
-/* BUTTON */
-.tv-btn {
-    width: 100%;
-    background: #2563eb;
-    border: none;
-    color: white;
-    padding: 6px;
-}
-
-/* MODAL */
-.modal {
-    display: none;
-    position: fixed;
-    background: rgba(0,0,0,0.95);
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal img {
-    max-width: 95%;
-    max-height: 95%;
-}
-
-/* CLOSE */
-.close-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 30px;
-    cursor: pointer;
-}
-
-/* ARROWS */
-.nav-arrow {
-    position: absolute;
-    top: 50%;
-    font-size: 40px;
-    color: white;
-    cursor: pointer;
-    padding: 10px;
-}
-
-.left { left: 10px; }
-.right { right: 10px; }
-
-/* NO DATA */
-.no-data {
-    text-align: center;
-    padding: 40px;
-}
-
-/* BACK */
-.back-btn {
-    margin-top: 10px;
-    padding: 8px;
-    background: #2563eb;
-    border: none;
-    color: white;
-}
-
-/* SCROLL BUTTON */
 #scrollTopBtn {
     position: fixed;
     bottom: 20px;

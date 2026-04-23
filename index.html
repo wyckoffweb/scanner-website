@@ -10,83 +10,21 @@
 <header>
     <h1>📊 Wyckoff Scanner</h1>
 
+    <div id="last-updated" class="last-updated">
+        Last updated: Loading...
+    </div>
+
     <div class="tabs">
         <button onclick="showTab('swing')">Swing</button>
         <button onclick="showTab('wyckoff')">Wyckoff</button>
     </div>
 </header>
 
-<!-- TILE MENU -->
-<div id="tile-menu" class="tile-container">
+<div id="tile-menu" class="tile-container"></div>
 
-    <div class="tile" onclick="goToConfluence()">
-        🔥 Confluence
-        <span id="count-confluence">(...)</span>
-    </div>
+<section id="swing" class="tab"></section>
+<section id="wyckoff" class="tab hidden"></section>
 
-    <div class="tile" onclick="goToStrategy('breakout')">
-        📈 Breakout
-        <span id="count-breakout">(...)</span>
-    </div>
-
-    <div class="tile" onclick="goToStrategy('ema50_pullback')">
-        📉 EMA Pullback
-        <span id="count-ema50_pullback">(...)</span>
-    </div>
-
-    <div class="tile" onclick="goToStrategy('ema20_trend')">
-        📊 EMA20 Trend
-        <span id="count-ema20_trend">(...)</span>
-    </div>
-
-    <div class="tile" onclick="goToStrategy('rsi_momentum')">
-        ⚡ RSI Momentum
-        <span id="count-rsi_momentum">(...)</span>
-    </div>
-
-    <div class="tile" onclick="goToStrategy('bollinger')">
-        📦 Bollinger
-        <span id="count-bollinger">(...)</span>
-    </div>
-
-    <div class="tile" onclick="goToStrategy('golden_cross')">
-        🏆 Golden Cross
-        <span id="count-golden_cross">(...)</span>
-    </div>
-
-    <div class="tile" onclick="goToWyckoff('ranking')">
-        🏆 Wyckoff
-        <span id="count-ranking">(...)</span>
-    </div>
-
-</div>
-
-<!-- SWING -->
-<section id="swing" class="tab">
-
-    <div id="confluence-section">
-        <h2>🔥 Confluence</h2>
-        <div id="swing-confluence" class="grid"></div>
-    </div>
-
-    <div id="strategy-section">
-        <h2>📈 Strategies</h2>
-        <div id="strategy-results" class="grid"></div>
-    </div>
-
-</section>
-
-<!-- WYCKOFF -->
-<section id="wyckoff" class="tab hidden">
-
-    <div id="ranking-section">
-        <h2>🏆 Ranking</h2>
-        <div id="ranking" class="grid"></div>
-    </div>
-
-</section>
-
-<!-- MODAL -->
 <div id="modal" class="modal">
     <span class="close-btn" onclick="closeModal()">✕</span>
     <div class="nav-arrow left" onclick="prevImage()">❮</div>
@@ -94,7 +32,6 @@
     <div class="nav-arrow right" onclick="nextImage()">❯</div>
 </div>
 
-<!-- SCROLL BUTTON -->
 <button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
 
 <script src="script.js"></script>
