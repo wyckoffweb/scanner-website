@@ -1,62 +1,15 @@
 let images = [];
 let index = 0;
 
-/* STRATEGY TEXT */
+/* STRATEGY TEXT (keep as is) */
 const STRATEGY_TEXT = {
-
-    breakout: `📈 Breakout Strategy
-
-• Price near resistance
-• Volume expansion
-• Range breakout
-
-→ SIGNAL`,
-
-    ema50_pullback: `📉 EMA Pullback
-
-• Higher timeframe uptrend
-• Close > EMA50 > EMA200
-• Pullback to EMA50
-• RSI 40–60
-
-→ SIGNAL`,
-
-    ema20_trend: `📊 EMA20 Trend
-
-• Strong trend continuation
-• Price riding EMA20
-• Higher highs structure
-
-→ MOMENTUM`,
-
-    rsi_momentum: `⚡ RSI Momentum
-
-• RSI > 60
-• Strong price expansion
-
-→ MOMENTUM`,
-
-    bollinger: `📦 Bollinger
-
-• Volatility contraction
-• Band squeeze
-• Expansion breakout
-
-→ VOLATILITY PLAY`,
-
-    golden_cross: `🏆 Golden Cross
-
-• EMA50 crosses EMA200
-• Trend reversal
-
-→ POSITIONAL`,
-
-    confluence: `🔥 Confluence
-
-• Appears in multiple scanners
-• Multi-factor alignment
-
-→ BEST SETUPS`
+    breakout: `📈 Breakout\n\n• Resistance breakout\n• Volume expansion\n\n→ SIGNAL`,
+    ema50_pullback: `📉 EMA Pullback\n\n• HTF uptrend\n• Close > EMA50 > EMA200\n• Pullback\n\n→ SIGNAL`,
+    ema20_trend: `📊 EMA20 Trend\n\n• Strong trend\n• EMA20 support\n\n→ MOMENTUM`,
+    rsi_momentum: `⚡ RSI Momentum\n\n• RSI > 60\n\n→ MOMENTUM`,
+    bollinger: `📦 Bollinger\n\n• Squeeze\n• Expansion\n\n→ VOLATILITY`,
+    golden_cross: `🏆 Golden Cross\n\n• EMA50 > EMA200\n\n→ POSITIONAL`,
+    confluence: `🔥 Confluence\n\n• Multi-signal overlap\n\n→ BEST SETUPS`
 };
 
 /* TAB */
@@ -68,58 +21,8 @@ function showTab(tab){
 /* STRATEGY PANEL */
 function updateStrategyPanel(name){
     const panel = document.getElementById("strategy-panel");
-
     if(!panel) return;
-
-    if(name === "wyckoff"){
-        panel.innerText = "🏆 Wyckoff Ranking\nTop scored accumulation stocks";
-        return;
-    }
-
-    panel.innerText = STRATEGY_TEXT[name] || "Strategy info not available";
-}
-
-/* LAST UPDATED */
-function loadLastUpdated() {
-    fetch("data/last_updated.json?t=" + Date.now())
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("last-updated").innerText =
-            "Last updated: " + data.updated;
-    });
-}
-
-/* COUNTS */
-function loadCounts() {
-    const map = {
-        "count-confluence": "swing/confluence",
-        "count-breakout": "swing/breakout",
-        "count-ema50_pullback": "swing/ema50_pullback",
-        "count-ema20_trend": "swing/ema20_trend",
-        "count-rsi_momentum": "swing/rsi_momentum",
-        "count-bollinger": "swing/bollinger",
-        "count-golden_cross": "swing/golden_cross",
-        "count-ranking": "wyckoff/ranking/charts"
-    };
-
-    Object.keys(map).forEach(id => {
-        fetch(`data/${map[id]}/index.json?t=` + Date.now())
-        .then(res => res.json())
-        .then(files => {
-            document.getElementById(id).innerText = `(${files.length})`;
-        })
-        .catch(() => {
-            document.getElementById(id).innerText = "(0)";
-        });
-    });
-}
-
-/* COUNTER */
-function updateCounter(){
-    const el = document.getElementById("chart-counter");
-    if(el){
-        el.innerText = `${index+1} / ${images.length}`;
-    }
+    panel.innerText = STRATEGY_TEXT[name] || "Strategy info";
 }
 
 /* LOAD IMAGES */
@@ -129,21 +32,13 @@ function loadImages(folder, id){
     .then(files=>{
         const c=document.getElementById(id);
         c.innerHTML="";
-        
+
         if (!files || files.length === 0) {
-            c.innerHTML = `
-                <div style="text-align:center;padding:30px;">
-                    <h3>No setups today</h3>
-                    <p>No stocks met this scanner condition.</p>
-                    <button onclick="goHome()" style="margin-top:10px;padding:8px 14px;background:#2563eb;border:none;color:white;border-radius:6px;">
-                        ← Back to Scanner
-                    </button>
-                </div>
-            `;
+            c.innerHTML = `<div style="text-align:center;padding:30px;">No setups today</div>`;
             return;
         }
 
-        images=files.map(f=>`data/${folder}/${f}`);
+        images = files.map(f=>`data/${folder}/${f}`);
 
         files.forEach((f,i)=>{
             const div=document.createElement("div");
@@ -160,43 +55,80 @@ function loadImages(folder, id){
     });
 }
 
-/* TV */
+/* TRADINGVIEW */
 function openTV(e,f){
     e.stopPropagation();
     const s=f.replace(".png","");
     window.open(`https://www.tradingview.com/chart/?symbol=NSE:${s}`);
 }
 
-/* MODAL */
+/* MODAL OPEN */
 function openModal(i){
     index=i;
-    document.getElementById("modal").style.display="flex";
-    document.getElementById("modal-img").src=images[i]+"?t="+Date.now();
+    const modal = document.getElementById("modal");
+    modal.style.display="flex";
+    updateImage();
+}
+
+/* UPDATE IMAGE */
+function updateImage(){
+    document.getElementById("modal-img").src = images[index] + "?t=" + Date.now();
     updateCounter();
 }
 
+/* CLOSE */
 function closeModal(){
     document.getElementById("modal").style.display="none";
 }
 
-/* NAV */
+/* NAVIGATION */
 function nextImage(){
-    if(index < images.length - 1){
+    if(index < images.length-1){
         index++;
-        document.getElementById("modal-img").src = images[index] + "?t=" + Date.now();
-        updateCounter();
+        updateImage();
     }
 }
 
 function prevImage(){
     if(index > 0){
         index--;
-        document.getElementById("modal-img").src = images[index] + "?t=" + Date.now();
-        updateCounter();
+        updateImage();
     }
 }
 
-/* NAVIGATION */
+/* KEYBOARD CONTROL */
+document.addEventListener("keydown", (e)=>{
+    const modalOpen = document.getElementById("modal").style.display === "flex";
+    if(!modalOpen) return;
+
+    if(e.key === "ArrowRight") nextImage();
+    if(e.key === "ArrowLeft") prevImage();
+    if(e.key === "Escape") closeModal();
+});
+
+/* TOUCH SWIPE */
+let touchStartX = 0;
+
+document.getElementById("modal").addEventListener("touchstart", e=>{
+    touchStartX = e.changedTouches[0].screenX;
+});
+
+document.getElementById("modal").addEventListener("touchend", e=>{
+    let diff = e.changedTouches[0].screenX - touchStartX;
+
+    if(diff > 50) prevImage();     // swipe right
+    if(diff < -50) nextImage();    // swipe left
+});
+
+/* COUNTER */
+function updateCounter(){
+    const el = document.getElementById("chart-counter");
+    if(el){
+        el.innerText = `${index+1} / ${images.length}`;
+    }
+}
+
+/* NAV */
 function goToConfluence(){
     showTab("swing");
     loadImages("swing/confluence","swing-confluence");
@@ -212,29 +144,10 @@ function goToStrategy(s){
 function goToWyckoff(){
     showTab("wyckoff");
     loadImages("wyckoff/ranking/charts","ranking");
-    updateStrategyPanel("wyckoff");
-}
-
-/* BACK */
-function goHome(){
-    document.getElementById("tile-menu").scrollIntoView({behavior:"smooth"});
-}
-
-/* SCROLL */
-window.onscroll=()=>{
-    document.getElementById("topBtn").style.display =
-        window.scrollY>300?"block":"none";
-};
-
-function scrollToTop(){
-    window.scrollTo({top:0,behavior:"smooth"});
 }
 
 /* INIT */
 window.onload=()=>{
-    loadLastUpdated();
-    loadCounts();
     loadImages("swing/confluence","swing-confluence");
     loadImages("wyckoff/ranking/charts","ranking");
-    updateStrategyPanel("confluence");
 };
