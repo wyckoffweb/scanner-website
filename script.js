@@ -7,6 +7,31 @@ function showTab(tab) {
     document.getElementById(tab).classList.remove('hidden');
 }
 
+function loadCounts() {
+
+    const strategies = [
+        ["count-confluence", "swing/confluence"],
+        ["count-breakout", "swing/breakout"],
+        ["count-ema50_pullback", "swing/ema50_pullback"],
+        ["count-ema20_trend", "swing/ema20_trend"],
+        ["count-rsi_momentum", "swing/rsi_momentum"],
+        ["count-bollinger", "swing/bollinger"],
+        ["count-golden_cross", "swing/golden_cross"],
+        ["count-ranking", "wyckoff/ranking/charts"]
+    ];
+
+    strategies.forEach(s => {
+        fetch(`data/${s[1]}/index.json`)
+        .then(r => r.json())
+        .then(f => {
+            document.getElementById(s[0]).innerText = `(${f.length})`;
+        })
+        .catch(() => {
+            document.getElementById(s[0]).innerText = "(0)";
+        });
+    });
+}
+
 function loadImages(folder, elementId) {
 
     const container = document.getElementById(elementId);
@@ -18,11 +43,10 @@ function loadImages(folder, elementId) {
 
         container.innerHTML = "";
 
-        if (!files || files.length === 0) {
+        if (!files.length) {
             container.innerHTML = `
                 <div class="no-data">
                     <h3>No setups today</h3>
-                    <p>No stocks met this scanner’s conditions.</p>
                     <button class="back-btn" onclick="goHome()">← Back</button>
                 </div>
             `;
@@ -31,14 +55,13 @@ function loadImages(folder, elementId) {
 
         currentImages = files.map(f => `data/${folder}/${f}`);
 
-        files.forEach((file, index) => {
-            const src = `data/${folder}/${file}`;
+        files.forEach((f, i) => {
 
             const card = document.createElement("div");
             card.className = "card";
 
             const img = document.createElement("img");
-            img.src = src;
+            img.src = currentImages[i];
 
             const btn = document.createElement("button");
             btn.innerText = "TradingView";
@@ -46,14 +69,13 @@ function loadImages(folder, elementId) {
 
             btn.onclick = (e) => {
                 e.stopPropagation();
-                const symbol = file.replace(".png", "");
-                window.open(`https://www.tradingview.com/chart/?symbol=NSE:${symbol}`);
+                const sym = f.replace(".png","");
+                window.open(`https://www.tradingview.com/chart/?symbol=NSE:${sym}`);
             };
 
             card.appendChild(img);
             card.appendChild(btn);
-
-            card.onclick = () => openModal(index);
+            card.onclick = () => openModal(i);
 
             container.appendChild(card);
         });
@@ -61,37 +83,20 @@ function loadImages(folder, elementId) {
     });
 }
 
-function openModal(index) {
-    currentIndex = index;
-    const modal = document.getElementById("modal");
-    const img = document.getElementById("modal-img");
+function openModal(i) {
+    currentIndex = i;
+    document.getElementById("modal-img").src = currentImages[i];
+    document.getElementById("modal").style.display = "flex";
 
-    img.src = currentImages[index];
-    modal.style.display = "flex";
-
-    enableSwipe(img);
+    document.onkeydown = e => {
+        if (e.key === "Escape") closeModal();
+        if (e.key === "ArrowRight") nextImage();
+        if (e.key === "ArrowLeft") prevImage();
+    };
 }
 
 function closeModal() {
     document.getElementById("modal").style.display = "none";
-}
-
-function enableSwipe(img) {
-    let startX = 0;
-
-    img.addEventListener("touchstart", e => {
-        startX = e.touches[0].clientX;
-    });
-
-    img.addEventListener("touchend", e => {
-        let endX = e.changedTouches[0].clientX;
-        let diff = startX - endX;
-
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) nextImage();
-            else prevImage();
-        }
-    });
 }
 
 function nextImage() {
@@ -108,41 +113,36 @@ function prevImage() {
     }
 }
 
-/* NAVIGATION */
 function goToConfluence() {
     showTab('swing');
-    loadImages('swing/confluence', 'swing-confluence');
-    scrollTo('confluence-section');
+    loadImages('swing/confluence','swing-confluence');
 }
 
-function goToStrategy(name) {
+function goToStrategy(n) {
     showTab('swing');
-    loadImages(`swing/${name}`, 'strategy-results');
-    scrollTo('strategy-section');
+    loadImages(`swing/${n}`,'strategy-results');
 }
 
-function goToWyckoff(type) {
+function goToWyckoff(n) {
     showTab('wyckoff');
-    loadImages(`wyckoff/${type}/charts`, type);
-    scrollTo(`${type}-section`);
-}
-
-function scrollTo(id) {
-    setTimeout(() => {
-        const el = document.getElementById(id);
-        el.scrollIntoView({ behavior: "smooth" });
-        el.classList.add("highlight");
-        setTimeout(() => el.classList.remove("highlight"), 1000);
-    }, 200);
+    loadImages(`wyckoff/${n}/charts`, n);
 }
 
 function goHome() {
-    showTab('swing');
-    document.getElementById("tile-menu").scrollIntoView({ behavior: "smooth" });
+    document.getElementById("tile-menu").scrollIntoView({behavior:"smooth"});
 }
 
-/* LOAD DEFAULT */
+window.onscroll = () => {
+    const b = document.getElementById("scrollTopBtn");
+    b.style.display = document.documentElement.scrollTop > 300 ? "block" : "none";
+};
+
+function scrollToTop() {
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
 window.onload = () => {
-    loadImages("swing/confluence", "swing-confluence");
-    loadImages("wyckoff/ranking/charts", "ranking");
+    loadCounts();
+    loadImages("swing/confluence","swing-confluence");
+    loadImages("wyckoff/ranking/charts","ranking");
 };
