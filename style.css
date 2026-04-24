@@ -12,25 +12,9 @@ header {
     background: #111827;
 }
 
-h1 {
-    margin: 0;
-}
-
-/* LAST UPDATED */
 #last-updated {
     font-size: 12px;
     color: #9ca3af;
-}
-
-/* TABS */
-.tabs button {
-    margin: 5px;
-    padding: 6px 12px;
-    background: #1f2937;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
 }
 
 /* TILE MENU */
@@ -50,19 +34,14 @@ h1 {
     transition: 0.2s;
 }
 
-.tile:hover {
-    background: #374151;
+.tile span {
+    font-size: 12px;
+    color: #9ca3af;
 }
 
-/* STRATEGY PANEL */
-.strategy-panel {
-    margin: 10px;
-    padding: 15px;
-    background: #111827;
-    border-radius: 12px;
-    font-size: 14px;
-    line-height: 1.6;
-    color: #e5e7eb;
+/* ACTIVE TILE */
+.tile.active {
+    background: #2563eb;
 }
 
 /* GRID */
@@ -73,94 +52,68 @@ h1 {
     padding: 10px;
 }
 
-/* CARD */
-.card {
-    background: #111827;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
 .card img {
     width: 100%;
-    display: block;
 }
 
 .tv-btn {
     width: 100%;
     background: #2563eb;
-    color: white;
     border: none;
-    padding: 6px;
-    cursor: pointer;
+    color: white;
 }
 
 /* MODAL */
 .modal {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
     background: rgba(0,0,0,0.95);
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
+    justify-content:center;
+    align-items:center;
 }
 
 .modal img {
     max-width: 95%;
     max-height: 90%;
-    object-fit: contain;
 }
 
-/* CLOSE BUTTON */
 .close-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 22px;
-    color: white;
-    cursor: pointer;
+    position:absolute;
+    top:20px;
+    right:20px;
+    cursor:pointer;
 }
 
-/* ARROWS */
 .nav-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 40px;
-    color: white;
-    cursor: pointer;
-    user-select: none;
+    position:absolute;
+    top:50%;
+    font-size:40px;
+    cursor:pointer;
 }
 
-.left { left: 15px; }
-.right { right: 15px; }
+.left { left:10px; }
+.right { right:10px; }
 
-/* COUNTER */
 #chart-counter {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.6);
-    padding: 6px 12px;
-    border-radius: 6px;
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
 }
 
-/* BACK TO TOP */
+/* TOP BUTTON */
 #topBtn {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: #2563eb;
-    color: white;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
-    z-index: 9999;
+    bottom:20px;
+    right:20px;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:#2563eb;
+    color:white;
+    border:none;
 }

@@ -13,26 +13,22 @@
 </header>
 
 <!-- TILE MENU -->
-<div class="tile-container">
+<div class="tile-container" id="tile-menu">
 
-    <div class="tile" onclick="loadSection('confluence')">🔥 Confluence</div>
-    <div class="tile" onclick="loadSection('breakout')">📈 Breakout</div>
-    <div class="tile" onclick="loadSection('ema50_pullback')">📉 EMA Pullback</div>
-    <div class="tile" onclick="loadSection('ema20_trend')">📊 EMA20 Trend</div>
-    <div class="tile" onclick="loadSection('rsi_momentum')">⚡ RSI</div>
-    <div class="tile" onclick="loadSection('bollinger')">📦 Bollinger</div>
-    <div class="tile" onclick="loadSection('golden_cross')">🏆 Golden Cross</div>
-    <div class="tile" onclick="loadSection('ranking')">🏆 Wyckoff</div>
+    <div class="tile" onclick="loadSection('confluence', this)">🔥 Confluence <span id="count-confluence"></span></div>
+    <div class="tile" onclick="loadSection('breakout', this)">📈 Breakout <span id="count-breakout"></span></div>
+    <div class="tile" onclick="loadSection('ema50_pullback', this)">📉 EMA Pullback <span id="count-ema50_pullback"></span></div>
+    <div class="tile" onclick="loadSection('ema20_trend', this)">📊 EMA20 Trend <span id="count-ema20_trend"></span></div>
+    <div class="tile" onclick="loadSection('rsi_momentum', this)">⚡ RSI <span id="count-rsi_momentum"></span></div>
+    <div class="tile" onclick="loadSection('bollinger', this)">📦 Bollinger <span id="count-bollinger"></span></div>
+    <div class="tile" onclick="loadSection('golden_cross', this)">🏆 Golden Cross <span id="count-golden_cross"></span></div>
+    <div class="tile" onclick="loadSection('ranking', this)">🏆 Wyckoff <span id="count-ranking"></span></div>
 
 </div>
 
-<!-- DYNAMIC SECTION -->
 <section id="main-section">
-
     <h2 id="section-title">🔥 Confluence</h2>
-
     <div id="main-grid" class="grid"></div>
-
 </section>
 
 <!-- MODAL -->

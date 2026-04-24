@@ -2,20 +2,22 @@ let images = [];
 let index = 0;
 
 /* LOAD SECTION */
-function loadSection(name){
+function loadSection(name, el){
+
+    highlightTile(el);
 
     const map = {
-        confluence: ["🔥 Confluence","swing/confluence"],
-        breakout: ["📈 Breakout","swing/breakout"],
-        ema50_pullback: ["📉 EMA Pullback","swing/ema50_pullback"],
-        ema20_trend: ["📊 EMA20 Trend","swing/ema20_trend"],
-        rsi_momentum: ["⚡ RSI","swing/rsi_momentum"],
-        bollinger: ["📦 Bollinger","swing/bollinger"],
-        golden_cross: ["🏆 Golden Cross","swing/golden_cross"],
-        ranking: ["🏆 Wyckoff Ranking","wyckoff/ranking/charts"]
+        confluence: ["🔥 Confluence","swing/confluence","count-confluence"],
+        breakout: ["📈 Breakout","swing/breakout","count-breakout"],
+        ema50_pullback: ["📉 EMA Pullback","swing/ema50_pullback","count-ema50_pullback"],
+        ema20_trend: ["📊 EMA20 Trend","swing/ema20_trend","count-ema20_trend"],
+        rsi_momentum: ["⚡ RSI","swing/rsi_momentum","count-rsi_momentum"],
+        bollinger: ["📦 Bollinger","swing/bollinger","count-bollinger"],
+        golden_cross: ["🏆 Golden Cross","swing/golden_cross","count-golden_cross"],
+        ranking: ["🏆 Wyckoff Ranking","wyckoff/ranking/charts","count-ranking"]
     };
 
-    const [title, folder] = map[name];
+    const [title, folder, countId] = map[name];
 
     document.getElementById("section-title").innerText = title;
 
@@ -27,18 +29,21 @@ function loadSection(name){
         grid.innerHTML = "";
 
         if(!files || files.length === 0){
-            grid.innerHTML = "<div>No setups today</div>";
+            grid.innerHTML = "No setups today";
+            document.getElementById(countId).innerText = "(0)";
             return;
         }
+
+        document.getElementById(countId).innerText = `(${files.length})`;
 
         images = files.map(f=>`data/${folder}/${f}`);
 
         files.forEach((f,i)=>{
 
             const card = document.createElement("div");
-            card.className = "card";
+            card.className="card";
 
-            card.innerHTML = `
+            card.innerHTML=`
                 <img src="data/${folder}/${f}?t=${Date.now()}">
                 <button class="tv-btn" onclick="openTV(event,'${f}')">TV</button>
             `;
@@ -51,88 +56,50 @@ function loadSection(name){
     });
 }
 
+/* ACTIVE TILE */
+function highlightTile(el){
+    document.querySelectorAll(".tile").forEach(t=>t.classList.remove("active"));
+    el.classList.add("active");
+}
+
+/* LAST UPDATED */
+function loadLastUpdated(){
+    fetch("data/last_updated.json?t="+Date.now())
+    .then(r=>r.json())
+    .then(d=>{
+        document.getElementById("last-updated").innerText =
+            "Last updated: " + d.updated;
+    })
+    .catch(()=>{
+        document.getElementById("last-updated").innerText =
+            "Last updated: unavailable";
+    });
+}
+
 /* MODAL */
 function openModal(i){
-    index = i;
-    document.getElementById("modal").style.display = "flex";
+    index=i;
+    document.getElementById("modal").style.display="flex";
     updateImage();
 }
 
-/* UPDATE IMAGE */
 function updateImage(){
-    document.getElementById("modal-img").src = images[index];
+    document.getElementById("modal-img").src=images[index];
     document.getElementById("chart-counter").innerText =
         `${index+1} / ${images.length}`;
 }
 
-/* NAVIGATION */
-function nextImage(){
-    if(index < images.length - 1){
-        index++;
-        updateImage();
-    }
-}
+function nextImage(){ if(index<images.length-1){index++;updateImage();}}
+function prevImage(){ if(index>0){index--;updateImage();}}
+function closeModal(){ document.getElementById("modal").style.display="none";}
 
-function prevImage(){
-    if(index > 0){
-        index--;
-        updateImage();
-    }
-}
-
-/* CLOSE */
-function closeModal(){
-    document.getElementById("modal").style.display = "none";
-}
-
-/* KEYBOARD CONTROLS (FIXED) */
-document.addEventListener("keydown", function(e){
-
-    const modal = document.getElementById("modal");
-    if(modal.style.display !== "flex") return;
-
-    if(e.key === "ArrowRight"){
-        nextImage();
-    }
-
-    if(e.key === "ArrowLeft"){
-        prevImage();
-    }
-
-    if(e.key === "Escape"){
-        closeModal();
-    }
+/* KEYBOARD */
+document.addEventListener("keydown",e=>{
+    if(document.getElementById("modal").style.display!=="flex") return;
+    if(e.key==="ArrowRight") nextImage();
+    if(e.key==="ArrowLeft") prevImage();
+    if(e.key==="Escape") closeModal();
 });
-
-/* TOUCH SWIPE (FIXED) */
-let startX = 0;
-
-document.addEventListener("touchstart", function(e){
-    if(document.getElementById("modal").style.display !== "flex") return;
-    startX = e.changedTouches[0].screenX;
-});
-
-document.addEventListener("touchend", function(e){
-    if(document.getElementById("modal").style.display !== "flex") return;
-
-    let endX = e.changedTouches[0].screenX;
-    let diff = endX - startX;
-
-    if(diff > 60){
-        prevImage();   // swipe right
-    }
-
-    if(diff < -60){
-        nextImage();   // swipe left
-    }
-});
-
-/* TV */
-function openTV(e,f){
-    e.stopPropagation();
-    const s=f.replace(".png","");
-    window.open(`https://www.tradingview.com/chart/?symbol=NSE:${s}`);
-}
 
 /* SCROLL */
 function scrollToTop(){
@@ -140,6 +107,7 @@ function scrollToTop(){
 }
 
 /* INIT */
-window.onload = ()=>{
-    loadSection("confluence");
+window.onload=()=>{
+    loadLastUpdated();
+    loadSection("confluence", document.querySelector(".tile"));
 };
