@@ -49,12 +49,6 @@ function loadSection(name){
         });
 
     });
-
-    setTimeout(()=>{
-        document.getElementById("main-section").scrollIntoView({
-            behavior:"smooth"
-        });
-    },200);
 }
 
 /* MODAL */
@@ -64,18 +58,74 @@ function openModal(i){
     updateImage();
 }
 
+/* UPDATE IMAGE */
 function updateImage(){
     document.getElementById("modal-img").src = images[index];
     document.getElementById("chart-counter").innerText =
         `${index+1} / ${images.length}`;
 }
 
-function nextImage(){ if(index < images.length-1){ index++; updateImage(); } }
-function prevImage(){ if(index > 0){ index--; updateImage(); } }
+/* NAVIGATION */
+function nextImage(){
+    if(index < images.length - 1){
+        index++;
+        updateImage();
+    }
+}
 
+function prevImage(){
+    if(index > 0){
+        index--;
+        updateImage();
+    }
+}
+
+/* CLOSE */
 function closeModal(){
     document.getElementById("modal").style.display = "none";
 }
+
+/* KEYBOARD CONTROLS (FIXED) */
+document.addEventListener("keydown", function(e){
+
+    const modal = document.getElementById("modal");
+    if(modal.style.display !== "flex") return;
+
+    if(e.key === "ArrowRight"){
+        nextImage();
+    }
+
+    if(e.key === "ArrowLeft"){
+        prevImage();
+    }
+
+    if(e.key === "Escape"){
+        closeModal();
+    }
+});
+
+/* TOUCH SWIPE (FIXED) */
+let startX = 0;
+
+document.addEventListener("touchstart", function(e){
+    if(document.getElementById("modal").style.display !== "flex") return;
+    startX = e.changedTouches[0].screenX;
+});
+
+document.addEventListener("touchend", function(e){
+    if(document.getElementById("modal").style.display !== "flex") return;
+
+    let endX = e.changedTouches[0].screenX;
+    let diff = endX - startX;
+
+    if(diff > 60){
+        prevImage();   // swipe right
+    }
+
+    if(diff < -60){
+        nextImage();   // swipe left
+    }
+});
 
 /* TV */
 function openTV(e,f){
