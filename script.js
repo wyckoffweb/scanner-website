@@ -1,43 +1,24 @@
-let images = [];
+let imagesMap = {};   // 🔥 FIX: store images per section
+let currentImages = [];
 let index = 0;
 
-/* STRATEGY TEXT */
-const STRATEGY_TEXT = {
-    breakout: "📈 Breakout\n\n→ Resistance break + volume",
-    ema50_pullback: "📉 EMA50 Pullback\n\n→ Trend + pullback",
-    ema20_trend: "📊 EMA20 Trend\n\n→ Momentum continuation",
-    rsi_momentum: "⚡ RSI Momentum\n\n→ Strong move",
-    bollinger: "📦 Bollinger\n\n→ Volatility expansion",
-    golden_cross: "🏆 Golden Cross\n\n→ Trend shift",
-    confluence: "🔥 Confluence\n\n→ Multi-signal setups"
-};
-
-/* TAB */
-function showTab(tab){
-    document.getElementById("swing").style.display = tab==="swing"?"block":"none";
-    document.getElementById("wyckoff").style.display = tab==="wyckoff"?"block":"none";
+/* LAST UPDATED */
+function loadLastUpdated() {
+    fetch("data/last_updated.json?t=" + Date.now())
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("last-updated").innerText =
+            "Last updated: " + data.updated;
+    })
+    .catch(() => {
+        document.getElementById("last-updated").innerText =
+            "Last updated: unavailable";
+    });
 }
 
-/* SCROLL HELPER */
-function scrollToSection(id){
-    setTimeout(()=>{
-        const el = document.getElementById(id);
-        if(el){
-            el.scrollIntoView({behavior:"smooth"});
-        }
-    }, 200); // wait for DOM render
-}
-
-/* STRATEGY PANEL */
-function updateStrategyPanel(name){
-    const panel = document.getElementById("strategy-panel");
-    if(panel){
-        panel.innerText = STRATEGY_TEXT[name] || "";
-    }
-}
-
-/* LOAD IMAGES */
+/* LOAD IMAGES (FIXED) */
 function loadImages(folder, id){
+
     fetch(`data/${folder}/index.json?t=`+Date.now())
     .then(r=>r.json())
     .then(files=>{
@@ -45,11 +26,16 @@ function loadImages(folder, id){
         c.innerHTML="";
 
         if (!files || files.length === 0) {
-            c.innerHTML = `<div style="text-align:center;padding:30px;">No setups today</div>`;
+            c.innerHTML = `
+                <div style="text-align:center;padding:30px;">
+                    No stocks met this condition today.<br>
+                    Check tomorrow.
+                </div>`;
             return;
         }
 
-        images = files.map(f=>`data/${folder}/${f}`);
+        // 🔥 store per section
+        imagesMap[id] = files.map(f=>`data/${folder}/${f}`);
 
         files.forEach((f,i)=>{
             const div=document.createElement("div");
@@ -60,38 +46,35 @@ function loadImages(folder, id){
                 <button class="tv-btn" onclick="openTV(event,'${f}')">TradingView</button>
             `;
 
-            div.onclick=()=>openModal(i);
+            // 🔥 FIX: use correct image set
+            div.onclick=()=>openModal(id, i);
+
             c.appendChild(div);
         });
     });
 }
 
-/* TRADINGVIEW */
-function openTV(e,f){
-    e.stopPropagation();
-    const s=f.replace(".png","");
-    window.open(`https://www.tradingview.com/chart/?symbol=NSE:${s}`);
-}
+/* MODAL OPEN (FIXED) */
+function openModal(sectionId, i){
+    currentImages = imagesMap[sectionId];
+    index = i;
 
-/* MODAL */
-function openModal(i){
-    index=i;
     document.getElementById("modal").style.display="flex";
     updateImage();
 }
 
+/* UPDATE IMAGE */
 function updateImage(){
-    document.getElementById("modal-img").src = images[index]+"?t="+Date.now();
-    updateCounter();
+    document.getElementById("modal-img").src =
+        currentImages[index] + "?t=" + Date.now();
+
+    document.getElementById("chart-counter").innerText =
+        `${index+1} / ${currentImages.length}`;
 }
 
-function closeModal(){
-    document.getElementById("modal").style.display="none";
-}
-
-/* NAV */
+/* NAVIGATION */
 function nextImage(){
-    if(index < images.length-1){
+    if(index < currentImages.length-1){
         index++;
         updateImage();
     }
@@ -104,6 +87,11 @@ function prevImage(){
     }
 }
 
+/* CLOSE */
+function closeModal(){
+    document.getElementById("modal").style.display="none";
+}
+
 /* KEYBOARD */
 document.addEventListener("keydown",(e)=>{
     if(document.getElementById("modal").style.display !== "flex") return;
@@ -114,56 +102,55 @@ document.addEventListener("keydown",(e)=>{
 });
 
 /* SWIPE */
-let touchStartX = 0;
+let startX = 0;
 
 document.addEventListener("touchstart", e=>{
-    touchStartX = e.changedTouches[0].screenX;
+    startX = e.changedTouches[0].screenX;
 });
 
 document.addEventListener("touchend", e=>{
-    let diff = e.changedTouches[0].screenX - touchStartX;
+    let diff = e.changedTouches[0].screenX - startX;
 
     if(diff > 50) prevImage();
     if(diff < -50) nextImage();
 });
 
-/* COUNTER */
-function updateCounter(){
-    const el = document.getElementById("chart-counter");
-    if(el){
-        el.innerText = `${index+1} / ${images.length}`;
-    }
-}
-
-/* TILE NAVIGATION (FIXED) */
+/* NAV */
 function goToConfluence(){
-    showTab("swing");
     loadImages("swing/confluence","swing-confluence");
-    updateStrategyPanel("confluence");
-    scrollToSection("swing-confluence");
+    scrollTo("swing-confluence");
 }
 
 function goToStrategy(s){
-    showTab("swing");
     loadImages(`swing/${s}`,"strategy-results");
-    updateStrategyPanel(s);
-    scrollToSection("strategy-results");
+    scrollTo("strategy-results");
 }
 
 function goToWyckoff(){
-    showTab("wyckoff");
     loadImages("wyckoff/ranking/charts","ranking");
-    scrollToSection("ranking");
+    scrollTo("ranking");
+}
+
+/* SCROLL */
+function scrollTo(id){
+    setTimeout(()=>{
+        document.getElementById(id).scrollIntoView({
+            behavior:"smooth"
+        });
+    },200);
+}
+
+/* BACK TO TOP */
+function scrollToTop(){
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 }
 
 /* INIT */
 window.onload=()=>{
+    loadLastUpdated();
     loadImages("swing/confluence","swing-confluence");
     loadImages("wyckoff/ranking/charts","ranking");
 };
-function scrollToTop(){
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}

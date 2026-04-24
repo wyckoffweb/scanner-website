@@ -12,22 +12,22 @@
     <div id="last-updated">Last updated: ...</div>
 
     <div class="tabs">
-        <button onclick="showTab('swing')">Swing</button>
-        <button onclick="showTab('wyckoff')">Wyckoff</button>
+        <button onclick="goToConfluence()">Swing</button>
+        <button onclick="goToWyckoff()">Wyckoff</button>
     </div>
 </header>
 
 <!-- TILE MENU -->
 <div id="tile-menu" class="tile-container">
 
-    <div class="tile" onclick="goToConfluence()">🔥 Confluence <span id="count-confluence"></span></div>
-    <div class="tile" onclick="goToStrategy('breakout')">📈 Breakout <span id="count-breakout"></span></div>
-    <div class="tile" onclick="goToStrategy('ema50_pullback')">📉 EMA Pullback <span id="count-ema50_pullback"></span></div>
-    <div class="tile" onclick="goToStrategy('ema20_trend')">📊 EMA20 Trend <span id="count-ema20_trend"></span></div>
-    <div class="tile" onclick="goToStrategy('rsi_momentum')">⚡ RSI <span id="count-rsi_momentum"></span></div>
-    <div class="tile" onclick="goToStrategy('bollinger')">📦 Bollinger <span id="count-bollinger"></span></div>
-    <div class="tile" onclick="goToStrategy('golden_cross')">🏆 Golden Cross <span id="count-golden_cross"></span></div>
-    <div class="tile" onclick="goToWyckoff()">🏆 Wyckoff <span id="count-ranking"></span></div>
+    <div class="tile" onclick="goToConfluence()">🔥 Confluence</div>
+    <div class="tile" onclick="goToStrategy('breakout')">📈 Breakout</div>
+    <div class="tile" onclick="goToStrategy('ema50_pullback')">📉 EMA Pullback</div>
+    <div class="tile" onclick="goToStrategy('ema20_trend')">📊 EMA20 Trend</div>
+    <div class="tile" onclick="goToStrategy('rsi_momentum')">⚡ RSI</div>
+    <div class="tile" onclick="goToStrategy('bollinger')">📦 Bollinger</div>
+    <div class="tile" onclick="goToStrategy('golden_cross')">🏆 Golden Cross</div>
+    <div class="tile" onclick="goToWyckoff()">🏆 Wyckoff</div>
 
 </div>
 
@@ -37,7 +37,7 @@
 </div>
 
 <!-- SWING -->
-<section id="swing">
+<section>
     <h2>🔥 Confluence</h2>
     <div id="swing-confluence" class="grid"></div>
 
@@ -46,27 +46,28 @@
 </section>
 
 <!-- WYCKOFF -->
-<section id="wyckoff" style="display:none">
+<section>
     <h2>🏆 Ranking</h2>
     <div id="ranking" class="grid"></div>
 </section>
 
 <!-- MODAL -->
 <div id="modal" class="modal">
-    <span onclick="closeModal()" class="close-btn">✕</span>
+    <span class="close-btn" onclick="closeModal()">✕</span>
+
     <div class="nav-arrow left" onclick="prevImage()">❮</div>
 
     <img id="modal-img">
+
     <div id="chart-counter">1 / 1</div>
 
     <div class="nav-arrow right" onclick="nextImage()">❯</div>
 </div>
 
+<!-- BACK TO TOP -->
 <button id="topBtn" onclick="scrollToTop()">↑</button>
 
 <script src="script.js"></script>
-
-<button id="topBtn" onclick="scrollToTop()">↑</button>
 
 </body>
 </html>
