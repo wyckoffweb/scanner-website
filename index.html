@@ -3,7 +3,6 @@
 <head>
     <title>Wyckoff Scanner</title>
 
-    <!-- 🔥 IMPORTANT (fixes mobile layout) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="style.css">
@@ -16,24 +15,39 @@
     <div id="last-updated">Last updated: ...</div>
 </header>
 
-<!-- TILE MENU -->
 <div class="tile-container">
 
-    <div class="tile">🔥 Confluence <span>(0)</span></div>
-    <div class="tile">📈 Breakout <span>(0)</span></div>
-    <div class="tile">📉 EMA Pullback <span>(0)</span></div>
-    <div class="tile">📊 EMA20 Trend <span>(0)</span></div>
-    <div class="tile">⚡ RSI <span>(0)</span></div>
-    <div class="tile">📦 Bollinger <span>(0)</span></div>
-    <div class="tile">🏆 Golden Cross <span>(0)</span></div>
-    <div class="tile">🏆 Wyckoff <span>(0)</span></div>
+    <div class="tile" onclick="loadSection('confluence', this)">🔥 Confluence <span id="count-confluence">(0)</span></div>
+    <div class="tile" onclick="loadSection('breakout', this)">📈 Breakout <span id="count-breakout">(0)</span></div>
+    <div class="tile" onclick="loadSection('ema50_pullback', this)">📉 EMA Pullback <span id="count-ema50_pullback">(0)</span></div>
+    <div class="tile" onclick="loadSection('ema20_trend', this)">📊 EMA20 Trend <span id="count-ema20_trend">(0)</span></div>
+    <div class="tile" onclick="loadSection('rsi_momentum', this)">⚡ RSI <span id="count-rsi_momentum">(0)</span></div>
+    <div class="tile" onclick="loadSection('bollinger', this)">📦 Bollinger <span id="count-bollinger">(0)</span></div>
+    <div class="tile" onclick="loadSection('golden_cross', this)">🏆 Golden Cross <span id="count-golden_cross">(0)</span></div>
+    <div class="tile" onclick="loadSection('ranking', this)">🏆 Wyckoff <span id="count-ranking">(0)</span></div>
 
 </div>
 
 <section>
-    <h2>Charts</h2>
-    <div class="grid"></div>
+    <h2 id="section-title">Charts</h2>
+    <div id="main-grid" class="grid"></div>
 </section>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+    <span class="close-btn" onclick="closeModal()">✕</span>
+    <div class="nav-arrow left" onclick="prevImage()">❮</div>
+
+    <img id="modal-img">
+
+    <div id="chart-counter"></div>
+
+    <div class="nav-arrow right" onclick="nextImage()">❯</div>
+</div>
+
+<button id="topBtn" onclick="scrollToTop()">↑</button>
+
+<script src="script.js"></script>
 
 </body>
 </html>

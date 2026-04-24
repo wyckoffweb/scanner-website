@@ -1,37 +1,37 @@
 let images = [];
 let index = 0;
 
-/* LOAD COUNTS FIRST (FIX) */
-function loadAllCounts(){
+/* LOAD COUNTS */
+function loadCounts(){
 
     const map = {
-        confluence: ["swing/confluence","count-confluence"],
-        breakout: ["swing/breakout","count-breakout"],
-        ema50_pullback: ["swing/ema50_pullback","count-ema50_pullback"],
-        ema20_trend: ["swing/ema20_trend","count-ema20_trend"],
-        rsi_momentum: ["swing/rsi_momentum","count-rsi_momentum"],
-        bollinger: ["swing/bollinger","count-bollinger"],
-        golden_cross: ["swing/golden_cross","count-golden_cross"],
-        ranking: ["wyckoff/ranking/charts","count-ranking"]
+        confluence: "swing/confluence",
+        breakout: "swing/breakout",
+        ema50_pullback: "swing/ema50_pullback",
+        ema20_trend: "swing/ema20_trend",
+        rsi_momentum: "swing/rsi_momentum",
+        bollinger: "swing/bollinger",
+        golden_cross: "swing/golden_cross",
+        ranking: "wyckoff/ranking/charts"
     };
 
-    Object.values(map).forEach(([folder, id])=>{
-        fetch(`data/${folder}/index.json?t=`+Date.now())
+    for (let key in map){
+        fetch(`data/${map[key]}/index.json?t=${Date.now()}`)
         .then(r=>r.json())
         .then(files=>{
-            document.getElementById(id).innerText =
-                `(${files.length})`;
+            document.getElementById("count-"+key).innerText = `(${files.length})`;
         })
         .catch(()=>{
-            document.getElementById(id).innerText="(0)";
+            document.getElementById("count-"+key).innerText = "(0)";
         });
-    });
+    }
 }
 
 /* LOAD SECTION */
 function loadSection(name, el){
 
-    highlightTile(el);
+    document.querySelectorAll(".tile").forEach(t=>t.classList.remove("active"));
+    if(el) el.classList.add("active");
 
     const map = {
         confluence: ["🔥 Confluence","swing/confluence"],
@@ -48,22 +48,21 @@ function loadSection(name, el){
 
     document.getElementById("section-title").innerText = title;
 
-    fetch(`data/${folder}/index.json?t=` + Date.now())
+    fetch(`data/${folder}/index.json?t=${Date.now()}`)
     .then(r=>r.json())
     .then(files=>{
 
         const grid = document.getElementById("main-grid");
         grid.innerHTML = "";
 
-        if(!files || files.length===0){
+        if(!files || files.length === 0){
             grid.innerHTML = "No setups today";
             return;
         }
 
-        images = files.map(f=>`data/${folder}/${f}`);
+        images = files.map(f=>`data/${folder}/${f}?t=${Date.now()}`);
 
         files.forEach((f,i)=>{
-
             const div=document.createElement("div");
             div.className="card";
 
@@ -74,22 +73,6 @@ function loadSection(name, el){
             grid.appendChild(div);
         });
 
-    });
-}
-
-/* TILE ACTIVE */
-function highlightTile(el){
-    document.querySelectorAll(".tile").forEach(t=>t.classList.remove("active"));
-    el.classList.add("active");
-}
-
-/* LAST UPDATED */
-function loadLastUpdated(){
-    fetch("data/last_updated.json?t="+Date.now())
-    .then(r=>r.json())
-    .then(d=>{
-        document.getElementById("last-updated").innerText =
-            "Last updated: " + d.updated;
     });
 }
 
@@ -113,28 +96,36 @@ function closeModal(){ document.getElementById("modal").style.display="none";}
 /* KEYBOARD */
 document.addEventListener("keydown",e=>{
     if(document.getElementById("modal").style.display!=="flex") return;
-
     if(e.key==="ArrowRight") nextImage();
     if(e.key==="ArrowLeft") prevImage();
     if(e.key==="Escape") closeModal();
 });
 
 /* SWIPE */
-let startX = 0;
+let startX=0;
 
 document.addEventListener("touchstart", e=>{
     if(document.getElementById("modal").style.display!=="flex") return;
-    startX = e.changedTouches[0].screenX;
+    startX=e.changedTouches[0].screenX;
 });
 
 document.addEventListener("touchend", e=>{
     if(document.getElementById("modal").style.display!=="flex") return;
+    let diff=e.changedTouches[0].screenX-startX;
 
-    let diff = e.changedTouches[0].screenX - startX;
-
-    if(diff > 60) prevImage();
-    if(diff < -60) nextImage();
+    if(diff>60) prevImage();
+    if(diff<-60) nextImage();
 });
+
+/* LAST UPDATED */
+function loadLastUpdated(){
+    fetch("data/last_updated.json?t="+Date.now())
+    .then(r=>r.json())
+    .then(d=>{
+        document.getElementById("last-updated").innerText =
+            "Last updated: " + d.updated;
+    });
+}
 
 /* SCROLL */
 function scrollToTop(){
@@ -144,6 +135,7 @@ function scrollToTop(){
 /* INIT */
 window.onload=()=>{
     loadLastUpdated();
-    loadAllCounts();   // 🔥 FIX
+    loadCounts();
     loadSection("confluence", document.querySelector(".tile"));
 };
+
