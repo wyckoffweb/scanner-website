@@ -10,61 +10,75 @@
 <header>
     <h1>📊 Wyckoff Scanner</h1>
     <div id="last-updated">Last updated: ...</div>
-
-    <div class="tabs">
-        <button onclick="goToConfluence()">Swing</button>
-        <button onclick="goToWyckoff()">Wyckoff</button>
-    </div>
 </header>
 
 <!-- TILE MENU -->
-<div id="tile-menu" class="tile-container">
+<div class="tile-container">
 
-    <div class="tile" onclick="goToConfluence()">🔥 Confluence</div>
-    <div class="tile" onclick="goToStrategy('breakout')">📈 Breakout</div>
-    <div class="tile" onclick="goToStrategy('ema50_pullback')">📉 EMA Pullback</div>
-    <div class="tile" onclick="goToStrategy('ema20_trend')">📊 EMA20 Trend</div>
-    <div class="tile" onclick="goToStrategy('rsi_momentum')">⚡ RSI</div>
-    <div class="tile" onclick="goToStrategy('bollinger')">📦 Bollinger</div>
-    <div class="tile" onclick="goToStrategy('golden_cross')">🏆 Golden Cross</div>
-    <div class="tile" onclick="goToWyckoff()">🏆 Wyckoff</div>
+    <div class="tile" onclick="goToSection('confluence')">🔥 Confluence</div>
+    <div class="tile" onclick="goToSection('breakout')">📈 Breakout</div>
+    <div class="tile" onclick="goToSection('ema50_pullback')">📉 EMA Pullback</div>
+    <div class="tile" onclick="goToSection('ema20_trend')">📊 EMA20 Trend</div>
+    <div class="tile" onclick="goToSection('rsi_momentum')">⚡ RSI</div>
+    <div class="tile" onclick="goToSection('bollinger')">📦 Bollinger</div>
+    <div class="tile" onclick="goToSection('golden_cross')">🏆 Golden Cross</div>
+    <div class="tile" onclick="goToSection('ranking')">🏆 Wyckoff</div>
 
 </div>
 
-<!-- STRATEGY PANEL -->
-<div id="strategy-panel" class="strategy-panel">
-    Select a strategy to see logic
-</div>
+<!-- SECTIONS -->
 
-<!-- SWING -->
-<section>
+<section id="confluence">
     <h2>🔥 Confluence</h2>
-    <div id="swing-confluence" class="grid"></div>
-
-    <h2>📈 Strategies</h2>
-    <div id="strategy-results" class="grid"></div>
+    <div class="grid" id="confluence-grid"></div>
 </section>
 
-<!-- WYCKOFF -->
-<section>
-    <h2>🏆 Ranking</h2>
-    <div id="ranking" class="grid"></div>
+<section id="breakout">
+    <h2>📈 Breakout</h2>
+    <div class="grid" id="breakout-grid"></div>
+</section>
+
+<section id="ema50_pullback">
+    <h2>📉 EMA Pullback</h2>
+    <div class="grid" id="ema50_pullback-grid"></div>
+</section>
+
+<section id="ema20_trend">
+    <h2>📊 EMA20 Trend</h2>
+    <div class="grid" id="ema20_trend-grid"></div>
+</section>
+
+<section id="rsi_momentum">
+    <h2>⚡ RSI Momentum</h2>
+    <div class="grid" id="rsi_momentum-grid"></div>
+</section>
+
+<section id="bollinger">
+    <h2>📦 Bollinger</h2>
+    <div class="grid" id="bollinger-grid"></div>
+</section>
+
+<section id="golden_cross">
+    <h2>🏆 Golden Cross</h2>
+    <div class="grid" id="golden_cross-grid"></div>
+</section>
+
+<section id="ranking">
+    <h2>🏆 Wyckoff Ranking</h2>
+    <div class="grid" id="ranking-grid"></div>
 </section>
 
 <!-- MODAL -->
 <div id="modal" class="modal">
     <span class="close-btn" onclick="closeModal()">✕</span>
-
     <div class="nav-arrow left" onclick="prevImage()">❮</div>
 
     <img id="modal-img">
-
     <div id="chart-counter">1 / 1</div>
 
     <div class="nav-arrow right" onclick="nextImage()">❯</div>
 </div>
 
-<!-- BACK TO TOP -->
 <button id="topBtn" onclick="scrollToTop()">↑</button>
 
 <script src="script.js"></script>
