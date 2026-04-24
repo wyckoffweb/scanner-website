@@ -1,156 +1,95 @@
-let imagesMap = {};   // 🔥 FIX: store images per section
-let currentImages = [];
+let images = [];
 let index = 0;
 
-/* LAST UPDATED */
-function loadLastUpdated() {
-    fetch("data/last_updated.json?t=" + Date.now())
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("last-updated").innerText =
-            "Last updated: " + data.updated;
-    })
-    .catch(() => {
-        document.getElementById("last-updated").innerText =
-            "Last updated: unavailable";
-    });
-}
+/* LOAD SECTION */
+function loadSection(name){
 
-/* LOAD IMAGES (FIXED) */
-function loadImages(folder, id){
+    const map = {
+        confluence: ["🔥 Confluence","swing/confluence"],
+        breakout: ["📈 Breakout","swing/breakout"],
+        ema50_pullback: ["📉 EMA Pullback","swing/ema50_pullback"],
+        ema20_trend: ["📊 EMA20 Trend","swing/ema20_trend"],
+        rsi_momentum: ["⚡ RSI","swing/rsi_momentum"],
+        bollinger: ["📦 Bollinger","swing/bollinger"],
+        golden_cross: ["🏆 Golden Cross","swing/golden_cross"],
+        ranking: ["🏆 Wyckoff Ranking","wyckoff/ranking/charts"]
+    };
 
-    fetch(`data/${folder}/index.json?t=`+Date.now())
+    const [title, folder] = map[name];
+
+    document.getElementById("section-title").innerText = title;
+
+    fetch(`data/${folder}/index.json?t=` + Date.now())
     .then(r=>r.json())
     .then(files=>{
-        const c=document.getElementById(id);
-        c.innerHTML="";
 
-        if (!files || files.length === 0) {
-            c.innerHTML = `
-                <div style="text-align:center;padding:30px;">
-                    No stocks met this condition today.<br>
-                    Check tomorrow.
-                </div>`;
+        const grid = document.getElementById("main-grid");
+        grid.innerHTML = "";
+
+        if(!files || files.length === 0){
+            grid.innerHTML = "<div>No setups today</div>";
             return;
         }
 
-        // 🔥 store per section
-        imagesMap[id] = files.map(f=>`data/${folder}/${f}`);
+        images = files.map(f=>`data/${folder}/${f}`);
 
         files.forEach((f,i)=>{
-            const div=document.createElement("div");
-            div.className="card";
 
-            div.innerHTML=`
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
                 <img src="data/${folder}/${f}?t=${Date.now()}">
-                <button class="tv-btn" onclick="openTV(event,'${f}')">TradingView</button>
+                <button class="tv-btn" onclick="openTV(event,'${f}')">TV</button>
             `;
 
-            // 🔥 FIX: use correct image set
-            div.onclick=()=>openModal(id, i);
+            card.onclick = ()=>openModal(i);
 
-            c.appendChild(div);
+            grid.appendChild(card);
         });
+
     });
-}
 
-/* MODAL OPEN (FIXED) */
-function openModal(sectionId, i){
-    currentImages = imagesMap[sectionId];
-    index = i;
-
-    document.getElementById("modal").style.display="flex";
-    updateImage();
-}
-
-/* UPDATE IMAGE */
-function updateImage(){
-    document.getElementById("modal-img").src =
-        currentImages[index] + "?t=" + Date.now();
-
-    document.getElementById("chart-counter").innerText =
-        `${index+1} / ${currentImages.length}`;
-}
-
-/* NAVIGATION */
-function nextImage(){
-    if(index < currentImages.length-1){
-        index++;
-        updateImage();
-    }
-}
-
-function prevImage(){
-    if(index > 0){
-        index--;
-        updateImage();
-    }
-}
-
-/* CLOSE */
-function closeModal(){
-    document.getElementById("modal").style.display="none";
-}
-
-/* KEYBOARD */
-document.addEventListener("keydown",(e)=>{
-    if(document.getElementById("modal").style.display !== "flex") return;
-
-    if(e.key==="ArrowRight") nextImage();
-    if(e.key==="ArrowLeft") prevImage();
-    if(e.key==="Escape") closeModal();
-});
-
-/* SWIPE */
-let startX = 0;
-
-document.addEventListener("touchstart", e=>{
-    startX = e.changedTouches[0].screenX;
-});
-
-document.addEventListener("touchend", e=>{
-    let diff = e.changedTouches[0].screenX - startX;
-
-    if(diff > 50) prevImage();
-    if(diff < -50) nextImage();
-});
-
-/* NAV */
-function goToConfluence(){
-    loadImages("swing/confluence","swing-confluence");
-    scrollTo("swing-confluence");
-}
-
-function goToStrategy(s){
-    loadImages(`swing/${s}`,"strategy-results");
-    scrollTo("strategy-results");
-}
-
-function goToWyckoff(){
-    loadImages("wyckoff/ranking/charts","ranking");
-    scrollTo("ranking");
-}
-
-/* SCROLL */
-function scrollTo(id){
     setTimeout(()=>{
-        document.getElementById(id).scrollIntoView({
+        document.getElementById("main-section").scrollIntoView({
             behavior:"smooth"
         });
     },200);
 }
 
-/* BACK TO TOP */
+/* MODAL */
+function openModal(i){
+    index = i;
+    document.getElementById("modal").style.display = "flex";
+    updateImage();
+}
+
+function updateImage(){
+    document.getElementById("modal-img").src = images[index];
+    document.getElementById("chart-counter").innerText =
+        `${index+1} / ${images.length}`;
+}
+
+function nextImage(){ if(index < images.length-1){ index++; updateImage(); } }
+function prevImage(){ if(index > 0){ index--; updateImage(); } }
+
+function closeModal(){
+    document.getElementById("modal").style.display = "none";
+}
+
+/* TV */
+function openTV(e,f){
+    e.stopPropagation();
+    const s=f.replace(".png","");
+    window.open(`https://www.tradingview.com/chart/?symbol=NSE:${s}`);
+}
+
+/* SCROLL */
 function scrollToTop(){
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+    window.scrollTo({top:0,behavior:"smooth"});
 }
 
 /* INIT */
-window.onload=()=>{
-    loadLastUpdated();
-    loadImages("swing/confluence","swing-confluence");
-    loadImages("wyckoff/ranking/charts","ranking");
+window.onload = ()=>{
+    loadSection("confluence");
 };

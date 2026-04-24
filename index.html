@@ -15,57 +15,24 @@
 <!-- TILE MENU -->
 <div class="tile-container">
 
-    <div class="tile" onclick="goToSection('confluence')">🔥 Confluence</div>
-    <div class="tile" onclick="goToSection('breakout')">📈 Breakout</div>
-    <div class="tile" onclick="goToSection('ema50_pullback')">📉 EMA Pullback</div>
-    <div class="tile" onclick="goToSection('ema20_trend')">📊 EMA20 Trend</div>
-    <div class="tile" onclick="goToSection('rsi_momentum')">⚡ RSI</div>
-    <div class="tile" onclick="goToSection('bollinger')">📦 Bollinger</div>
-    <div class="tile" onclick="goToSection('golden_cross')">🏆 Golden Cross</div>
-    <div class="tile" onclick="goToSection('ranking')">🏆 Wyckoff</div>
+    <div class="tile" onclick="loadSection('confluence')">🔥 Confluence</div>
+    <div class="tile" onclick="loadSection('breakout')">📈 Breakout</div>
+    <div class="tile" onclick="loadSection('ema50_pullback')">📉 EMA Pullback</div>
+    <div class="tile" onclick="loadSection('ema20_trend')">📊 EMA20 Trend</div>
+    <div class="tile" onclick="loadSection('rsi_momentum')">⚡ RSI</div>
+    <div class="tile" onclick="loadSection('bollinger')">📦 Bollinger</div>
+    <div class="tile" onclick="loadSection('golden_cross')">🏆 Golden Cross</div>
+    <div class="tile" onclick="loadSection('ranking')">🏆 Wyckoff</div>
 
 </div>
 
-<!-- SECTIONS -->
+<!-- DYNAMIC SECTION -->
+<section id="main-section">
 
-<section id="confluence">
-    <h2>🔥 Confluence</h2>
-    <div class="grid" id="confluence-grid"></div>
-</section>
+    <h2 id="section-title">🔥 Confluence</h2>
 
-<section id="breakout">
-    <h2>📈 Breakout</h2>
-    <div class="grid" id="breakout-grid"></div>
-</section>
+    <div id="main-grid" class="grid"></div>
 
-<section id="ema50_pullback">
-    <h2>📉 EMA Pullback</h2>
-    <div class="grid" id="ema50_pullback-grid"></div>
-</section>
-
-<section id="ema20_trend">
-    <h2>📊 EMA20 Trend</h2>
-    <div class="grid" id="ema20_trend-grid"></div>
-</section>
-
-<section id="rsi_momentum">
-    <h2>⚡ RSI Momentum</h2>
-    <div class="grid" id="rsi_momentum-grid"></div>
-</section>
-
-<section id="bollinger">
-    <h2>📦 Bollinger</h2>
-    <div class="grid" id="bollinger-grid"></div>
-</section>
-
-<section id="golden_cross">
-    <h2>🏆 Golden Cross</h2>
-    <div class="grid" id="golden_cross-grid"></div>
-</section>
-
-<section id="ranking">
-    <h2>🏆 Wyckoff Ranking</h2>
-    <div class="grid" id="ranking-grid"></div>
 </section>
 
 <!-- MODAL -->
