@@ -17,7 +17,7 @@ header {
     color: #9ca3af;
 }
 
-/* TILE CONTAINER (DESKTOP GRID) */
+/* TILE CONTAINER (DESKTOP AUTO) */
 .tile-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -28,31 +28,46 @@ header {
 /* TILE */
 .tile {
     background: #1f2937;
-    padding: 14px;
+    padding: 12px;
     border-radius: 10px;
     cursor: pointer;
     text-align: center;
+    font-size: 14px;
     transition: 0.2s;
+}
+
+.tile:hover {
+    background: #374151;
 }
 
 .tile.active {
     background: #2563eb;
 }
 
+/* TILE COUNT */
 .tile span {
     display: block;
-    font-size: 12px;
+    font-size: 11px;
     color: #9ca3af;
 }
 
-/* MOBILE: FORCE 2 ROWS */
+/* 🔥 MOBILE: EXACTLY 4 PER ROW */
 @media (max-width: 600px) {
     .tile-container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .tile {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .tile span {
+        font-size: 10px;
     }
 }
 
-/* GRID */
+/* GRID (CHARTS) */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
@@ -60,8 +75,10 @@ header {
     padding: 10px;
 }
 
+/* CARD */
 .card img {
     width: 100%;
+    display: block;
 }
 
 /* MODAL */
@@ -82,31 +99,38 @@ header {
     max-height: 90%;
 }
 
+/* CLOSE BUTTON */
 .close-btn {
     position:absolute;
     top:20px;
     right:20px;
     cursor:pointer;
+    font-size: 20px;
 }
 
+/* NAV ARROWS */
 .nav-arrow {
     position:absolute;
     top:50%;
+    transform: translateY(-50%);
     font-size:40px;
     cursor:pointer;
+    user-select:none;
 }
 
 .left { left:10px; }
 .right { right:10px; }
 
+/* COUNTER */
 #chart-counter {
     position:absolute;
     bottom:20px;
     left:50%;
     transform:translateX(-50%);
+    font-size: 14px;
 }
 
-/* TOP BUTTON */
+/* BACK TO TOP */
 #topBtn {
     position: fixed;
     bottom:20px;
@@ -117,4 +141,6 @@ header {
     background:#2563eb;
     color:white;
     border:none;
+    font-size: 20px;
+    z-index: 9999;
 }
