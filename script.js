@@ -34,13 +34,13 @@ function loadSection(name, el){
     if(el) el.classList.add("active");
 
     const map = {
-        confluence: ["🔥 Confluence","swing/confluence"],
-        breakout: ["📈 Breakout","swing/breakout"],
-        ema50_pullback: ["📉 EMA Pullback","swing/ema50_pullback"],
-        ema20_trend: ["📊 EMA20 Trend","swing/ema20_trend"],
-        rsi_momentum: ["⚡ RSI","swing/rsi_momentum"],
-        bollinger: ["📦 Bollinger","swing/bollinger"],
-        golden_cross: ["🏆 Golden Cross","swing/golden_cross"],
+        confluence: ["🔥 Multi-Signal Confluence","swing/confluence"],
+        breakout: ["📈 Clean Breakout","swing/breakout"],
+        ema50_pullback: ["📉 Precision Pullback","swing/ema50_pullback"],
+        ema20_trend: ["📊 Momentum Continuation","swing/ema20_trend"],
+        rsi_momentum: ["⚡ Momentum Ignition","swing/rsi_momentum"],
+        bollinger: ["📦 Volatility Expansion","swing/bollinger"],
+        golden_cross: ["🏆 Structural Trend Shift","swing/golden_cross"],
         ranking: ["🏆 Wyckoff Ranking","wyckoff/ranking/charts"]
     };
 
@@ -138,4 +138,3 @@ window.onload=()=>{
     loadCounts();
     loadSection("confluence", document.querySelector(".tile"));
 };
-
