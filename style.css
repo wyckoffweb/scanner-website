@@ -5,7 +5,6 @@ body {
     font-family: system-ui;
 }
 
-/* HEADER */
 header {
     text-align: center;
     padding: 12px;
@@ -17,7 +16,7 @@ header {
     color: #9ca3af;
 }
 
-/* TILE MENU */
+/* TILE */
 .tile-container {
     display: flex;
     gap: 10px;
@@ -31,17 +30,15 @@ header {
     border-radius: 10px;
     cursor: pointer;
     white-space: nowrap;
-    transition: 0.2s;
+}
+
+.tile.active {
+    background: #2563eb;
 }
 
 .tile span {
     font-size: 12px;
     color: #9ca3af;
-}
-
-/* ACTIVE TILE */
-.tile.active {
-    background: #2563eb;
 }
 
 /* GRID */
@@ -54,13 +51,6 @@ header {
 
 .card img {
     width: 100%;
-}
-
-.tv-btn {
-    width: 100%;
-    background: #2563eb;
-    border: none;
-    color: white;
 }
 
 /* MODAL */
@@ -93,6 +83,7 @@ header {
     top:50%;
     font-size:40px;
     cursor:pointer;
+    user-select:none;
 }
 
 .left { left:10px; }
@@ -116,4 +107,5 @@ header {
     background:#2563eb;
     color:white;
     border:none;
+    z-index:9999;
 }

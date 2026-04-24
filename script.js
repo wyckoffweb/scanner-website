@@ -28,35 +28,34 @@ function loadSection(name, el){
         const grid = document.getElementById("main-grid");
         grid.innerHTML = "";
 
-        if(!files || files.length === 0){
+        if(!files || files.length===0){
             grid.innerHTML = "No setups today";
-            document.getElementById(countId).innerText = "(0)";
+            document.getElementById(countId).innerText="(0)";
             return;
         }
 
-        document.getElementById(countId).innerText = `(${files.length})`;
+        document.getElementById(countId).innerText=`(${files.length})`;
 
         images = files.map(f=>`data/${folder}/${f}`);
 
         files.forEach((f,i)=>{
 
-            const card = document.createElement("div");
-            card.className="card";
+            const div=document.createElement("div");
+            div.className="card";
 
-            card.innerHTML=`
+            div.innerHTML=`
                 <img src="data/${folder}/${f}?t=${Date.now()}">
-                <button class="tv-btn" onclick="openTV(event,'${f}')">TV</button>
             `;
 
-            card.onclick = ()=>openModal(i);
+            div.onclick=()=>openModal(i);
 
-            grid.appendChild(card);
+            grid.appendChild(div);
         });
 
     });
 }
 
-/* ACTIVE TILE */
+/* TILE HIGHLIGHT */
 function highlightTile(el){
     document.querySelectorAll(".tile").forEach(t=>t.classList.remove("active"));
     el.classList.add("active");
@@ -69,10 +68,6 @@ function loadLastUpdated(){
     .then(d=>{
         document.getElementById("last-updated").innerText =
             "Last updated: " + d.updated;
-    })
-    .catch(()=>{
-        document.getElementById("last-updated").innerText =
-            "Last updated: unavailable";
     });
 }
 
@@ -84,7 +79,7 @@ function openModal(i){
 }
 
 function updateImage(){
-    document.getElementById("modal-img").src=images[index];
+    document.getElementById("modal-img").src = images[index];
     document.getElementById("chart-counter").innerText =
         `${index+1} / ${images.length}`;
 }
@@ -96,9 +91,27 @@ function closeModal(){ document.getElementById("modal").style.display="none";}
 /* KEYBOARD */
 document.addEventListener("keydown",e=>{
     if(document.getElementById("modal").style.display!=="flex") return;
+
     if(e.key==="ArrowRight") nextImage();
     if(e.key==="ArrowLeft") prevImage();
     if(e.key==="Escape") closeModal();
+});
+
+/* SWIPE (FIXED) */
+let startX = 0;
+
+document.addEventListener("touchstart", e=>{
+    if(document.getElementById("modal").style.display!=="flex") return;
+    startX = e.changedTouches[0].screenX;
+});
+
+document.addEventListener("touchend", e=>{
+    if(document.getElementById("modal").style.display!=="flex") return;
+
+    let diff = e.changedTouches[0].screenX - startX;
+
+    if(diff > 60) prevImage();
+    if(diff < -60) nextImage();
 });
 
 /* SCROLL */
