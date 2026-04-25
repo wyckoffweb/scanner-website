@@ -123,3 +123,13 @@ header {
     color:white;
     border:none;
 }
+
+.tv-btn {
+    width: 100%;
+    padding: 6px;
+    border: none;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+}
