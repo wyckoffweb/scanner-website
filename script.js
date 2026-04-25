@@ -63,10 +63,17 @@ function loadSection(name, el){
         images = files.map(f=>`data/${folder}/${f}?t=${Date.now()}`);
 
         files.forEach((f,i)=>{
+            const symbol = f.replace(".png","");
+
             const div=document.createElement("div");
             div.className="card";
 
-            div.innerHTML=`<img src="data/${folder}/${f}?t=${Date.now()}">`;
+            div.innerHTML=`
+                <img src="data/${folder}/${f}?t=${Date.now()}">
+                <button class="tv-btn" onclick="openTV(event,'${symbol}')">
+                    View on TradingView
+                </button>
+            `;
 
             div.onclick=()=>openModal(i);
 
@@ -74,6 +81,12 @@ function loadSection(name, el){
         });
 
     });
+}
+
+/* TRADINGVIEW LINK */
+function openTV(e, symbol){
+    e.stopPropagation();
+    window.open(`https://www.tradingview.com/chart/?symbol=NSE:${symbol}`);
 }
 
 /* MODAL */
