@@ -1,76 +1,192 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Wyckoff Scanner</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-    <link rel="stylesheet" href="style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Wyckoff Scanner
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
 
 <body>
 
-<header>
-    <h1>📊 Wyckoff Scanner</h1>
-    <div id="last-updated">Last updated: ...</div>
-</header>
+    <!-- ========================================= -->
+    <!-- HEADER -->
+    <!-- ========================================= -->
 
-<div class="tile-container">
+    <header class="top-header">
 
-    <div class="tile" onclick="loadSection('confluence', this)">
-        🔥 Multi-Signal Confluence <span id="count-confluence">(0)</span>
+        <h1>
+            Wyckoff Scanner
+        </h1>
+
+        <p class="subtitle">
+            Dynamic Trading Scanner Platform
+        </p>
+
+    </header>
+
+<!-- ========================================= -->
+<!-- STICKY NAVIGATION -->
+<!-- ========================================= -->
+
+<div id="stickyNav">
+
+    <!-- ========================================= -->
+    <!-- MAIN CATEGORY ROW -->
+    <!-- ========================================= -->
+
+    <section class="main-categories">
+
+        <button
+            class="main-tab active"
+            data-category="swing"
+        >
+            SWING SCANNER
+        </button>
+
+        <button
+            class="main-tab wyckoff-tab"
+            data-category="wyckoff"
+        >
+            WYCKOFF SCANNER
+            <span class="experimental">
+                Experimental
+            </span>
+        </button>
+
+        <button
+            class="main-tab"
+            data-category="learn"
+        >
+            LEARNERS CORNER
+        </button>
+
+    </section>
+
+    <!-- ========================================= -->
+    <!-- SUB CATEGORY ROW -->
+    <!-- ========================================= -->
+
+    <section
+        id="subCategories"
+        class="sub-categories"
+    >
+    </section>
+
     </div>
 
-    <div class="tile" onclick="loadSection('breakout', this)">
-        📈 Clean Breakout <span id="count-breakout">(0)</span>
+    <!-- ========================================= -->
+    <!-- LEARNERS SECTION -->
+    <!-- ========================================= -->
+
+    <section
+        id="learnersSection"
+        class="learners-section hidden"
+    >
+
+        <div class="learn-card">
+            <h2>
+                Learn Swing Strategies
+            </h2>
+
+            <p>
+                Momentum, breakout,
+                pullback and trend
+                continuation concepts.
+            </p>
+        </div>
+
+        <div class="learn-card">
+            <h2>
+                Learn Wyckoff Trading
+            </h2>
+
+            <p>
+                Accumulation,
+                distribution,
+                springs,
+                tests,
+                SOS and Phase analysis.
+            </p>
+        </div>
+
+        <div class="learn-card">
+            <h2>
+                Shariah Trading &
+                Investing
+            </h2>
+
+            <p>
+                Ethical investing,
+                halal screening and
+                long-term frameworks.
+            </p>
+        </div>
+
+    </section>
+
+    <!-- ========================================= -->
+    <!-- CHART GRID -->
+    <!-- ========================================= -->
+
+    <section
+        id="chartGrid"
+        class="chart-grid"
+    >
+    </section>
+
+    <!-- ========================================= -->
+    <!-- MODAL -->
+    <!-- ========================================= -->
+
+    <div
+        id="imageModal"
+        class="modal hidden"
+    >
+
+        <span
+            id="closeModal"
+            class="close-btn"
+        >
+            ×
+        </span>
+
+        <img
+            id="modalImage"
+            src=""
+            alt=""
+        >
+
     </div>
 
-    <div class="tile" onclick="loadSection('ema50_pullback', this)">
-        📉 Precision Pullback <span id="count-ema50_pullback">(0)</span>
-    </div>
+    <!-- ========================================= -->
+    <!-- FOOTER -->
+    <!-- ========================================= -->
 
-    <div class="tile" onclick="loadSection('ema20_trend', this)">
-        📊 Momentum Continuation <span id="count-ema20_trend">(0)</span>
-    </div>
+    <footer class="footer">
 
-    <div class="tile" onclick="loadSection('rsi_momentum', this)">
-        ⚡ Momentum Ignition <span id="count-rsi_momentum">(0)</span>
-    </div>
+        <p id="lastUpdated">
+            Loading...
+        </p>
 
-    <div class="tile" onclick="loadSection('bollinger', this)">
-        📦 Volatility Expansion <span id="count-bollinger">(0)</span>
-    </div>
+    </footer>
 
-    <div class="tile" onclick="loadSection('golden_cross', this)">
-        🏆 Structural Trend Shift <span id="count-golden_cross">(0)</span>
-    </div>
-
-    <div class="tile" onclick="loadSection('ranking', this)">
-        🏆 Wyckoff Ranking <span id="count-ranking">(0)</span>
-    </div>
-
-</div>
-
-<section>
-    <h2 id="section-title">Charts</h2>
-    <div id="main-grid" class="grid"></div>
-</section>
-
-<!-- MODAL -->
-<div id="modal" class="modal">
-    <span class="close-btn" onclick="closeModal()">✕</span>
-    <div class="nav-arrow left" onclick="prevImage()">❮</div>
-
-    <img id="modal-img">
-
-    <div id="chart-counter"></div>
-
-    <div class="nav-arrow right" onclick="nextImage()">❯</div>
-</div>
-
-<button id="topBtn" onclick="scrollToTop()">↑</button>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>

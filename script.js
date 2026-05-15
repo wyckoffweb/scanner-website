@@ -1,153 +1,631 @@
-let images = [];
-let index = 0;
+const mainTabs =
+    document.querySelectorAll(".main-tab");
 
-/* LOAD COUNTS */
-function loadCounts(){
+const subCategories =
+    document.getElementById("subCategories");
 
-    const map = {
-        confluence: "swing/confluence",
-        breakout: "swing/breakout",
-        ema50_pullback: "swing/ema50_pullback",
-        ema20_trend: "swing/ema20_trend",
-        rsi_momentum: "swing/rsi_momentum",
-        bollinger: "swing/bollinger",
-        golden_cross: "swing/golden_cross",
-        ranking: "wyckoff/ranking/charts"
-    };
+const chartGrid =
+    document.getElementById("chartGrid");
 
-    for (let key in map){
-        fetch(`data/${map[key]}/index.json?t=${Date.now()}`)
-        .then(r=>r.json())
-        .then(files=>{
-            document.getElementById("count-"+key).innerText = `(${files.length})`;
-        })
-        .catch(()=>{
-            document.getElementById("count-"+key).innerText = "(0)";
-        });
+const learnersSection =
+    document.getElementById("learnersSection");
+
+const modal =
+    document.getElementById("imageModal");
+
+const modalImage =
+    document.getElementById("modalImage");
+
+const closeModal =
+    document.getElementById("closeModal");
+
+const lastUpdated =
+    document.getElementById("lastUpdated");
+
+
+let scannersData = {};
+
+let currentImages = [];
+
+let currentIndex = 0;
+
+let touchStartX = 0;
+
+let touchEndX = 0;
+
+
+// ============================================
+// LOAD SCANNERS
+// ============================================
+
+async function loadScanners() {
+
+    try {
+
+        const response =
+            await fetch(
+                "data/scanners.json"
+            );
+
+        scannersData =
+            await response.json();
+
+        renderCategory("swing");
+
+        updateTimestamp();
+
+    } catch (err) {
+
+        console.error(err);
+
+        chartGrid.innerHTML = `
+            <p>
+                Failed to load scanners.json
+            </p>
+        `;
     }
 }
 
-/* LOAD SECTION */
-function loadSection(name, el){
 
-    document.querySelectorAll(".tile").forEach(t=>t.classList.remove("active"));
-    if(el) el.classList.add("active");
+// ============================================
+// TIMESTAMP
+// ============================================
 
-    const map = {
-        confluence: ["🔥 Multi-Signal Confluence","swing/confluence"],
-        breakout: ["📈 Clean Breakout","swing/breakout"],
-        ema50_pullback: ["📉 Precision Pullback","swing/ema50_pullback"],
-        ema20_trend: ["📊 Momentum Continuation","swing/ema20_trend"],
-        rsi_momentum: ["⚡ Momentum Ignition","swing/rsi_momentum"],
-        bollinger: ["📦 Volatility Expansion","swing/bollinger"],
-        golden_cross: ["🏆 Structural Trend Shift","swing/golden_cross"],
-        ranking: ["🏆 Wyckoff Ranking","wyckoff/ranking/charts"]
-    };
+function updateTimestamp() {
 
-    const [title, folder] = map[name];
+    const now =
+        new Date();
 
-    document.getElementById("section-title").innerText = title;
+    lastUpdated.textContent =
+        `Last Updated: ${now.toLocaleString()}`;
+}
 
-    fetch(`data/${folder}/index.json?t=${Date.now()}`)
-    .then(r=>r.json())
-    .then(files=>{
 
-        const grid = document.getElementById("main-grid");
-        grid.innerHTML = "";
+// ============================================
+// MAIN CATEGORY SWITCH
+// ============================================
 
-        if(!files || files.length === 0){
-            grid.innerHTML = "No setups today";
+mainTabs.forEach(tab => {
+
+    tab.addEventListener(
+        "click",
+        () => {
+
+            mainTabs.forEach(
+                t => t.classList.remove("active")
+            );
+
+            tab.classList.add("active");
+
+            renderCategory(
+                tab.dataset.category
+            );
+        }
+    );
+});
+
+
+// ============================================
+// RENDER CATEGORY
+// ============================================
+
+function renderCategory(category) {
+
+    chartGrid.innerHTML = "";
+
+    subCategories.innerHTML = "";
+
+    if (category === "learn") {
+
+        learnersSection.classList.remove(
+            "hidden"
+        );
+
+        return;
+    }
+
+    learnersSection.classList.add(
+        "hidden"
+    );
+
+    const scanners =
+        scannersData[category] || [];
+
+    scanners.forEach(scanner => {
+
+        const btn =
+            document.createElement("button");
+
+        btn.className =
+            "sub-tile";
+
+        if (category === "wyckoff") {
+
+            btn.classList.add(
+                "wyckoff"
+            );
+        }
+
+        btn.innerHTML = `
+            ${scanner.name}
+            (${scanner.count})
+        `;
+
+        btn.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(".sub-tile")
+                    .forEach(
+                        b => b.classList.remove("active")
+                    );
+
+                btn.classList.add(
+                    "active"
+                );
+
+                loadCharts(scanner);
+            }
+        );
+
+        subCategories.appendChild(btn);
+    });
+
+    // ========================================
+    // SMART DEFAULTS
+    // ========================================
+
+    setTimeout(() => {
+
+        let defaultTile = null;
+
+        if (category === "swing") {
+
+            defaultTile =
+                [...document.querySelectorAll(".sub-tile")]
+                .find(
+                    b => b.innerText
+                        .toLowerCase()
+                        .includes("confluence")
+                );
+        }
+
+        if (category === "wyckoff") {
+
+            defaultTile =
+                [...document.querySelectorAll(".sub-tile")]
+                .find(
+                    b => b.innerText
+                        .toLowerCase()
+                        .includes("ranking")
+                );
+        }
+
+        if (!defaultTile) {
+
+            defaultTile =
+                document.querySelector(
+                    ".sub-tile"
+                );
+        }
+
+        defaultTile?.click();
+
+    }, 100);
+}
+
+
+// ============================================
+// LOAD CHARTS
+// ============================================
+
+async function loadCharts(scanner) {
+
+    chartGrid.innerHTML = "";
+
+    currentImages = [];
+
+    try {
+
+        const response =
+            await fetch(
+                scanner.path
+            );
+
+        const html =
+            await response.text();
+
+        const parser =
+            new DOMParser();
+
+        const doc =
+            parser.parseFromString(
+                html,
+                "text/html"
+            );
+
+        const links =
+            [
+                ...doc.querySelectorAll("a")
+            ];
+
+        const pngs =
+            links
+                .map(
+                    a => a.getAttribute("href")
+                )
+                .filter(
+                    href =>
+                        href &&
+                        href.endsWith(".png")
+                );
+
+        if (pngs.length === 0) {
+
+            chartGrid.innerHTML = `
+                <p>
+                    No charts available.
+                </p>
+            `;
+
             return;
         }
 
-        images = files.map(f=>`data/${folder}/${f}?t=${Date.now()}`);
+        currentImages =
+            pngs.map(
+                file =>
+                    `${scanner.path}/${file}`
+            );
 
-        files.forEach((f,i)=>{
-            const symbol = f.replace(".png","");
+        pngs.forEach(
+            (file, index) => {
 
-            const div=document.createElement("div");
-            div.className="card";
+                const imgPath =
+                    `${scanner.path}/${file}`;
 
-            div.innerHTML=`
-                <img src="data/${folder}/${f}?t=${Date.now()}">
-                <button class="tv-btn" onclick="openTV(event,'${symbol}')">
-                    View on TradingView
-                </button>
-            `;
+                const symbol =
+                    file
+                        .replace(".png", "")
+                        .replace(".NS", "");
 
-            div.onclick=()=>openModal(i);
+                const tradingviewUrl =
+                    `https://www.tradingview.com/chart/?symbol=NSE:${symbol}`;
 
-            grid.appendChild(div);
-        });
+                const card =
+                    document.createElement("div");
 
-    });
+                card.className =
+                    "chart-card";
+
+                card.innerHTML = `
+
+                    <div class="chart-image-wrapper">
+
+                        <img
+                            src="${imgPath}"
+                            loading="lazy"
+                            alt="${file}"
+                        >
+
+                        <a
+                            class="tv-link"
+                            href="${tradingviewUrl}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Open in TradingView"
+                        >
+                            <img
+                                src="icons/tradingview.png"
+                                alt="TradingView"
+                            >
+                        </a>
+
+                    </div>
+
+                    <div class="chart-info">
+
+                        <h3>
+                            ${symbol}
+                        </h3>
+
+                        <p>
+                            ${scanner.name}
+                        </p>
+
+                    </div>
+                `;
+
+                card.addEventListener(
+                    "click",
+                    () => {
+
+                        currentIndex =
+                            index;
+
+                        openModal();
+                    }
+                );
+
+                chartGrid.appendChild(card);
+            }
+        );
+
+    } catch (err) {
+
+        console.error(err);
+
+        chartGrid.innerHTML = `
+            <p>
+                Failed to load charts.
+            </p>
+        `;
+    }
 }
 
-/* TRADINGVIEW LINK */
-function openTV(e, symbol){
-    e.stopPropagation();
-    window.open(`https://www.tradingview.com/chart/?symbol=NSE:${symbol}`);
+
+// ============================================
+// MODAL
+// ============================================
+
+function openModal() {
+
+    modal.classList.remove(
+        "hidden"
+    );
+
+    modalImage.src =
+        currentImages[currentIndex];
+
+    renderNavButtons();
+
+    updateNavVisibility();
 }
 
-/* MODAL */
-function openModal(i){
-    index=i;
-    document.getElementById("modal").style.display="flex";
-    updateImage();
+
+function closeModalFn() {
+
+    modal.classList.add(
+        "hidden"
+    );
 }
 
-function updateImage(){
-    document.getElementById("modal-img").src = images[index];
-    document.getElementById("chart-counter").innerText =
-        `${index+1} / ${images.length}`;
+
+function nextImage() {
+
+    if (
+        currentIndex <
+        currentImages.length - 1
+    ) {
+
+        currentIndex++;
+
+        openModal();
+
+        updateNavVisibility();
+    }
 }
 
-function nextImage(){ if(index<images.length-1){index++;updateImage();}}
-function prevImage(){ if(index>0){index--;updateImage();}}
-function closeModal(){ document.getElementById("modal").style.display="none";}
 
-/* KEYBOARD */
-document.addEventListener("keydown",e=>{
-    if(document.getElementById("modal").style.display!=="flex") return;
-    if(e.key==="ArrowRight") nextImage();
-    if(e.key==="ArrowLeft") prevImage();
-    if(e.key==="Escape") closeModal();
-});
+function prevImage() {
 
-/* SWIPE */
-let startX=0;
+    if (currentIndex > 0) {
 
-document.addEventListener("touchstart", e=>{
-    if(document.getElementById("modal").style.display!=="flex") return;
-    startX=e.changedTouches[0].screenX;
-});
+        currentIndex--;
 
-document.addEventListener("touchend", e=>{
-    if(document.getElementById("modal").style.display!=="flex") return;
-    let diff=e.changedTouches[0].screenX-startX;
+        openModal();
 
-    if(diff>60) prevImage();
-    if(diff<-60) nextImage();
-});
-
-/* LAST UPDATED */
-function loadLastUpdated(){
-    fetch("data/last_updated.json?t="+Date.now())
-    .then(r=>r.json())
-    .then(d=>{
-        document.getElementById("last-updated").innerText =
-            "Last updated: " + d.updated;
-    });
+        updateNavVisibility();
+    }
 }
 
-/* SCROLL */
-function scrollToTop(){
-    window.scrollTo({top:0,behavior:"smooth"});
+
+// ============================================
+// NAV BUTTONS
+// ============================================
+
+function renderNavButtons() {
+
+    let prev =
+        document.getElementById(
+            "prevBtn"
+        );
+
+    let next =
+        document.getElementById(
+            "nextBtn"
+        );
+
+    if (!prev) {
+
+        prev =
+            document.createElement("button");
+
+        prev.id = "prevBtn";
+
+        prev.innerHTML = "❮";
+
+        prev.className =
+            "nav-btn prev-btn";
+
+        prev.onclick =
+            prevImage;
+
+        modal.appendChild(prev);
+    }
+
+    if (!next) {
+
+        next =
+            document.createElement("button");
+
+        next.id = "nextBtn";
+
+        next.innerHTML = "❯";
+
+        next.className =
+            "nav-btn next-btn";
+
+        next.onclick =
+            nextImage;
+
+        modal.appendChild(next);
+    }
 }
 
-/* INIT */
-window.onload=()=>{
-    loadLastUpdated();
-    loadCounts();
-    loadSection("confluence", document.querySelector(".tile"));
-};
+
+function updateNavVisibility() {
+
+    const prev =
+        document.getElementById(
+            "prevBtn"
+        );
+
+    const next =
+        document.getElementById(
+            "nextBtn"
+        );
+
+    if (prev) {
+
+        prev.style.display =
+            currentIndex === 0
+            ? "none"
+            : "flex";
+    }
+
+    if (next) {
+
+        next.style.display =
+            currentIndex ===
+            currentImages.length - 1
+            ? "none"
+            : "flex";
+    }
+}
+
+
+// ============================================
+// KEYBOARD NAVIGATION
+// ============================================
+
+document.addEventListener(
+    "keydown",
+    e => {
+
+        if (
+            modal.classList.contains(
+                "hidden"
+            )
+        ) return;
+
+        if (e.key === "ArrowRight") {
+
+            nextImage();
+        }
+
+        if (e.key === "ArrowLeft") {
+
+            prevImage();
+        }
+
+        if (e.key === "Escape") {
+
+            closeModalFn();
+        }
+    }
+);
+
+
+// ============================================
+// SWIPE SUPPORT
+// ============================================
+
+modal.addEventListener(
+    "touchstart",
+    e => {
+
+        touchStartX =
+            e.changedTouches[0].screenX;
+    }
+);
+
+modal.addEventListener(
+    "touchend",
+    e => {
+
+        touchEndX =
+            e.changedTouches[0].screenX;
+
+        handleSwipe();
+    }
+);
+
+
+function handleSwipe() {
+
+    const diff =
+        touchStartX - touchEndX;
+
+    if (diff > 50) {
+
+        nextImage();
+    }
+
+    if (diff < -50) {
+
+        prevImage();
+    }
+}
+
+
+// ============================================
+// CLOSE MODAL
+// ============================================
+
+closeModal.addEventListener(
+    "click",
+    closeModalFn
+);
+
+modal.addEventListener(
+    "click",
+    e => {
+
+        if (e.target === modal) {
+
+            closeModalFn();
+        }
+    }
+);
+
+
+// ============================================
+// COMPACT SCROLL MODE
+// ============================================
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        if (window.scrollY > 80) {
+
+            document.body.classList.add(
+                "scrolled"
+            );
+
+        } else {
+
+            document.body.classList.remove(
+                "scrolled"
+            );
+        }
+    }
+);
+
+
+// ============================================
+// INIT
+// ============================================
+
+loadScanners();
