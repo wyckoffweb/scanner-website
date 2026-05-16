@@ -1,34 +1,30 @@
-# Full Replacement — `script.js`
-
-```javascript
 const chartGrid = document.getElementById(
-    "chartGrid"
+"chartGrid"
 );
 
 const subCategories = document.getElementById(
-    "subCategories"
+"subCategories"
 );
 
 const learnersSection = document.getElementById(
-    "learnersSection"
+"learnersSection"
 );
 
 const modal = document.getElementById(
-    "imageModal"
+"imageModal"
 );
 
 const modalImage = document.getElementById(
-    "modalImage"
+"modalImage"
 );
 
 const closeModal = document.getElementById(
-    "closeModal"
+"closeModal"
 );
 
 const lastUpdated = document.getElementById(
-    "lastUpdated"
+"lastUpdated"
 );
-
 
 let scannersData = {};
 
@@ -40,26 +36,27 @@ let currentImages = [];
 
 let currentImageIndex = 0;
 
-
 // =========================================
 // LOAD SCANNER CONFIG
 // =========================================
 
 async function loadScanners() {
 
-    const response = await fetch(
-        "data/scanners.json"
-    );
+```
+const response = await fetch(
+    "data/scanners.json"
+);
 
-    scannersData = await response.json();
+scannersData = await response.json();
 
-    setupMainTabs();
+setupMainTabs();
 
-    showCategory("swing");
+showCategory("swing");
 
-    loadLastUpdated();
+loadLastUpdated();
+```
+
 }
-
 
 // =========================================
 // MAIN TABS
@@ -67,35 +64,37 @@ async function loadScanners() {
 
 function setupMainTabs() {
 
-    const tabs = document.querySelectorAll(
-        ".main-tab"
-    );
+```
+const tabs = document.querySelectorAll(
+    ".main-tab"
+);
 
-    tabs.forEach(tab => {
+tabs.forEach(tab => {
 
-        tab.addEventListener(
-            "click",
-            () => {
+    tab.addEventListener(
+        "click",
+        () => {
 
-                tabs.forEach(t =>
-                    t.classList.remove(
-                        "active"
-                    )
-                );
-
-                tab.classList.add(
+            tabs.forEach(t =>
+                t.classList.remove(
                     "active"
-                );
+                )
+            );
 
-                const category =
-                    tab.dataset.category;
+            tab.classList.add(
+                "active"
+            );
 
-                showCategory(category);
-            }
-        );
-    });
+            const category =
+                tab.dataset.category;
+
+            showCategory(category);
+        }
+    );
+});
+```
+
 }
-
 
 // =========================================
 // SHOW CATEGORY
@@ -103,111 +102,113 @@ function setupMainTabs() {
 
 function showCategory(category) {
 
-    currentCategory = category;
+```
+currentCategory = category;
 
-    chartGrid.innerHTML = "";
+chartGrid.innerHTML = "";
 
-    subCategories.innerHTML = "";
-
-
-    if (category === "learn") {
-
-        learnersSection.classList.remove(
-            "hidden"
-        );
-
-        return;
-    }
+subCategories.innerHTML = "";
 
 
-    learnersSection.classList.add(
+if (category === "learn") {
+
+    learnersSection.classList.remove(
         "hidden"
     );
 
-
-    const scanners =
-        scannersData[category];
-
-
-    scanners.forEach(scanner => {
-
-        const button =
-            document.createElement(
-                "button"
-            );
-
-        button.className =
-            category === "wyckoff"
-                ? "sub-tile wyckoff"
-                : "sub-tile";
-
-        button.innerHTML = `
-            ${scanner.name}
-            (${scanner.count})
-        `;
-
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                document
-                    .querySelectorAll(
-                        ".sub-tile"
-                    )
-                    .forEach(tile =>
-                        tile.classList.remove(
-                            "active"
-                        )
-                    );
-
-                button.classList.add(
-                    "active"
-                );
-
-                loadCharts(scanner);
-            }
-        );
-
-
-        subCategories.appendChild(
-            button
-        );
-    });
-
-
-    // DEFAULT SCANNERS
-
-    if (category === "swing") {
-
-        const defaultScanner =
-            scanners.find(
-                s => s.id === "confluence"
-            ) || scanners[0];
-
-        subCategories
-            .children[scanners.indexOf(defaultScanner)]
-            .classList.add("active");
-
-        loadCharts(defaultScanner);
-    }
-
-
-    if (category === "wyckoff") {
-
-        const defaultScanner =
-            scanners.find(
-                s => s.id === "ranking"
-            ) || scanners[0];
-
-        subCategories
-            .children[scanners.indexOf(defaultScanner)]
-            .classList.add("active");
-
-        loadCharts(defaultScanner);
-    }
+    return;
 }
 
+
+learnersSection.classList.add(
+    "hidden"
+);
+
+
+const scanners =
+    scannersData[category];
+
+
+scanners.forEach(scanner => {
+
+    const button =
+        document.createElement(
+            "button"
+        );
+
+    button.className =
+        category === "wyckoff"
+            ? "sub-tile wyckoff"
+            : "sub-tile";
+
+    button.innerHTML = `
+        ${scanner.name}
+        (${scanner.count})
+    `;
+
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            document
+                .querySelectorAll(
+                    ".sub-tile"
+                )
+                .forEach(tile =>
+                    tile.classList.remove(
+                        "active"
+                    )
+                );
+
+            button.classList.add(
+                "active"
+            );
+
+            loadCharts(scanner);
+        }
+    );
+
+
+    subCategories.appendChild(
+        button
+    );
+});
+
+
+// DEFAULT SCANNERS
+
+if (category === "swing") {
+
+    const defaultScanner =
+        scanners.find(
+            s => s.id === "confluence"
+        ) || scanners[0];
+
+    subCategories
+        .children[scanners.indexOf(defaultScanner)]
+        .classList.add("active");
+
+    loadCharts(defaultScanner);
+}
+
+
+if (category === "wyckoff") {
+
+    const defaultScanner =
+        scanners.find(
+            s => s.id === "ranking"
+        ) || scanners[0];
+
+    subCategories
+        .children[scanners.indexOf(defaultScanner)]
+        .classList.add("active");
+
+    loadCharts(defaultScanner);
+}
+```
+
+}
 
 // =========================================
 // LOAD CHARTS
@@ -215,133 +216,135 @@ function showCategory(category) {
 
 async function loadCharts(scanner) {
 
-    currentScanner = scanner;
+```
+currentScanner = scanner;
 
-    chartGrid.innerHTML = "";
-
-
-    try {
-
-        const response =
-            await fetch(
-                `${scanner.path}/charts.json`
-            );
+chartGrid.innerHTML = "";
 
 
-        const pngs =
-            await response.json();
+try {
 
-
-        currentImages = pngs;
-
-
-        if (!pngs.length) {
-
-            chartGrid.innerHTML = `
-                <p class="no-charts">
-                    No charts available.
-                </p>
-            `;
-
-            return;
-        }
-
-
-        pngs.forEach(
-            (png, index) => {
-
-                const card =
-                    document.createElement(
-                        "div"
-                    );
-
-                card.className =
-                    "chart-card";
-
-
-                const symbol =
-                    png.replace(
-                        ".png",
-                        ""
-                    );
-
-
-                const imagePath =
-                    `${scanner.path}/${png}`;
-
-
-                card.innerHTML = `
-
-                    <div class="chart-image-wrapper">
-
-                        <img
-                            src="${imagePath}"
-                            alt="${symbol}"
-                            class="chart-image"
-                        >
-
-                        <a
-                            href="https://www.tradingview.com/chart/?symbol=NSE:${symbol}"
-                            target="_blank"
-                            class="tv-link"
-                        >
-                            <img
-                                src="icons/tradingview.png"
-                                class="tv-icon"
-                            >
-                        </a>
-
-                    </div>
-
-                    <div class="chart-info">
-
-                        <h3>
-                            ${symbol}
-                        </h3>
-
-                        <p>
-                            ${scanner.name}
-                        </p>
-
-                    </div>
-                `;
-
-
-                card.addEventListener(
-                    "click",
-                    e => {
-
-                        if (
-                            e.target.closest(
-                                ".tv-link"
-                            )
-                        ) {
-                            return;
-                        }
-
-                        openModal(index);
-                    }
-                );
-
-
-                chartGrid.appendChild(card);
-            }
+    const response =
+        await fetch(
+            `${scanner.path}/charts.json`
         );
 
-    }
 
-    catch (error) {
+    const pngs =
+        await response.json();
 
-        console.error(error);
+
+    currentImages = pngs;
+
+
+    if (!pngs.length) {
 
         chartGrid.innerHTML = `
             <p class="no-charts">
-                Failed to load charts.
+                No charts available.
             </p>
         `;
+
+        return;
     }
+
+
+    pngs.forEach(
+        (png, index) => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "chart-card";
+
+
+            const symbol =
+                png.replace(
+                    ".png",
+                    ""
+                );
+
+
+            const imagePath =
+                `${scanner.path}/${png}`;
+
+
+            card.innerHTML = `
+
+                <div class="chart-image-wrapper">
+
+                    <img
+                        src="${imagePath}"
+                        alt="${symbol}"
+                        class="chart-image"
+                    >
+
+                    <a
+                        href="https://www.tradingview.com/chart/?symbol=NSE:${symbol}"
+                        target="_blank"
+                        class="tv-link"
+                    >
+                        <img
+                            src="icons/tradingview.png"
+                            class="tv-icon"
+                        >
+                    </a>
+
+                </div>
+
+                <div class="chart-info">
+
+                    <h3>
+                        ${symbol}
+                    </h3>
+
+                    <p>
+                        ${scanner.name}
+                    </p>
+
+                </div>
+            `;
+
+
+            card.addEventListener(
+                "click",
+                e => {
+
+                    if (
+                        e.target.closest(
+                            ".tv-link"
+                        )
+                    ) {
+                        return;
+                    }
+
+                    openModal(index);
+                }
+            );
+
+
+            chartGrid.appendChild(card);
+        }
+    );
+
 }
 
+catch (error) {
+
+    console.error(error);
+
+    chartGrid.innerHTML = `
+        <p class="no-charts">
+            Failed to load charts.
+        </p>
+    `;
+}
+```
+
+}
 
 // =========================================
 // MODAL
@@ -349,169 +352,178 @@ async function loadCharts(scanner) {
 
 function openModal(index) {
 
-    currentImageIndex = index;
+```
+currentImageIndex = index;
 
-    updateModalImage();
+updateModalImage();
 
-    modal.classList.remove("hidden");
+modal.classList.remove("hidden");
+```
+
 }
-
 
 function updateModalImage() {
 
-    const image =
-        currentImages[currentImageIndex];
+```
+const image =
+    currentImages[currentImageIndex];
 
 
-    modalImage.src =
-        `${currentScanner.path}/${image}`;
+modalImage.src =
+    `${currentScanner.path}/${image}`;
 
 
-    renderModalArrows();
+renderModalArrows();
+```
+
 }
-
 
 function renderModalArrows() {
 
-    const oldArrows =
-        document.querySelectorAll(
-            ".modal-arrow"
+```
+const oldArrows =
+    document.querySelectorAll(
+        ".modal-arrow"
+    );
+
+oldArrows.forEach(a => a.remove());
+
+
+if (currentImageIndex > 0) {
+
+    const leftArrow =
+        document.createElement(
+            "button"
         );
 
-    oldArrows.forEach(a => a.remove());
+    leftArrow.className =
+        "modal-arrow left-arrow";
+
+    leftArrow.innerHTML = "❮";
 
 
-    if (currentImageIndex > 0) {
+    leftArrow.addEventListener(
+        "click",
+        e => {
+            e.stopPropagation();
 
-        const leftArrow =
-            document.createElement(
-                "button"
-            );
+            currentImageIndex--;
 
-        leftArrow.className =
-            "modal-arrow left-arrow";
+            updateModalImage();
+        }
+    );
 
-        leftArrow.innerHTML = "❮";
-
-
-        leftArrow.addEventListener(
-            "click",
-            e => {
-                e.stopPropagation();
-
-                currentImageIndex--;
-
-                updateModalImage();
-            }
-        );
-
-        modal.appendChild(leftArrow);
-    }
-
-
-    if (
-        currentImageIndex <
-        currentImages.length - 1
-    ) {
-
-        const rightArrow =
-            document.createElement(
-                "button"
-            );
-
-        rightArrow.className =
-            "modal-arrow right-arrow";
-
-        rightArrow.innerHTML = "❯";
-
-
-        rightArrow.addEventListener(
-            "click",
-            e => {
-                e.stopPropagation();
-
-                currentImageIndex++;
-
-                updateModalImage();
-            }
-        );
-
-        modal.appendChild(rightArrow);
-    }
+    modal.appendChild(leftArrow);
 }
 
 
-closeModal.addEventListener(
-    "click",
-    () => {
-        modal.classList.add("hidden");
-    }
-);
+if (
+    currentImageIndex <
+    currentImages.length - 1
+) {
 
+    const rightArrow =
+        document.createElement(
+            "button"
+        );
+
+    rightArrow.className =
+        "modal-arrow right-arrow";
+
+    rightArrow.innerHTML = "❯";
+
+
+    rightArrow.addEventListener(
+        "click",
+        e => {
+            e.stopPropagation();
+
+            currentImageIndex++;
+
+            updateModalImage();
+        }
+    );
+
+    modal.appendChild(rightArrow);
+}
+```
+
+}
+
+closeModal.addEventListener(
+"click",
+() => {
+modal.classList.add("hidden");
+}
+);
 
 modal.addEventListener(
-    "click",
-    e => {
+"click",
+e => {
 
-        if (e.target === modal) {
+```
+    if (e.target === modal) {
 
-            modal.classList.add(
-                "hidden"
-            );
-        }
+        modal.classList.add(
+            "hidden"
+        );
     }
-);
+}
+```
 
+);
 
 // =========================================
 // KEYBOARD NAVIGATION
 // =========================================
 
 window.addEventListener(
-    "keydown",
-    e => {
+"keydown",
+e => {
 
-        if (
-            modal.classList.contains(
-                "hidden"
-            )
-        ) {
-            return;
-        }
-
-
-        if (
-            e.key === "ArrowRight" &&
-            currentImageIndex <
-            currentImages.length - 1
-        ) {
-
-            currentImageIndex++;
-
-            updateModalImage();
-        }
-
-
-        if (
-            e.key === "ArrowLeft" &&
-            currentImageIndex > 0
-        ) {
-
-            currentImageIndex--;
-
-            updateModalImage();
-        }
-
-
-        if (e.key === "Escape") {
-
-            modal.classList.add(
-                "hidden"
-            );
-        }
+```
+    if (
+        modal.classList.contains(
+            "hidden"
+        )
+    ) {
+        return;
     }
-);
 
+
+    if (
+        e.key === "ArrowRight" &&
+        currentImageIndex <
+        currentImages.length - 1
+    ) {
+
+        currentImageIndex++;
+
+        updateModalImage();
+    }
+
+
+    if (
+        e.key === "ArrowLeft" &&
+        currentImageIndex > 0
+    ) {
+
+        currentImageIndex--;
+
+        updateModalImage();
+    }
+
+
+    if (e.key === "Escape") {
+
+        modal.classList.add(
+            "hidden"
+        );
+    }
+}
+```
+
+);
 
 // =========================================
 // TOUCH SWIPE
@@ -521,48 +533,48 @@ let touchStartX = 0;
 
 let touchEndX = 0;
 
-
 modal.addEventListener(
-    "touchstart",
-    e => {
-        touchStartX =
-            e.changedTouches[0].screenX;
-    }
+"touchstart",
+e => {
+touchStartX =
+e.changedTouches[0].screenX;
+}
 );
 
-
 modal.addEventListener(
-    "touchend",
-    e => {
+"touchend",
+e => {
 
-        touchEndX =
-            e.changedTouches[0].screenX;
-
-
-        if (
-            touchEndX < touchStartX - 50 &&
-            currentImageIndex <
-            currentImages.length - 1
-        ) {
-
-            currentImageIndex++;
-
-            updateModalImage();
-        }
+```
+    touchEndX =
+        e.changedTouches[0].screenX;
 
 
-        if (
-            touchEndX > touchStartX + 50 &&
-            currentImageIndex > 0
-        ) {
+    if (
+        touchEndX < touchStartX - 50 &&
+        currentImageIndex <
+        currentImages.length - 1
+    ) {
 
-            currentImageIndex--;
+        currentImageIndex++;
 
-            updateModalImage();
-        }
+        updateModalImage();
     }
-);
 
+
+    if (
+        touchEndX > touchStartX + 50 &&
+        currentImageIndex > 0
+    ) {
+
+        currentImageIndex--;
+
+        updateModalImage();
+    }
+}
+```
+
+);
 
 // =========================================
 // LAST UPDATED
@@ -570,35 +582,35 @@ modal.addEventListener(
 
 async function loadLastUpdated() {
 
-    try {
+```
+try {
 
-        const response =
-            await fetch(
-                "data/last_updated.json"
-            );
+    const response =
+        await fetch(
+            "data/last_updated.json"
+        );
 
-        const data =
-            await response.json();
+    const data =
+        await response.json();
 
 
-        lastUpdated.innerHTML = `
-            Last Updated:
-            ${data.last_updated}
-        `;
-    }
-
-    catch {
-
-        lastUpdated.innerHTML =
-            "Last Updated: Unknown";
-    }
+    lastUpdated.innerHTML = `
+        Last Updated:
+        ${data.last_updated}
+    `;
 }
 
+catch {
+
+    lastUpdated.innerHTML =
+        "Last Updated: Unknown";
+}
+```
+
+}
 
 // =========================================
 // START
 // =========================================
 
 loadScanners();
-
-```
