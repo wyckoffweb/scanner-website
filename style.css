@@ -1,16 +1,31 @@
+/* =========================================
+   GLOBAL
+========================================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html {
+
+    scroll-behavior: smooth;
+}
+
 body {
 
-    background: #0f1117;
+    background:
+        linear-gradient(
+            to bottom,
+            #070b18,
+            #040711
+        );
 
-    color: #f1f1f1;
+    color: #ffffff;
 
     font-family:
+        Inter,
         Arial,
         sans-serif;
 
@@ -19,36 +34,64 @@ body {
     overflow-x: hidden;
 }
 
-
-/* ========================================= */
-/* HEADER */
-/* ========================================= */
+/* =========================================
+   HEADER
+========================================= */
 
 .top-header {
 
     text-align: center;
 
-    padding: 30px 20px;
+    padding:
+        28px
+        20px
+        22px;
 
-    transition: 0.25s;
+    border-bottom:
+        1px solid rgba(
+            255,
+            255,
+            255,
+            0.05
+        );
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            0.12
+        );
+
+    backdrop-filter: blur(10px);
 }
 
 .top-header h1 {
 
-    font-size: 2.2rem;
+    font-size: 3.2rem;
 
-    margin-bottom: 10px;
+    font-weight: 800;
+
+    letter-spacing: -1px;
+
+    margin-bottom: 8px;
 }
 
 .subtitle {
 
-    opacity: 0.7;
+    font-size: 1.08rem;
+
+    color: rgba(
+        255,
+        255,
+        255,
+        0.72
+    );
 }
 
-
-/* ========================================= */
-/* STICKY NAV */
-/* ========================================= */
+/* =========================================
+   STICKY NAV
+========================================= */
 
 #stickyNav {
 
@@ -56,168 +99,118 @@ body {
 
     top: 0;
 
-    z-index: 900;
+    z-index: 100;
 
     background:
-        rgba(15, 17, 23, 0.92);
+        rgba(
+            6,
+            10,
+            22,
+            0.92
+        );
 
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
 
     border-bottom:
-        1px solid
-        rgba(255,255,255,0.05);
-
-    box-shadow:
-        0 2px 12px
-        rgba(0,0,0,0.28);
-
-    transition: 0.25s;
-}
-
-
-/* ========================================= */
-/* CATEGORY ROWS */
-/* ========================================= */
-
-.main-categories,
-.sub-categories {
-
-    display: flex;
-
-    gap: 14px;
-
-    overflow-x: auto;
-
-    flex-wrap: nowrap;
-
-    scrollbar-width: none;
-
-    -ms-overflow-style: none;
-
-    position: relative;
-}
-
-.main-categories::-webkit-scrollbar,
-.sub-categories::-webkit-scrollbar {
-
-    display: none;
-}
-
-
-/* ========================================= */
-/* EDGE FADE */
-/* ========================================= */
-
-.main-categories::after,
-.sub-categories::after {
-
-    content: "";
-
-    position: absolute;
-
-    right: 0;
-
-    top: 0;
-
-    width: 40px;
-
-    height: 100%;
-
-    pointer-events: none;
-
-    background:
-        linear-gradient(
-            to right,
-            transparent,
-            rgba(15,17,23,0.96)
+        1px solid rgba(
+            255,
+            255,
+            255,
+            0.04
         );
 }
 
-
-/* ========================================= */
-/* DESKTOP CENTERING */
-/* ========================================= */
-
-@media (min-width: 769px) {
-
-    .main-categories,
-    .sub-categories {
-
-        justify-content: center;
-    }
-}
-
-
-/* ========================================= */
-/* CATEGORY PADDING */
-/* ========================================= */
+/* =========================================
+   MAIN CATEGORY
+========================================= */
 
 .main-categories {
 
-    padding:
-        18px
-        18px
-        10px;
-}
+    display: flex;
 
-.sub-categories {
+    justify-content: center;
+
+    gap: 20px;
 
     padding:
-        10px
-        18px
+        26px
+        16px
         18px;
+
+    flex-wrap: wrap;
 }
-
-
-/* ========================================= */
-/* MAIN TABS */
-/* ========================================= */
 
 .main-tab {
 
-    flex: 0 0 auto;
-
-    background: #1e2430;
-
-    color: white;
+    position: relative;
 
     border: none;
-
-    padding: 15px 25px;
-
-    border-radius: 14px;
-
-    cursor: pointer;
-
-    font-size: 1rem;
-
-    transition: 0.2s;
-
-    min-width: 220px;
-}
-
-.main-tab:hover {
-
-    transform: translateY(-2px);
-}
-
-.main-tab.active {
-
-    background: #2962ff;
-}
-
-
-/* ========================================= */
-/* WYCKOFF TAB */
-/* ========================================= */
-
-.wyckoff-tab {
 
     background:
         linear-gradient(
             135deg,
-            #7a1f1f,
-            #b8860b
+            #1a2237,
+            #161d2e
+        );
+
+    color: white;
+
+    padding:
+        20px
+        42px;
+
+    min-width: 230px;
+
+    border-radius: 22px;
+
+    cursor: pointer;
+
+    font-size: 1.08rem;
+
+    font-weight: 700;
+
+    transition: all 0.25s ease;
+
+    box-shadow:
+        0 10px 30px rgba(
+            0,
+            0,
+            0,
+            0.22
+        );
+}
+
+.main-tab:hover {
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 18px 40px rgba(
+            0,
+            0,
+            0,
+            0.32
+        );
+}
+
+.main-tab.active {
+
+    background:
+        linear-gradient(
+            135deg,
+            #2e5fff,
+            #355ef0
+        );
+}
+
+.wyckoff-tab.active {
+
+    background:
+        linear-gradient(
+            135deg,
+            #9f3f12,
+            #d59a14
         );
 }
 
@@ -225,115 +218,116 @@ body {
 
     display: block;
 
-    font-size: 0.74rem;
+    margin-top: 8px;
 
-    margin-top: 5px;
+    font-size: 0.76rem;
 
-    opacity: 0.82;
+    opacity: 0.85;
+
+    font-weight: 500;
 }
 
+/* =========================================
+   SUB CATEGORIES
+========================================= */
 
-/* ========================================= */
-/* SUB TILES */
-/* ========================================= */
+.sub-categories {
+
+    display: flex;
+
+    gap: 16px;
+
+    padding:
+        0
+        18px
+        20px;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+
+    white-space: nowrap;
+}
+
+.sub-categories::-webkit-scrollbar {
+
+    display: none;
+}
 
 .sub-tile {
 
-    flex: 0 0 auto;
-
-    background: #1a1d25;
-
-    color: white;
-
     border: none;
-
-    padding: 12px 18px;
-
-    border-radius: 12px;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-
-    min-width: 170px;
-
-    text-align: center;
-}
-
-.sub-tile:hover {
-
-    transform: scale(1.03);
-}
-
-.sub-tile.active {
-
-    background: #2962ff;
-}
-
-.sub-tile.wyckoff {
 
     background:
         linear-gradient(
             135deg,
-            #6d1e1e,
-            #9c7a0c
+            #171d2d,
+            #121826
+        );
+
+    color: white;
+
+    padding:
+        16px
+        30px;
+
+    border-radius: 18px;
+
+    cursor: pointer;
+
+    font-size: 0.96rem;
+
+    font-weight: 600;
+
+    min-height: 64px;
+
+    min-width: max-content;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+
+    flex-shrink: 0;
+}
+
+.sub-tile:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 28px rgba(
+            0,
+            0,
+            0,
+            0.32
         );
 }
 
+.sub-tile.active {
 
-/* ========================================= */
-/* LEARNERS */
-/* ========================================= */
-
-.learners-section {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(260px, 1fr)
+    background:
+        linear-gradient(
+            135deg,
+            #2f61ff,
+            #3257e8
         );
-
-    gap: 20px;
-
-    padding: 25px;
 }
 
-.learn-card {
+.sub-tile.wyckoff.active {
 
-    background: #1b1f2b;
-
-    border-radius: 16px;
-
-    padding: 25px;
-
-    transition: 0.2s;
+    background:
+        linear-gradient(
+            135deg,
+            #993818,
+            #c69511
+        );
 }
 
-.learn-card:hover {
-
-    transform: translateY(-3px);
-}
-
-.learn-card h2 {
-
-    margin-bottom: 15px;
-
-    font-size: 1.2rem;
-}
-
-.learn-card p {
-
-    opacity: 0.8;
-
-    line-height: 1.5;
-}
-
-
-/* ========================================= */
-/* CHART GRID */
-/* ========================================= */
+/* =========================================
+   CHART GRID
+========================================= */
 
 .chart-grid {
 
@@ -345,121 +339,174 @@ body {
             minmax(320px, 1fr)
         );
 
-    gap: 18px;
+    gap: 22px;
 
-    padding: 25px;
+    padding:
+        28px
+        24px
+        50px;
+
+    align-items: start;
 }
+
+/* =========================================
+   CHART CARD
+========================================= */
 
 .chart-card {
 
-    background: #181c24;
+    background:
+        linear-gradient(
+            to bottom,
+            #0f1522,
+            #121a2a
+        );
 
-    border-radius: 16px;
+    border-radius: 24px;
 
     overflow: hidden;
 
-    transition: 0.2s;
+    position: relative;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 
     cursor: pointer;
+
+    border:
+        1px solid rgba(
+            255,
+            255,
+            255,
+            0.04
+        );
 }
 
 .chart-card:hover {
 
-    transform: translateY(-3px);
+    transform:
+        translateY(-6px);
+
+    box-shadow:
+        0 18px 44px rgba(
+            0,
+            0,
+            0,
+            0.34
+        );
 }
-
-
-/* ========================================= */
-/* CHART IMAGE */
-/* ========================================= */
 
 .chart-image-wrapper {
 
     position: relative;
 }
 
-.chart-card img {
+.chart-image {
 
     width: 100%;
 
     display: block;
+
+    background: white;
 }
 
-
-/* ========================================= */
-/* TRADINGVIEW ICON */
-/* ========================================= */
+/* =========================================
+   TV LINK
+========================================= */
 
 .tv-link {
 
     position: absolute;
 
-    top: 10px;
+    top: 14px;
+    right: 14px;
 
-    right: 10px;
-
-    width: 34px;
-
-    height: 34px;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255,255,255,0.92);
+    width: 54px;
+    height: 54px;
 
     display: flex;
 
+    align-items: center;
     justify-content: center;
 
-    align-items: center;
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            0.72
+        );
+
+    border-radius: 16px;
 
     z-index: 20;
 
-    transition: 0.2s;
+    transition: all 0.2s ease;
 }
 
 .tv-link:hover {
 
     transform: scale(1.08);
+
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            0.9
+        );
 }
 
-.tv-link img {
+.tv-icon {
 
-    width: 22px;
-
-    height: 22px;
+    width: 30px;
+    height: 30px;
 
     object-fit: contain;
+
+    pointer-events: none;
 }
 
-
-/* ========================================= */
-/* CHART INFO */
-/* ========================================= */
+/* =========================================
+   CARD INFO
+========================================= */
 
 .chart-info {
 
-    padding: 12px;
+    padding:
+        16px
+        18px
+        18px;
 }
 
 .chart-info h3 {
 
-    font-size: 1rem;
+    font-size: 1.55rem;
 
-    margin-bottom: 5px;
+    margin-bottom: 6px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.5px;
 }
 
 .chart-info p {
 
-    opacity: 0.7;
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.72
+        );
 
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
-
-/* ========================================= */
-/* MODAL */
-/* ========================================= */
+/* =========================================
+   MODAL
+========================================= */
 
 .modal {
 
@@ -468,56 +515,53 @@ body {
     inset: 0;
 
     background:
-        rgba(0,0,0,0.92);
+        rgba(
+            0,
+            0,
+            0,
+            0.92
+        );
 
     display: flex;
 
-    justify-content: center;
-
     align-items: center;
+    justify-content: center;
 
     z-index: 1000;
 }
 
 .modal img {
 
-    width: auto;
+    max-width: 94%;
+    max-height: 92%;
 
-    height: auto;
-
-    max-width: 100vw;
-
-    max-height: 100vh;
-
-    object-fit: contain;
+    border-radius: 16px;
 }
 
+.hidden {
 
-/* ========================================= */
-/* CLOSE BUTTON */
-/* ========================================= */
+    display: none;
+}
 
 .close-btn {
 
     position: absolute;
 
     top: 20px;
+    right: 26px;
 
-    right: 30px;
-
-    font-size: 42px;
+    font-size: 3rem;
 
     cursor: pointer;
 
     z-index: 1200;
 }
 
+/* =========================================
+   MODAL ARROWS
+========================================= */
 
-/* ========================================= */
-/* MODAL NAVIGATION */
-/* ========================================= */
-
-.nav-btn {
+.modal-arrow {
 
     position: absolute;
 
@@ -525,172 +569,224 @@ body {
 
     transform: translateY(-50%);
 
-    background:
-        rgba(0,0,0,0.55);
+    border: none;
 
-    backdrop-filter: blur(4px);
+    background:
+        rgba(
+            0,
+            0,
+            0,
+            0.6
+        );
 
     color: white;
 
-    border: none;
-
-    font-size: 42px;
-
-    width: 60px;
-
-    height: 60px;
+    width: 68px;
+    height: 68px;
 
     border-radius: 50%;
 
     cursor: pointer;
 
-    z-index: 1100;
+    font-size: 2rem;
 
-    transition: 0.2s;
-
-    opacity: 0.95;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
+    z-index: 1200;
 }
 
-.nav-btn:hover {
+.left-arrow {
+
+    left: 24px;
+}
+
+.right-arrow {
+
+    right: 24px;
+}
+
+/* =========================================
+   LEARNERS
+========================================= */
+
+.learners-section {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(280px, 1fr)
+        );
+
+    gap: 24px;
+
+    padding: 32px;
+}
+
+.learn-card {
 
     background:
-        rgba(255,255,255,0.2);
+        linear-gradient(
+            to bottom,
+            #121b2a,
+            #161f31
+        );
+
+    padding: 28px;
+
+    border-radius: 24px;
 }
 
-.prev-btn {
+.learn-card h2 {
 
-    left: 20px;
+    margin-bottom: 14px;
 }
 
-.next-btn {
-
-    right: 20px;
-}
-
-
-/* ========================================= */
-/* FOOTER */
-/* ========================================= */
+/* =========================================
+   FOOTER
+========================================= */
 
 .footer {
 
     text-align: center;
 
-    padding: 25px;
+    padding:
+        10px
+        20px
+        36px;
 
-    opacity: 0.7;
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.6
+        );
+
+    font-size: 1rem;
 }
 
+/* =========================================
+   EMPTY
+========================================= */
 
-/* ========================================= */
-/* UTILITY */
-/* ========================================= */
+.no-charts {
 
-.hidden {
+    padding: 40px;
 
-    display: none;
+    text-align: center;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.7
+        );
+
+    font-size: 1.1rem;
 }
 
-
-/* ========================================= */
-/* COMPACT SCROLL MODE */
-/* ========================================= */
-
-body.scrolled .top-header {
-
-    opacity: 0;
-
-    transform: translateY(-100%);
-
-    height: 0;
-
-    overflow: hidden;
-
-    padding: 0;
-
-    margin: 0;
-}
-
-body.scrolled .main-categories {
-
-    padding-top: 10px;
-}
-
-body.scrolled .main-tab {
-
-    padding: 11px 20px;
-
-    font-size: 0.92rem;
-}
-
-body.scrolled .sub-tile {
-
-    padding: 10px 15px;
-
-    font-size: 0.9rem;
-}
-
-
-/* ========================================= */
-/* MOBILE */
-/* ========================================= */
+/* =========================================
+   MOBILE
+========================================= */
 
 @media (max-width: 768px) {
 
     .top-header {
 
-        padding: 20px 15px;
+        padding:
+            24px
+            16px
+            18px;
     }
 
     .top-header h1 {
 
-        font-size: 2rem;
+        font-size: 2.4rem;
+    }
+
+    .main-categories {
+
+        gap: 14px;
+
+        padding:
+            18px
+            12px
+            14px;
     }
 
     .main-tab {
 
-        min-width: 220px;
+        min-width: 210px;
+
+        padding:
+            18px
+            28px;
+
+        border-radius: 20px;
+
+        font-size: 1rem;
+    }
+
+    .sub-categories {
+
+        gap: 14px;
+
+        padding:
+            0
+            14px
+            18px;
     }
 
     .sub-tile {
 
-        min-width: 180px;
+        min-height: 62px;
+
+        padding:
+            16px
+            24px;
+
+        font-size: 0.95rem;
     }
 
     .chart-grid {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            repeat(2, 1fr);
 
-        padding: 15px;
+        gap: 16px;
+
+        padding:
+            18px
+            14px
+            40px;
     }
 
-    .chart-card {
+    .chart-info h3 {
 
-        border-radius: 14px;
+        font-size: 1.12rem;
     }
 
-    .nav-btn {
+    .chart-info p {
 
-        width: 50px;
-
-        height: 50px;
-
-        font-size: 32px;
+        font-size: 0.92rem;
     }
 
-    .prev-btn {
+    .tv-link {
 
-        left: 6px;
+        width: 52px;
+        height: 52px;
     }
 
-    .next-btn {
+    .tv-icon {
 
-        right: 6px;
+        width: 28px;
+        height: 28px;
+    }
+
+    .modal-arrow {
+
+        width: 56px;
+        height: 56px;
     }
 }
