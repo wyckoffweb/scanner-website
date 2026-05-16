@@ -141,10 +141,11 @@ scanners.forEach(scanner => {
             ? "sub-tile wyckoff"
             : "sub-tile";
 
-    button.innerHTML = `
-    ${scanner.name}
-    (${scanner.count})
-`;
+button.innerHTML =
+    scanner.name +
+    " (" +
+    scanner.count +
+    ")";     
 
 
     button.addEventListener(
