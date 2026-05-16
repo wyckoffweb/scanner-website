@@ -1,119 +1,114 @@
-const mainTabs =
-    document.querySelectorAll(".main-tab");
+# Full Replacement — `script.js`
 
-const subCategories =
-    document.getElementById("subCategories");
+```javascript
+const chartGrid = document.getElementById(
+    "chartGrid"
+);
 
-const chartGrid =
-    document.getElementById("chartGrid");
+const subCategories = document.getElementById(
+    "subCategories"
+);
 
-const learnersSection =
-    document.getElementById("learnersSection");
+const learnersSection = document.getElementById(
+    "learnersSection"
+);
 
-const modal =
-    document.getElementById("imageModal");
+const modal = document.getElementById(
+    "imageModal"
+);
 
-const modalImage =
-    document.getElementById("modalImage");
+const modalImage = document.getElementById(
+    "modalImage"
+);
 
-const closeModal =
-    document.getElementById("closeModal");
+const closeModal = document.getElementById(
+    "closeModal"
+);
 
-const lastUpdated =
-    document.getElementById("lastUpdated");
+const lastUpdated = document.getElementById(
+    "lastUpdated"
+);
 
 
 let scannersData = {};
 
+let currentCategory = "swing";
+
+let currentScanner = null;
+
 let currentImages = [];
 
-let currentIndex = 0;
-
-let touchStartX = 0;
-
-let touchEndX = 0;
+let currentImageIndex = 0;
 
 
-// ============================================
-// LOAD SCANNERS
-// ============================================
+// =========================================
+// LOAD SCANNER CONFIG
+// =========================================
 
 async function loadScanners() {
 
-    try {
-
-        const response =
-            await fetch(
-                "data/scanners.json"
-            );
-
-        scannersData =
-            await response.json();
-
-        renderCategory("swing");
-
-        updateTimestamp();
-
-    } catch (err) {
-
-        console.error(err);
-
-        chartGrid.innerHTML = `
-            <p>
-                Failed to load scanners.json
-            </p>
-        `;
-    }
-}
-
-
-// ============================================
-// TIMESTAMP
-// ============================================
-
-function updateTimestamp() {
-
-    const now =
-        new Date();
-
-    lastUpdated.textContent =
-        `Last Updated: ${now.toLocaleString()}`;
-}
-
-
-// ============================================
-// MAIN CATEGORY SWITCH
-// ============================================
-
-mainTabs.forEach(tab => {
-
-    tab.addEventListener(
-        "click",
-        () => {
-
-            mainTabs.forEach(
-                t => t.classList.remove("active")
-            );
-
-            tab.classList.add("active");
-
-            renderCategory(
-                tab.dataset.category
-            );
-        }
+    const response = await fetch(
+        "data/scanners.json"
     );
-});
+
+    scannersData = await response.json();
+
+    setupMainTabs();
+
+    showCategory("swing");
+
+    loadLastUpdated();
+}
 
 
-// ============================================
-// RENDER CATEGORY
-// ============================================
+// =========================================
+// MAIN TABS
+// =========================================
 
-function renderCategory(category) {
+function setupMainTabs() {
+
+    const tabs = document.querySelectorAll(
+        ".main-tab"
+    );
+
+    tabs.forEach(tab => {
+
+        tab.addEventListener(
+            "click",
+            () => {
+
+                tabs.forEach(t =>
+                    t.classList.remove(
+                        "active"
+                    )
+                );
+
+                tab.classList.add(
+                    "active"
+                );
+
+                const category =
+                    tab.dataset.category;
+
+                showCategory(category);
+            }
+        );
+    });
+}
+
+
+// =========================================
+// SHOW CATEGORY
+// =========================================
+
+function showCategory(category) {
+
+    currentCategory = category;
 
     chartGrid.innerHTML = "";
 
     subCategories.innerHTML = "";
+
 
     if (category === "learn") {
 
@@ -124,44 +119,49 @@ function renderCategory(category) {
         return;
     }
 
+
     learnersSection.classList.add(
         "hidden"
     );
 
+
     const scanners =
-        scannersData[category] || [];
+        scannersData[category];
+
 
     scanners.forEach(scanner => {
 
-        const btn =
-            document.createElement("button");
-
-        btn.className =
-            "sub-tile";
-
-        if (category === "wyckoff") {
-
-            btn.classList.add(
-                "wyckoff"
+        const button =
+            document.createElement(
+                "button"
             );
-        }
 
-        btn.innerHTML = `
+        button.className =
+            category === "wyckoff"
+                ? "sub-tile wyckoff"
+                : "sub-tile";
+
+        button.innerHTML = `
             ${scanner.name}
             (${scanner.count})
         `;
 
-        btn.addEventListener(
+
+        button.addEventListener(
             "click",
             () => {
 
                 document
-                    .querySelectorAll(".sub-tile")
-                    .forEach(
-                        b => b.classList.remove("active")
+                    .querySelectorAll(
+                        ".sub-tile"
+                    )
+                    .forEach(tile =>
+                        tile.classList.remove(
+                            "active"
+                        )
                     );
 
-                btn.classList.add(
+                button.classList.add(
                     "active"
                 );
 
@@ -169,102 +169,76 @@ function renderCategory(category) {
             }
         );
 
-        subCategories.appendChild(btn);
+
+        subCategories.appendChild(
+            button
+        );
     });
 
-    // ========================================
-    // SMART DEFAULTS
-    // ========================================
 
-    setTimeout(() => {
+    // DEFAULT SCANNERS
 
-        let defaultTile = null;
+    if (category === "swing") {
 
-        if (category === "swing") {
+        const defaultScanner =
+            scanners.find(
+                s => s.id === "confluence"
+            ) || scanners[0];
 
-            defaultTile =
-                [...document.querySelectorAll(".sub-tile")]
-                .find(
-                    b => b.innerText
-                        .toLowerCase()
-                        .includes("confluence")
-                );
-        }
+        subCategories
+            .children[scanners.indexOf(defaultScanner)]
+            .classList.add("active");
 
-        if (category === "wyckoff") {
+        loadCharts(defaultScanner);
+    }
 
-            defaultTile =
-                [...document.querySelectorAll(".sub-tile")]
-                .find(
-                    b => b.innerText
-                        .toLowerCase()
-                        .includes("ranking")
-                );
-        }
 
-        if (!defaultTile) {
+    if (category === "wyckoff") {
 
-            defaultTile =
-                document.querySelector(
-                    ".sub-tile"
-                );
-        }
+        const defaultScanner =
+            scanners.find(
+                s => s.id === "ranking"
+            ) || scanners[0];
 
-        defaultTile?.click();
+        subCategories
+            .children[scanners.indexOf(defaultScanner)]
+            .classList.add("active");
 
-    }, 100);
+        loadCharts(defaultScanner);
+    }
 }
 
 
-// ============================================
+// =========================================
 // LOAD CHARTS
-// ============================================
+// =========================================
 
 async function loadCharts(scanner) {
 
+    currentScanner = scanner;
+
     chartGrid.innerHTML = "";
 
-    currentImages = [];
 
     try {
 
         const response =
             await fetch(
-                scanner.path
+                `${scanner.path}/charts.json`
             );
 
-        const html =
-            await response.text();
-
-        const parser =
-            new DOMParser();
-
-        const doc =
-            parser.parseFromString(
-                html,
-                "text/html"
-            );
-
-        const links =
-            [
-                ...doc.querySelectorAll("a")
-            ];
 
         const pngs =
-            links
-                .map(
-                    a => a.getAttribute("href")
-                )
-                .filter(
-                    href =>
-                        href &&
-                        href.endsWith(".png")
-                );
+            await response.json();
 
-        if (pngs.length === 0) {
+
+        currentImages = pngs;
+
+
+        if (!pngs.length) {
 
             chartGrid.innerHTML = `
-                <p>
+                <p class="no-charts">
                     No charts available.
                 </p>
             `;
@@ -272,52 +246,48 @@ async function loadCharts(scanner) {
             return;
         }
 
-        currentImages =
-            pngs.map(
-                file =>
-                    `${scanner.path}/${file}`
-            );
 
         pngs.forEach(
-            (file, index) => {
-
-                const imgPath =
-                    `${scanner.path}/${file}`;
-
-                const symbol =
-                    file
-                        .replace(".png", "")
-                        .replace(".NS", "");
-
-                const tradingviewUrl =
-                    `https://www.tradingview.com/chart/?symbol=NSE:${symbol}`;
+            (png, index) => {
 
                 const card =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
                 card.className =
                     "chart-card";
+
+
+                const symbol =
+                    png.replace(
+                        ".png",
+                        ""
+                    );
+
+
+                const imagePath =
+                    `${scanner.path}/${png}`;
+
 
                 card.innerHTML = `
 
                     <div class="chart-image-wrapper">
 
                         <img
-                            src="${imgPath}"
-                            loading="lazy"
-                            alt="${file}"
+                            src="${imagePath}"
+                            alt="${symbol}"
+                            class="chart-image"
                         >
 
                         <a
-                            class="tv-link"
-                            href="${tradingviewUrl}"
+                            href="https://www.tradingview.com/chart/?symbol=NSE:${symbol}"
                             target="_blank"
-                            rel="noopener noreferrer"
-                            title="Open in TradingView"
+                            class="tv-link"
                         >
                             <img
                                 src="icons/tradingview.png"
-                                alt="TradingView"
+                                class="tv-icon"
                             >
                         </a>
 
@@ -336,27 +306,36 @@ async function loadCharts(scanner) {
                     </div>
                 `;
 
+
                 card.addEventListener(
                     "click",
-                    () => {
+                    e => {
 
-                        currentIndex =
-                            index;
+                        if (
+                            e.target.closest(
+                                ".tv-link"
+                            )
+                        ) {
+                            return;
+                        }
 
-                        openModal();
+                        openModal(index);
                     }
                 );
+
 
                 chartGrid.appendChild(card);
             }
         );
 
-    } catch (err) {
+    }
 
-        console.error(err);
+    catch (error) {
+
+        console.error(error);
 
         chartGrid.innerHTML = `
-            <p>
+            <p class="no-charts">
                 Failed to load charts.
             </p>
         `;
@@ -364,152 +343,131 @@ async function loadCharts(scanner) {
 }
 
 
-// ============================================
+// =========================================
 // MODAL
-// ============================================
+// =========================================
 
-function openModal() {
+function openModal(index) {
 
-    modal.classList.remove(
-        "hidden"
-    );
+    currentImageIndex = index;
+
+    updateModalImage();
+
+    modal.classList.remove("hidden");
+}
+
+
+function updateModalImage() {
+
+    const image =
+        currentImages[currentImageIndex];
+
 
     modalImage.src =
-        currentImages[currentIndex];
+        `${currentScanner.path}/${image}`;
 
-    renderNavButtons();
 
-    updateNavVisibility();
+    renderModalArrows();
 }
 
 
-function closeModalFn() {
+function renderModalArrows() {
 
-    modal.classList.add(
-        "hidden"
-    );
-}
+    const oldArrows =
+        document.querySelectorAll(
+            ".modal-arrow"
+        );
+
+    oldArrows.forEach(a => a.remove());
 
 
-function nextImage() {
+    if (currentImageIndex > 0) {
+
+        const leftArrow =
+            document.createElement(
+                "button"
+            );
+
+        leftArrow.className =
+            "modal-arrow left-arrow";
+
+        leftArrow.innerHTML = "❮";
+
+
+        leftArrow.addEventListener(
+            "click",
+            e => {
+                e.stopPropagation();
+
+                currentImageIndex--;
+
+                updateModalImage();
+            }
+        );
+
+        modal.appendChild(leftArrow);
+    }
+
 
     if (
-        currentIndex <
+        currentImageIndex <
         currentImages.length - 1
     ) {
 
-        currentIndex++;
+        const rightArrow =
+            document.createElement(
+                "button"
+            );
 
-        openModal();
+        rightArrow.className =
+            "modal-arrow right-arrow";
 
-        updateNavVisibility();
+        rightArrow.innerHTML = "❯";
+
+
+        rightArrow.addEventListener(
+            "click",
+            e => {
+                e.stopPropagation();
+
+                currentImageIndex++;
+
+                updateModalImage();
+            }
+        );
+
+        modal.appendChild(rightArrow);
     }
 }
 
 
-function prevImage() {
-
-    if (currentIndex > 0) {
-
-        currentIndex--;
-
-        openModal();
-
-        updateNavVisibility();
+closeModal.addEventListener(
+    "click",
+    () => {
+        modal.classList.add("hidden");
     }
-}
+);
 
 
-// ============================================
-// NAV BUTTONS
-// ============================================
+modal.addEventListener(
+    "click",
+    e => {
 
-function renderNavButtons() {
+        if (e.target === modal) {
 
-    let prev =
-        document.getElementById(
-            "prevBtn"
-        );
-
-    let next =
-        document.getElementById(
-            "nextBtn"
-        );
-
-    if (!prev) {
-
-        prev =
-            document.createElement("button");
-
-        prev.id = "prevBtn";
-
-        prev.innerHTML = "❮";
-
-        prev.className =
-            "nav-btn prev-btn";
-
-        prev.onclick =
-            prevImage;
-
-        modal.appendChild(prev);
+            modal.classList.add(
+                "hidden"
+            );
+        }
     }
-
-    if (!next) {
-
-        next =
-            document.createElement("button");
-
-        next.id = "nextBtn";
-
-        next.innerHTML = "❯";
-
-        next.className =
-            "nav-btn next-btn";
-
-        next.onclick =
-            nextImage;
-
-        modal.appendChild(next);
-    }
-}
+);
 
 
-function updateNavVisibility() {
-
-    const prev =
-        document.getElementById(
-            "prevBtn"
-        );
-
-    const next =
-        document.getElementById(
-            "nextBtn"
-        );
-
-    if (prev) {
-
-        prev.style.display =
-            currentIndex === 0
-            ? "none"
-            : "flex";
-    }
-
-    if (next) {
-
-        next.style.display =
-            currentIndex ===
-            currentImages.length - 1
-            ? "none"
-            : "flex";
-    }
-}
-
-
-// ============================================
+// =========================================
 // KEYBOARD NAVIGATION
-// ============================================
+// =========================================
 
-document.addEventListener(
+window.addEventListener(
     "keydown",
     e => {
 
@@ -517,38 +475,61 @@ document.addEventListener(
             modal.classList.contains(
                 "hidden"
             )
-        ) return;
-
-        if (e.key === "ArrowRight") {
-
-            nextImage();
+        ) {
+            return;
         }
 
-        if (e.key === "ArrowLeft") {
 
-            prevImage();
+        if (
+            e.key === "ArrowRight" &&
+            currentImageIndex <
+            currentImages.length - 1
+        ) {
+
+            currentImageIndex++;
+
+            updateModalImage();
         }
+
+
+        if (
+            e.key === "ArrowLeft" &&
+            currentImageIndex > 0
+        ) {
+
+            currentImageIndex--;
+
+            updateModalImage();
+        }
+
 
         if (e.key === "Escape") {
 
-            closeModalFn();
+            modal.classList.add(
+                "hidden"
+            );
         }
     }
 );
 
 
-// ============================================
-// SWIPE SUPPORT
-// ============================================
+// =========================================
+// TOUCH SWIPE
+// =========================================
+
+let touchStartX = 0;
+
+let touchEndX = 0;
+
 
 modal.addEventListener(
     "touchstart",
     e => {
-
         touchStartX =
             e.changedTouches[0].screenX;
     }
 );
+
 
 modal.addEventListener(
     "touchend",
@@ -557,75 +538,67 @@ modal.addEventListener(
         touchEndX =
             e.changedTouches[0].screenX;
 
-        handleSwipe();
+
+        if (
+            touchEndX < touchStartX - 50 &&
+            currentImageIndex <
+            currentImages.length - 1
+        ) {
+
+            currentImageIndex++;
+
+            updateModalImage();
+        }
+
+
+        if (
+            touchEndX > touchStartX + 50 &&
+            currentImageIndex > 0
+        ) {
+
+            currentImageIndex--;
+
+            updateModalImage();
+        }
     }
 );
 
 
-function handleSwipe() {
+// =========================================
+// LAST UPDATED
+// =========================================
 
-    const diff =
-        touchStartX - touchEndX;
+async function loadLastUpdated() {
 
-    if (diff > 50) {
+    try {
 
-        nextImage();
+        const response =
+            await fetch(
+                "data/last_updated.json"
+            );
+
+        const data =
+            await response.json();
+
+
+        lastUpdated.innerHTML = `
+            Last Updated:
+            ${data.last_updated}
+        `;
     }
 
-    if (diff < -50) {
+    catch {
 
-        prevImage();
+        lastUpdated.innerHTML =
+            "Last Updated: Unknown";
     }
 }
 
 
-// ============================================
-// CLOSE MODAL
-// ============================================
-
-closeModal.addEventListener(
-    "click",
-    closeModalFn
-);
-
-modal.addEventListener(
-    "click",
-    e => {
-
-        if (e.target === modal) {
-
-            closeModalFn();
-        }
-    }
-);
-
-
-// ============================================
-// COMPACT SCROLL MODE
-// ============================================
-
-window.addEventListener(
-    "scroll",
-    () => {
-
-        if (window.scrollY > 80) {
-
-            document.body.classList.add(
-                "scrolled"
-            );
-
-        } else {
-
-            document.body.classList.remove(
-                "scrolled"
-            );
-        }
-    }
-);
-
-
-// ============================================
-// INIT
-// ============================================
+// =========================================
+// START
+// =========================================
 
 loadScanners();
+
+```
