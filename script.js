@@ -1,3 +1,8 @@
+// IMPORTANT:
+// Replace your ENTIRE current script.js with this whole file.
+// Do NOT leave any old lines.
+// Do NOT include markdown backticks.
+
 const chartGrid = document.getElementById("chartGrid");
 const subCategories = document.getElementById("subCategories");
 const learnersSection = document.getElementById("learnersSection");
@@ -16,18 +21,18 @@ async function loadScanners() {
 const response = await fetch("data/scanners.json");
 scannersData = await response.json();
 
-```
+ 
 setupMainTabs();
 showCategory("swing");
 loadLastUpdated();
-```
+ 
 
 }
 
 function setupMainTabs() {
 const tabs = document.querySelectorAll(".main-tab");
 
-```
+ 
 tabs.forEach(function(tab) {
     tab.addEventListener("click", function() {
 
@@ -41,13 +46,13 @@ tabs.forEach(function(tab) {
         showCategory(category);
     });
 });
-```
+ 
 
 }
 
 function showCategory(category) {
 
-```
+ 
 currentCategory = category;
 
 chartGrid.innerHTML = "";
@@ -122,13 +127,13 @@ if (category === "wyckoff") {
 
     loadCharts(defaultScanner);
 }
-```
+ 
 
 }
 
 async function loadCharts(scanner) {
 
-```
+ 
 currentScanner = scanner;
 
 chartGrid.innerHTML = "";
@@ -207,38 +212,38 @@ catch (error) {
     chartGrid.innerHTML =
         '<p class="no-charts">Failed to load charts.</p>';
 }
-```
+ 
 
 }
 
 function openModal(index) {
 
-```
+ 
 currentImageIndex = index;
 
 updateModalImage();
 
 modal.classList.remove("hidden");
-```
+ 
 
 }
 
 function updateModalImage() {
 
-```
+ 
 const image = currentImages[currentImageIndex];
 
 modalImage.src =
     currentScanner.path + "/" + image;
 
 renderModalArrows();
-```
+ 
 
 }
 
 function renderModalArrows() {
 
-```
+ 
 const oldArrows =
     document.querySelectorAll(".modal-arrow");
 
@@ -289,7 +294,7 @@ if (currentImageIndex < currentImages.length - 1) {
 
     modal.appendChild(rightArrow);
 }
-```
+ 
 
 }
 
@@ -299,17 +304,17 @@ modal.classList.add("hidden");
 
 modal.addEventListener("click", function(e) {
 
-```
+ 
 if (e.target === modal) {
     modal.classList.add("hidden");
 }
-```
+ 
 
 });
 
 window.addEventListener("keydown", function(e) {
 
-```
+ 
 if (modal.classList.contains("hidden")) {
     return;
 }
@@ -333,7 +338,7 @@ if (
 if (e.key === "Escape") {
     modal.classList.add("hidden");
 }
-```
+ 
 
 });
 
@@ -346,7 +351,7 @@ touchStartX = e.changedTouches[0].screenX;
 
 modal.addEventListener("touchend", function(e) {
 
-```
+ 
 touchEndX = e.changedTouches[0].screenX;
 
 if (
@@ -364,13 +369,13 @@ if (
     currentImageIndex--;
     updateModalImage();
 }
-```
+ 
 
 });
 
 async function loadLastUpdated() {
 
-```
+ 
 try {
 
     const response = await fetch(
@@ -388,7 +393,7 @@ catch {
     lastUpdated.innerHTML =
         "Last Updated: Unknown";
 }
-```
+ 
 
 }
 
