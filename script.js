@@ -1,104 +1,49 @@
-const chartGrid = document.getElementById(
-"chartGrid"
-);
-
-const subCategories = document.getElementById(
-"subCategories"
-);
-
-const learnersSection = document.getElementById(
-"learnersSection"
-);
-
-const modal = document.getElementById(
-"imageModal"
-);
-
-const modalImage = document.getElementById(
-"modalImage"
-);
-
-const closeModal = document.getElementById(
-"closeModal"
-);
-
-const lastUpdated = document.getElementById(
-"lastUpdated"
-);
+const chartGrid = document.getElementById("chartGrid");
+const subCategories = document.getElementById("subCategories");
+const learnersSection = document.getElementById("learnersSection");
+const modal = document.getElementById("imageModal");
+const modalImage = document.getElementById("modalImage");
+const closeModal = document.getElementById("closeModal");
+const lastUpdated = document.getElementById("lastUpdated");
 
 let scannersData = {};
-
 let currentCategory = "swing";
-
 let currentScanner = null;
-
 let currentImages = [];
-
 let currentImageIndex = 0;
 
-// =========================================
-// LOAD SCANNER CONFIG
-// =========================================
-
 async function loadScanners() {
-
-```
-const response = await fetch(
-    "data/scanners.json"
-);
-
+const response = await fetch("data/scanners.json");
 scannersData = await response.json();
 
+```
 setupMainTabs();
-
 showCategory("swing");
-
 loadLastUpdated();
 ```
 
 }
 
-// =========================================
-// MAIN TABS
-// =========================================
-
 function setupMainTabs() {
+const tabs = document.querySelectorAll(".main-tab");
 
 ```
-const tabs = document.querySelectorAll(
-    ".main-tab"
-);
+tabs.forEach(function(tab) {
+    tab.addEventListener("click", function() {
 
-tabs.forEach(tab => {
+        tabs.forEach(function(t) {
+            t.classList.remove("active");
+        });
 
-    tab.addEventListener(
-        "click",
-        () => {
+        tab.classList.add("active");
 
-            tabs.forEach(t =>
-                t.classList.remove(
-                    "active"
-                )
-            );
-
-            tab.classList.add(
-                "active"
-            );
-
-            const category =
-                tab.dataset.category;
-
-            showCategory(category);
-        }
-    );
+        const category = tab.dataset.category;
+        showCategory(category);
+    });
 });
 ```
 
 }
-
-// =========================================
-// SHOW CATEGORY
-// =========================================
 
 function showCategory(category) {
 
@@ -106,85 +51,56 @@ function showCategory(category) {
 currentCategory = category;
 
 chartGrid.innerHTML = "";
-
 subCategories.innerHTML = "";
 
-
 if (category === "learn") {
-
-    learnersSection.classList.remove(
-        "hidden"
-    );
-
+    learnersSection.classList.remove("hidden");
     return;
 }
 
+learnersSection.classList.add("hidden");
 
-learnersSection.classList.add(
-    "hidden"
-);
+const scanners = scannersData[category];
 
+scanners.forEach(function(scanner) {
 
-const scanners =
-    scannersData[category];
+    const button = document.createElement("button");
 
+    if (category === "wyckoff") {
+        button.className = "sub-tile wyckoff";
+    }
+    else {
+        button.className = "sub-tile";
+    }
 
-scanners.forEach(scanner => {
+    button.innerHTML =
+        scanner.name +
+        " (" +
+        scanner.count +
+        ")";
 
-    const button =
-        document.createElement(
-            "button"
-        );
+    button.addEventListener("click", function() {
 
-    button.className =
-        category === "wyckoff"
-            ? "sub-tile wyckoff"
-            : "sub-tile";
+        document
+            .querySelectorAll(".sub-tile")
+            .forEach(function(tile) {
+                tile.classList.remove("active");
+            });
 
-button.innerHTML =
-    scanner.name +
-    " (" +
-    scanner.count +
-    ")";     
+        button.classList.add("active");
 
+        loadCharts(scanner);
+    });
 
-    button.addEventListener(
-        "click",
-        () => {
-
-            document
-                .querySelectorAll(
-                    ".sub-tile"
-                )
-                .forEach(tile =>
-                    tile.classList.remove(
-                        "active"
-                    )
-                );
-
-            button.classList.add(
-                "active"
-            );
-
-            loadCharts(scanner);
-        }
-    );
-
-
-    subCategories.appendChild(
-        button
-    );
+    subCategories.appendChild(button);
 });
-
-
-// DEFAULT SCANNERS
 
 if (category === "swing") {
 
     const defaultScanner =
-        scanners.find(
-            s => s.id === "confluence"
-        ) || scanners[0];
+        scanners.find(function(s) {
+            return s.id === "confluence";
+        }) || scanners[0];
 
     subCategories
         .children[scanners.indexOf(defaultScanner)]
@@ -193,13 +109,12 @@ if (category === "swing") {
     loadCharts(defaultScanner);
 }
 
-
 if (category === "wyckoff") {
 
     const defaultScanner =
-        scanners.find(
-            s => s.id === "ranking"
-        ) || scanners[0];
+        scanners.find(function(s) {
+            return s.id === "ranking";
+        }) || scanners[0];
 
     subCategories
         .children[scanners.indexOf(defaultScanner)]
@@ -210,10 +125,6 @@ if (category === "wyckoff") {
 ```
 
 }
-
-// =========================================
-// LOAD CHARTS
-// =========================================
 
 async function loadCharts(scanner) {
 
@@ -222,134 +133,83 @@ currentScanner = scanner;
 
 chartGrid.innerHTML = "";
 
-
 try {
 
-    const response =
-        await fetch(
-            `${scanner.path}/charts.json`
-        );
+    const response = await fetch(
+        scanner.path + "/charts.json"
+    );
 
-
-    const pngs =
-        await response.json();
-
+    const pngs = await response.json();
 
     currentImages = pngs;
 
-
     if (!pngs.length) {
 
-        chartGrid.innerHTML = `
-            <p class="no-charts">
-                No charts available.
-            </p>
-        `;
+        chartGrid.innerHTML =
+            '<p class="no-charts">No charts available.</p>';
 
         return;
     }
 
+    pngs.forEach(function(png, index) {
 
-    pngs.forEach(
-        (png, index) => {
+        const card = document.createElement("div");
 
-            const card =
-                document.createElement(
-                    "div"
-                );
+        card.className = "chart-card";
 
-            card.className =
-                "chart-card";
+        const symbol = png.replace(".png", "");
 
+        const imagePath =
+            scanner.path + "/" + png;
 
-            const symbol =
-                png.replace(
-                    ".png",
-                    ""
-                );
+        card.innerHTML =
+            '<div class="chart-image-wrapper">' +
 
+            '<img ' +
+            'src="' + imagePath + '" ' +
+            'alt="' + symbol + '" ' +
+            'class="chart-image">' +
 
-            const imagePath =
-                `${scanner.path}/${png}`;
+            '<a ' +
+            'href="https://www.tradingview.com/chart/?symbol=NSE:' + symbol + '" ' +
+            'target="_blank" ' +
+            'class="tv-link">' +
 
+            '<img ' +
+            'src="icons/tradingview.png" ' +
+            'class="tv-icon">' +
 
-            card.innerHTML = `
+            '</a>' +
+            '</div>' +
 
-                <div class="chart-image-wrapper">
+            '<div class="chart-info">' +
+            '<h3>' + symbol + '</h3>' +
+            '<p>' + scanner.name + '</p>' +
+            '</div>';
 
-                    <img
-                        src="${imagePath}"
-                        alt="${symbol}"
-                        class="chart-image"
-                    >
+        card.addEventListener("click", function(e) {
 
-                    <a
-                        href="https://www.tradingview.com/chart/?symbol=NSE:${symbol}"
-                        target="_blank"
-                        class="tv-link"
-                    >
-                        <img
-                            src="icons/tradingview.png"
-                            class="tv-icon"
-                        >
-                    </a>
+            if (e.target.closest(".tv-link")) {
+                return;
+            }
 
-                </div>
+            openModal(index);
+        });
 
-                <div class="chart-info">
-
-                    <h3>
-                        ${symbol}
-                    </h3>
-
-                    <p>
-                        ${scanner.name}
-                    </p>
-
-                </div>
-            `;
-
-
-            card.addEventListener(
-                "click",
-                e => {
-
-                    if (
-                        e.target.closest(
-                            ".tv-link"
-                        )
-                    ) {
-                        return;
-                    }
-
-                    openModal(index);
-                }
-            );
-
-
-            chartGrid.appendChild(card);
-        }
-    );
-
+        chartGrid.appendChild(card);
+    });
 }
 
 catch (error) {
 
     console.error(error);
 
-    chartGrid.innerHTML = `
-        <p class="no-charts">
-            Failed to load charts.
-        </p>
-    `;
+    chartGrid.innerHTML =
+        '<p class="no-charts">Failed to load charts.</p>';
 }
 ```
 
 }
-
-// =========================================
-// MODAL
-// =========================================
 
 function openModal(index) {
 
@@ -366,13 +226,10 @@ modal.classList.remove("hidden");
 function updateModalImage() {
 
 ```
-const image =
-    currentImages[currentImageIndex];
-
+const image = currentImages[currentImageIndex];
 
 modalImage.src =
-    `${currentScanner.path}/${image}`;
-
+    currentScanner.path + "/" + image;
 
 renderModalArrows();
 ```
@@ -383,67 +240,52 @@ function renderModalArrows() {
 
 ```
 const oldArrows =
-    document.querySelectorAll(
-        ".modal-arrow"
-    );
+    document.querySelectorAll(".modal-arrow");
 
-oldArrows.forEach(a => a.remove());
-
+oldArrows.forEach(function(a) {
+    a.remove();
+});
 
 if (currentImageIndex > 0) {
 
     const leftArrow =
-        document.createElement(
-            "button"
-        );
+        document.createElement("button");
 
     leftArrow.className =
         "modal-arrow left-arrow";
 
     leftArrow.innerHTML = "❮";
 
+    leftArrow.addEventListener("click", function(e) {
 
-    leftArrow.addEventListener(
-        "click",
-        e => {
-            e.stopPropagation();
+        e.stopPropagation();
 
-            currentImageIndex--;
+        currentImageIndex--;
 
-            updateModalImage();
-        }
-    );
+        updateModalImage();
+    });
 
     modal.appendChild(leftArrow);
 }
 
-
-if (
-    currentImageIndex <
-    currentImages.length - 1
-) {
+if (currentImageIndex < currentImages.length - 1) {
 
     const rightArrow =
-        document.createElement(
-            "button"
-        );
+        document.createElement("button");
 
     rightArrow.className =
         "modal-arrow right-arrow";
 
     rightArrow.innerHTML = "❯";
 
+    rightArrow.addEventListener("click", function(e) {
 
-    rightArrow.addEventListener(
-        "click",
-        e => {
-            e.stopPropagation();
+        e.stopPropagation();
 
-            currentImageIndex++;
+        currentImageIndex++;
 
-            updateModalImage();
-        }
-    );
+        updateModalImage();
+    });
 
     modal.appendChild(rightArrow);
 }
@@ -451,154 +293,94 @@ if (
 
 }
 
-closeModal.addEventListener(
-"click",
-() => {
+closeModal.addEventListener("click", function() {
 modal.classList.add("hidden");
-}
-);
+});
 
-modal.addEventListener(
-"click",
-e => {
+modal.addEventListener("click", function(e) {
 
 ```
-    if (e.target === modal) {
-
-        modal.classList.add(
-            "hidden"
-        );
-    }
+if (e.target === modal) {
+    modal.classList.add("hidden");
 }
 ```
 
-);
+});
 
-// =========================================
-// KEYBOARD NAVIGATION
-// =========================================
-
-window.addEventListener(
-"keydown",
-e => {
+window.addEventListener("keydown", function(e) {
 
 ```
-    if (
-        modal.classList.contains(
-            "hidden"
-        )
-    ) {
-        return;
-    }
+if (modal.classList.contains("hidden")) {
+    return;
+}
 
+if (
+    e.key === "ArrowRight" &&
+    currentImageIndex < currentImages.length - 1
+) {
+    currentImageIndex++;
+    updateModalImage();
+}
 
-    if (
-        e.key === "ArrowRight" &&
-        currentImageIndex <
-        currentImages.length - 1
-    ) {
+if (
+    e.key === "ArrowLeft" &&
+    currentImageIndex > 0
+) {
+    currentImageIndex--;
+    updateModalImage();
+}
 
-        currentImageIndex++;
-
-        updateModalImage();
-    }
-
-
-    if (
-        e.key === "ArrowLeft" &&
-        currentImageIndex > 0
-    ) {
-
-        currentImageIndex--;
-
-        updateModalImage();
-    }
-
-
-    if (e.key === "Escape") {
-
-        modal.classList.add(
-            "hidden"
-        );
-    }
+if (e.key === "Escape") {
+    modal.classList.add("hidden");
 }
 ```
 
-);
-
-// =========================================
-// TOUCH SWIPE
-// =========================================
+});
 
 let touchStartX = 0;
-
 let touchEndX = 0;
 
-modal.addEventListener(
-"touchstart",
-e => {
-touchStartX =
-e.changedTouches[0].screenX;
-}
-);
+modal.addEventListener("touchstart", function(e) {
+touchStartX = e.changedTouches[0].screenX;
+});
 
-modal.addEventListener(
-"touchend",
-e => {
+modal.addEventListener("touchend", function(e) {
 
 ```
-    touchEndX =
-        e.changedTouches[0].screenX;
+touchEndX = e.changedTouches[0].screenX;
 
+if (
+    touchEndX < touchStartX - 50 &&
+    currentImageIndex < currentImages.length - 1
+) {
+    currentImageIndex++;
+    updateModalImage();
+}
 
-    if (
-        touchEndX < touchStartX - 50 &&
-        currentImageIndex <
-        currentImages.length - 1
-    ) {
-
-        currentImageIndex++;
-
-        updateModalImage();
-    }
-
-
-    if (
-        touchEndX > touchStartX + 50 &&
-        currentImageIndex > 0
-    ) {
-
-        currentImageIndex--;
-
-        updateModalImage();
-    }
+if (
+    touchEndX > touchStartX + 50 &&
+    currentImageIndex > 0
+) {
+    currentImageIndex--;
+    updateModalImage();
 }
 ```
 
-);
-
-// =========================================
-// LAST UPDATED
-// =========================================
+});
 
 async function loadLastUpdated() {
 
 ```
 try {
 
-    const response =
-        await fetch(
-            "data/last_updated.json"
-        );
+    const response = await fetch(
+        "data/last_updated.json"
+    );
 
-    const data =
-        await response.json();
+    const data = await response.json();
 
-
-    lastUpdated.innerHTML = `
-        Last Updated:
-        ${data.last_updated}
-    `;
+    lastUpdated.innerHTML =
+        "Last Updated: " + data.last_updated;
 }
 
 catch {
@@ -609,9 +391,5 @@ catch {
 ```
 
 }
-
-// =========================================
-// START
-// =========================================
 
 loadScanners();
