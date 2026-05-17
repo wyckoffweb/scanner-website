@@ -605,7 +605,7 @@ body {
 
 .learners-section {
 
-    display: grid;
+    display: none;
 
     grid-template-columns:
         repeat(
@@ -613,9 +613,13 @@ body {
             minmax(280px, 1fr)
         );
 
-    gap: 22px;
+    gap: 22px;s
 
     padding: 28px;
+}
+.learners-section.visible {
+
+    display: grid;
 }
 
 .learn-card {

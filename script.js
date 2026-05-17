@@ -63,14 +63,14 @@ function showCategory(category) {
 
     if (category === "learn") {
 
-        learnersSection.classList.remove("hidden");
+        learnersSection.classList.add("visible");
 
         chartGrid.classList.add("hidden");
 
         return;
     }
 
-    learnersSection.classList.add("hidden");
+    learnersSection.classList.remove("visible");
 
     chartGrid.classList.remove("hidden");
 
